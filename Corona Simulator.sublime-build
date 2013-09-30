@@ -1,0 +1,13 @@
+{
+	"selector": "source.lua",
+
+	"windows":
+	{
+		"cmd": ["C:\\Program Files\\Corona Labs\\Corona SDK\\Corona Simulator.exe", "$file_path\\main.lua"]
+	},
+
+	"osx":
+	{
+		"cmd": ["/Applications/CoronaSDK/Corona Simulator.app/Contents/MacOS/Corona Simulator", "$file_path/main.lua"]
+	}
+}
