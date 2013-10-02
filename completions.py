@@ -1,5 +1,7 @@
 import sublime, sublime_plugin, os, re, threading
 from os.path import basename
+import json
+from pprint import pprint
 
 #
 # Method Class
@@ -22,48 +24,106 @@ class Method:
 #
 # CoronaLabs Class
 #
-class CoronaLabs:
-  _functions = []
-  MAX_WORD_SIZE = 100
-  MAX_FUNC_SIZE = 50
-  def clear(self):
-    self._functions = []
-  def addFunc(self, name, signature, filename):
-    self._functions.append(Method(name, signature, filename))
-  def get_autocomplete_list(self, word):
-    autocomplete_list = []
-    for method_obj in self._functions:
-      if word in method_obj.name():
-        method_str_to_append = method_obj.name() + '(' + method_obj.signature()+ ')'
-        method_file_location = method_obj.filename();
-        autocomplete_list.append((method_str_to_append + '\t' + method_file_location,method_str_to_append)) 
-    return autocomplete_list
-
 def is_lua_file(filename):
   return '.lua' in filename
 
+class CoronaLabs:
+  _completions = []
+  def load_completions(self):
+    if (len(self._completions) == 0):
+      print "CoronaLabs::load_completions: "
+
+      comp_path = os.path.join(sublime.packages_path(), 'Old-CoronaLabs') # 'Corona SDK')
+      comp_path = os.path.join(comp_path, "corona.completions")
+
+      json_data = open(comp_path)
+
+      self._completions = json.load(json_data)
+      # pprint(self._completions)
+      print "Loaded {0} completions".format(len(self._completions['completions']))
+      json_data.close()
+
+  # extract completions which match prefix
+  def find_completions(self, view, prefix):
+    print "CoronaLabs::find_completions: ", prefix
+    self.load_completions()
+
+    # Sample:
+    # { "trigger": "audio.dispose()", "contents": "audio.dispose( ${1:audioHandle} )"},
+
+    comps = []
+    for c in self._completions['completions']:
+      # print "type: ", type(c)
+      if isinstance( c, dict ):
+        if c['trigger'].startswith(prefix):
+          comps.append( (c['trigger'], c['contents']) )
+      elif isinstance(c, unicode):
+        if c.startswith(prefix):
+          comps.append( (c, c) )
+
+    # print "comps: ", comps
+    # print "extract_completions: ", view.extract_completions(prefix)
+
+    # Add textual completions from the document
+    for c in view.extract_completions(prefix):
+      comps.append((c, c))
+
+    # Reorganize into a list
+    comps = list(set(comps))
+    comps.sort()
+
+    return comps
+
+  def current_word(self, view):
+    s = view.sel()[0]
+
+    # Expand selection to current "word"
+    start = s.a
+    end = s.b
+
+    view_size = view.size()
+    terminator = ['\t', ' ', '\"', '\'']
+
+    while (start > 0
+            and not view.substr(start - 1) in terminator
+            and view.classify(start) & sublime.CLASS_LINE_START == 0):
+        start -= 1
+
+    while (end < view_size
+            and not view.substr(end) in terminator
+            and view.classify(end) & sublime.CLASS_LINE_END == 0):
+        end += 1
+
+    return view.substr(sublime.Region(start, end))
+
 class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
-  # def on_post_save(self, view):
+  # Optionally trigger a "build" when a .lua file is saved.  This is best 
+  # done by setting the "Relaunch Simulator when project is modified" setting
+  # in the Simulator itself but is provided here for cases where that option
+  # doesn't work
+  def on_post_save(self, view):
+    if is_lua_file(view.file_name()):
+      auto_build = view.settings().get("corona_sdk_auto_build")
+      if auto_build:
+        print "Corona SDK: auto build triggered"
+        view.window().run_command("build")
 
   # For some reason we can't just put the modified "word_separators" in a plugin 
-  # specific preferences file so we need to active modify the preference here
+  # specific preferences file so we need to actively modify the preference here
   def on_load(self, view):
-    print "view loaded"
     if is_lua_file(view.file_name()):
       word_seps = view.settings().get("word_separators")
       word_seps = word_seps.replace('.', '') # remove periods
       view.settings().set("word_separators", word_seps)
-      print "word_separators: ", view.settings().get("word_separators")
+      # print "word_separators: ", view.settings().get("word_separators")
 
-  '''
   def on_query_completions(self, view, prefix, locations):
     print "on_query_completions: prefix: ", prefix, locations[0]
     current_file = view.file_name()
-    completions = []
+    comps = []
+
     if view.match_selector(locations[0], "source.lua - entity"):
-      print "we got lua file"
-      completions = [ ("ads.hide()","ads.hide()"), ("ads.init()", "ads.init( ${1:providerName}, ${2:appId} ${3:[, listener]} )"), ("ads.show()", "ads.show( ${1:adUnitType} ${2:[, params]} )"), ]
-      completions = list(set(completions))
-      completions.sort()
-    return (completions,sublime.INHIBIT_WORD_COMPLETIONS)
-  '''
+      print "we got a lua file"
+      comps = self.find_completions(view, prefix)
+
+    return (comps, sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS)

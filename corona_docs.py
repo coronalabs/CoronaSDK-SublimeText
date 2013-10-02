@@ -8,7 +8,7 @@ class CoronaDocsCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         s = self.view.sel()[0]
  
-        # Expand selection to possible URL
+        # Expand selection to current "word"
         start = s.a
         end = s.b
  
@@ -25,16 +25,13 @@ class CoronaDocsCommand(sublime_plugin.TextCommand):
                 and self.view.classify(end) & sublime.CLASS_LINE_END == 0):
             end += 1
  
-        # Check if this is URL
+        # Convert "word" under cursor to Corona Docs link
         url = self.view.substr(sublime.Region(start, end))
         url = url.rstrip(string.punctuation)
         url = url.replace(".", "/");
-        print "URL : " + url
+        # print "URL : " + url
 
         docUrl = "http://docs.coronalabs.com/api/library/" + url + ".html";
-        print "docURL : " + docUrl
+        # print "docURL : " + docUrl
  
-        if docUrl.startswith(('http://', 'https://')):
-            webbrowser.open_new_tab(docUrl)
-        else:
-            print "not URL"
+        webbrowser.open_new_tab(docUrl)
