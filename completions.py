@@ -33,7 +33,7 @@ class CoronaLabs:
     if (len(self._completions) == 0):
       print "CoronaLabs::load_completions: "
 
-      comp_path = os.path.join(sublime.packages_path(), 'Old-CoronaLabs') # 'Corona SDK')
+      comp_path = os.path.join(sublime.packages_path(), 'Corona SDK')
       comp_path = os.path.join(comp_path, "corona.completions")
 
       json_data = open(comp_path)
