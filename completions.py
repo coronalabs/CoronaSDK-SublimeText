@@ -1,7 +1,9 @@
 import sublime, sublime_plugin, os, re, threading
-from os.path import basename
+from os.path import basename, dirname, realpath
 import json
 from pprint import pprint
+
+PLUGIN_DIR = dirname(realpath(__file__))
 
 #
 # Method Class
@@ -27,42 +29,50 @@ class Method:
 def is_lua_file(filename):
   return '.lua' in filename
 
+# determine if 'obj' is a string in both Python 2.x and 3.x
+def is_string_instance(obj):
+  try:
+    return isinstance(obj, basestring)
+  except NameError:
+    return isinstance(obj, str)
+
 class CoronaLabs:
   _completions = []
   def load_completions(self):
+    print("CoronaLabs::load_completions: ", PLUGIN_DIR)
     if (len(self._completions) == 0):
-      print "CoronaLabs::load_completions: "
-
-      comp_path = os.path.join(sublime.packages_path(), 'Corona SDK')
+      comp_path = PLUGIN_DIR # os.path.join(sublime.packages_path(), 'Corona SDK')
       comp_path = os.path.join(comp_path, "corona.completions")
 
       json_data = open(comp_path)
 
       self._completions = json.load(json_data)
       # pprint(self._completions)
-      print "Loaded {0} completions".format(len(self._completions['completions']))
+      print("Loaded {0} completions".format(len(self._completions['completions'])))
       json_data.close()
 
   # extract completions which match prefix
   def find_completions(self, view, prefix):
-    print "CoronaLabs::find_completions: ", prefix
+    print("CoronaLabs::find_completions: ", prefix)
     self.load_completions()
 
     # Sample:
     # { "trigger": "audio.dispose()", "contents": "audio.dispose( ${1:audioHandle} )"},
 
+    # This is horrible on a variety of levels but is brought upon us by the fact that
+    # ST completion files contain an array that is a mixture of strings and dicts
     comps = []
     for c in self._completions['completions']:
-      # print "type: ", type(c)
+      # print("type: ", type(c))
       if isinstance( c, dict ):
         if c['trigger'].startswith(prefix):
           comps.append( (c['trigger'], c['contents']) )
-      elif isinstance(c, unicode):
+      elif is_string_instance(c):
         if c.startswith(prefix):
           comps.append( (c, c) )
 
-    # print "comps: ", comps
-    # print "extract_completions: ", view.extract_completions(prefix)
+    # print("comps: ", comps)
+    # print("extract_completions: ", view.extract_completions(prefix))
 
     # Add textual completions from the document
     for c in view.extract_completions(prefix):
@@ -105,7 +115,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
     if is_lua_file(view.file_name()):
       auto_build = view.settings().get("corona_sdk_auto_build")
       if auto_build:
-        print "Corona SDK: auto build triggered"
+        print("Corona SDK: auto build triggered")
         view.window().run_command("build")
 
   # For some reason we can't just put the modified "word_separators" in a plugin 
@@ -115,15 +125,15 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
       word_seps = view.settings().get("word_separators")
       word_seps = word_seps.replace('.', '') # remove periods
       view.settings().set("word_separators", word_seps)
-      # print "word_separators: ", view.settings().get("word_separators")
+      # print("word_separators: ", view.settings().get("word_separators"))
 
   def on_query_completions(self, view, prefix, locations):
-    print "on_query_completions: prefix: ", prefix, locations[0]
+    print("on_query_completions: prefix: ", prefix, locations[0])
     current_file = view.file_name()
     comps = []
 
     if view.match_selector(locations[0], "source.lua - entity"):
-      print "we got a lua file"
+      print("we got a lua file")
       comps = self.find_completions(view, prefix)
 
     return (comps, sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS)

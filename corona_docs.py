@@ -29,9 +29,9 @@ class CoronaDocsCommand(sublime_plugin.TextCommand):
         url = self.view.substr(sublime.Region(start, end))
         url = url.rstrip(string.punctuation)
         url = url.replace(".", "/");
-        # print "URL : " + url
+        # print("URL : " + url)
 
         docUrl = "http://docs.coronalabs.com/api/library/" + url + ".html";
-        # print "docURL : " + docUrl
+        # print("docURL : " + docUrl)
  
         webbrowser.open_new_tab(docUrl)
