@@ -1,7 +1,7 @@
 #
 # Sublime Text plugin to support Corona SDK
 #
-# Copyright © 2013 Corona Labs Inc. A mobile development software company. All rights reserved.
+# Copyright (c) 2013 Corona Labs Inc. A mobile development software company. All rights reserved.
 #
 # MIT License - see https://raw.github.com/coronalabs/CoronaSDK-SublimeText/master/LICENSE
 #
