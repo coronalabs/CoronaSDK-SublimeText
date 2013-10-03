@@ -1,0 +1,15 @@
+{
+	"selector": "source.lua",
+
+	"windows":
+	{
+		"cmd": ["C:\\Program Files\\Corona Labs\\Corona SDK\\Corona Simulator.exe", "$file_path\\main.lua"],
+		"file_regex": "(^[C-Z]:[^:]*):([0-9]+):([0-9]*)(.*)"
+	},
+
+	"osx":
+	{
+		"cmd": ["/Applications/CoronaSDK/Corona Simulator.app/Contents/MacOS/Corona Simulator", "$file_path/main.lua"],
+		"file_regex": "(^/[^:]*):([0-9]+):([0-9]*)(.*)"
+	}
+}

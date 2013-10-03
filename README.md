@@ -1,4 +1,28 @@
 CoronaSDK-SublimeText
 =====================
 
-The official Corona SDK Sublime Text editor plugin
+The official Corona SDK ***Sublime Text*** editor plugin.  Designed to make building apps even easier by adding functionaltiy to ***Sublime Text*** to improve developer productivity.
+
+### Corona SDK Plugin Installation Instructions
+
+1. Install the ***Sublime Text*** **Package Control** plugin if you don't already have it: [https://sublime.wbond.net/installation](https://sublime.wbond.net/installation)
+1. Choose: **Tools** > **Command Palette...** > **Package Control: Install Package**
+1. Find **Corona SDK**, click on it to install it
+1. Restart ***Sublime Text*** or reopen any .lua files to see the new features
+
+### Using the Plugin
+
+After restarting ***Sublime Text*** you'll have the following features available when editing .lua files:
+
+ * Completion works for all API calls and constants (correctly handling periods in the name)
+ * Documentation can be called up by placing the cursor on an API call (or selecting it) and either hitting **F1** or choosing **Corona SDK Docs** from the context menu
+ * The current app can be run in the Simulator by pressing Ctrl+B (Windows) or Cmd+B (MacOSX).  Debug output appears in the "build" window in ***Sublime Text***
+
+You can set a ***Sublime Text*** User Preference called "corona\_sdk\_use\_daily\_docs" to true to have documentation lookups go to the Daily Build documentation.
+
+### Current Gotchas
+
+ * The order of items in the completions popup seems a little odd but is due to Sublime's "fuzzy" matching
+ * Note that right clicking on an item wont move the cursor there so you can't right click on a term that's not at the insertion point and then pick "Corona SDK Docs" from the context menu as it's the position of the text cursor that determines what's looked up (left click on the item first)
+ * Using Ctrl+B or Cmd+B to "build" the app by running it in the Simulator works well the first time you use it but unless you quit the Simulator before using it again you will soon have several running.  We are working on a fix for this (use the "Relaunch Simulator when Project is Modified" Simulator preference for a better workflow in the meantime)
+ * Some of the completions have minor errors with nested optional parameters.  This will be fixed

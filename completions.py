@@ -1,3 +1,10 @@
+#
+# Sublime Text plugin to support Corona SDK
+#
+# Copyright © 2013 Corona Labs Inc. A mobile development software company. All rights reserved.
+#
+# MIT License - see https://raw.github.com/coronalabs/CoronaSDK-SublimeText/master/LICENSE
+
 import sublime, sublime_plugin, os, re, threading
 from os.path import basename, dirname, realpath
 import json
@@ -6,25 +13,7 @@ from pprint import pprint
 PLUGIN_DIR = dirname(realpath(__file__))
 
 #
-# Method Class
-#
-class Method:
-  _name = ""
-  _signature = ""
-  _filename = ""
-  def __init__(self, name, signature, filename):
-    self._name = name
-    self._filename = filename;
-    self._signature = signature
-  def name(self):
-    return self._name
-  def signature(self):
-    return self._signature
-  def filename(self):
-    return self._filename
-
-#
-# CoronaLabs Class
+# Utility functions
 #
 def is_lua_file(filename):
   return '.lua' in filename
@@ -36,10 +25,12 @@ def is_string_instance(obj):
   except NameError:
     return isinstance(obj, str)
 
+#
+# CoronaLabs Class
+#
 class CoronaLabs:
   _completions = []
   def load_completions(self):
-    print("CoronaLabs::load_completions: ", PLUGIN_DIR)
     if (len(self._completions) == 0):
       comp_path = PLUGIN_DIR # os.path.join(sublime.packages_path(), 'Corona SDK')
       comp_path = os.path.join(comp_path, "corona.completions")
@@ -48,22 +39,21 @@ class CoronaLabs:
 
       self._completions = json.load(json_data)
       # pprint(self._completions)
-      print("Loaded {0} completions".format(len(self._completions['completions'])))
+      print("Corona SDK: loaded {0} completions".format(len(self._completions['completions'])))
       json_data.close()
 
   # extract completions which match prefix
   def find_completions(self, view, prefix):
-    print("CoronaLabs::find_completions: ", prefix)
     self.load_completions()
 
     # Sample:
-    # { "trigger": "audio.dispose()", "contents": "audio.dispose( ${1:audioHandle} )"},
+    #   { "trigger": "audio.stopWithDelay()", "contents": "audio.stopWithDelay( ${1:duration}, ${2:[, options ]} )"},
+    #   "audio.totalChannels ",
 
     # This is horrible on a variety of levels but is brought upon us by the fact that
     # ST completion files contain an array that is a mixture of strings and dicts
     comps = []
     for c in self._completions['completions']:
-      # print("type: ", type(c))
       if isinstance( c, dict ):
         if c['trigger'].startswith(prefix):
           comps.append( (c['trigger'], c['contents']) )
@@ -125,15 +115,12 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
       word_seps = view.settings().get("word_separators")
       word_seps = word_seps.replace('.', '') # remove periods
       view.settings().set("word_separators", word_seps)
-      # print("word_separators: ", view.settings().get("word_separators"))
 
   def on_query_completions(self, view, prefix, locations):
-    print("on_query_completions: prefix: ", prefix, locations[0])
     current_file = view.file_name()
     comps = []
 
     if view.match_selector(locations[0], "source.lua - entity"):
-      print("we got a lua file")
       comps = self.find_completions(view, prefix)
 
     return (comps, sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS)
