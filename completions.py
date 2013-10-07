@@ -108,14 +108,6 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
         print("Corona SDK: auto build triggered")
         view.window().run_command("build")
 
-  # For some reason we can't just put the modified "word_separators" in a plugin 
-  # specific preferences file so we need to actively modify the preference here
-  def on_load(self, view):
-    if is_lua_file(view.file_name()):
-      word_seps = view.settings().get("word_separators")
-      word_seps = word_seps.replace('.', '') # remove periods
-      view.settings().set("word_separators", word_seps)
-
   def on_query_completions(self, view, prefix, locations):
     current_file = view.file_name()
     comps = []
