@@ -122,5 +122,9 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
 
     if view.match_selector(locations[0], "source.lua - entity"):
       comps = self.find_completions(view, prefix)
+      flags = sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
+    else:
+      comps = view.extract_completions(prefix)
+      flags = 0
 
-    return (comps, sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS)
+    return (comps, flags)
