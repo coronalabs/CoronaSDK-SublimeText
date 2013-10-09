@@ -2,7 +2,7 @@
 #
 # Sublime Text plugin to support Corona SDK
 #
-# Copyright © 2013 Corona Labs Inc. A mobile development software company. All rights reserved.
+# Copyright (c) 2013 Corona Labs Inc. A mobile development software company. All rights reserved.
 #
 # MIT License - see https://raw.github.com/coronalabs/CoronaSDK-SublimeText/master/LICENSE
 #
@@ -20,18 +20,23 @@ preamble = """
 """
 
 postamble = """
-        ""
+      ""
     ]
 }
 """
 
 print preamble
 
-fh = open('COMPLETIONS')
+fh = open('raw-api-definitions')
 
 for line in fh.readlines():
   line = line.rstrip()
   # print line
+  if line.find(':') != -1:
+    # We have a type member, since we can't know what the object is called,
+    # complete from the semi-colon only
+    line = line.partition(':')[2]
+
   argListMatch = re.search("\((.*)\)", line)
   if argListMatch != None:
     argsString = argListMatch.groups()[0]
