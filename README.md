@@ -26,3 +26,7 @@ You can set a ***Sublime Text*** User Preference called "corona\_sdk\_use\_daily
  * Note that right clicking on an item wont move the cursor there so you can't right click on a term that's not at the insertion point and then pick "Corona SDK Docs" from the context menu as it's the position of the text cursor that determines what's looked up (left click on the item first)
  * Using Ctrl+B or Cmd+B to "build" the app by running it in the Simulator works well the first time you use it but unless you quit the Simulator before using it again you will soon have several running.  We are working on a fix for this (use the "Relaunch Simulator when Project is Modified" Simulator preference for a better workflow in the meantime)
  * Some of the completions have minor errors with nested optional parameters.  This will be fixed
+
+### Reporting Issues
+
+If some aspect of the plugin doesn't behave as expected be sure to include any console output when reporting the problem.  You can view the console using **View > Show Console** and copy and paste the information displayed there.
