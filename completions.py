@@ -11,12 +11,15 @@ import json
 from pprint import pprint
 
 PLUGIN_DIR = dirname(realpath(__file__))
+SUBLIME_VERSION = 3000 if sublime.version() == '' else int(sublime.version())
+
+# print('SUBLIME_VERSION: ', SUBLIME_VERSION)
 
 #
 # Utility functions
 #
 def is_lua_file(filename):
-  return '.lua' in filename
+  return filename.endswith('.lua')
 
 # determine if 'obj' is a string in both Python 2.x and 3.x
 def is_string_instance(obj):
@@ -32,19 +35,29 @@ class CoronaLabs:
   _completions = []
   def load_completions(self):
     if (len(self._completions) == 0):
-      comp_path = PLUGIN_DIR # os.path.join(sublime.packages_path(), 'Corona SDK')
-      comp_path = os.path.join(comp_path, "corona.completions")
+      # Files in the package are loaded differently in ST2 as ST3
+      if (SUBLIME_VERSION < 3000):
+        source = 'file'
+        comp_path = PLUGIN_DIR # os.path.join(sublime.packages_path(), 'Corona SDK')
+        comp_path = os.path.join(comp_path, "corona.completions")
 
-      json_data = open(comp_path)
+        json_data = open(comp_path)
 
-      self._completions = json.load(json_data)
+        self._completions = json.load(json_data)
+
+        json_data.close()
+      else:
+        source = 'package'
+        self._completions = json.loads(sublime.load_resource('Packages/Corona SDK/corona.completions'))
+
       # pprint(self._completions)
-      print("Corona SDK: loaded {0} completions".format(len(self._completions['completions'])))
-      json_data.close()
+      print("Corona SDK: loaded {0} completions from {1}".format(len(self._completions['completions']), source))
 
   # extract completions which match prefix
   def find_completions(self, view, prefix):
     self.load_completions()
+
+    print('prefix: ', prefix)
 
     # Sample:
     #   { "trigger": "audio.stopWithDelay()", "contents": "audio.stopWithDelay( ${1:duration}, ${2:[, options ]} )"},
@@ -112,11 +125,15 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
     current_file = view.file_name()
     comps = []
 
-    if view.match_selector(locations[0], "source.lua - entity"):
-      comps = self.find_completions(view, prefix)
-      flags = sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
-    else:
-      comps = view.extract_completions(prefix)
-      flags = 0
+    use_corona_sdk_completion = view.settings().get("corona_sdk_completion", True)
 
-    return (comps, flags)
+    # We should do something "correct" like checking the selector
+    # to determine whether we should use Corona completions but
+    # the path of least surprise is just to check the file extension
+    # if view.match_selector(locations[0], "source.lua - entity"):
+    if is_lua_file(view.file_name()) and use_corona_sdk_completion:
+      comps = self.find_completions(view, prefix)
+      flags = 0 # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
+      return (comps, flags)
+    else:
+      return []
