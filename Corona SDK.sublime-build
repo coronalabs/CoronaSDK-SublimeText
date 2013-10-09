@@ -9,7 +9,7 @@
 
 	"osx":
 	{
-		"cmd": ["/Applications/CoronaSDK/Corona Simulator.app/Contents/MacOS/Corona Simulator", "$file_path/main.lua"],
+		"cmd": ["open", "-a", "/Applications/CoronaSDK/Corona Simulator.app", "$file_path/main.lua"],
 		"file_regex": "(^/[^:]*):([0-9]+):([0-9]*)(.*)"
 	}
 }
