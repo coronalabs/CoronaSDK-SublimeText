@@ -1,14 +1,16 @@
-CoronaSDK-SublimeText
-=====================
+Corona Editor
+=============
 
-The official Corona SDK ***Sublime Text*** editor plugin.  Designed to make building apps even easier by adding functionaltiy to ***Sublime Text*** to improve developer productivity.
+Corona Editor is the official ***Corona SDK*** plugin for ***Sublime Text***.  Designed to make building apps even easier by adding functionality to ***Sublime Text*** to improve developer productivity.
 
-### Corona SDK Plugin Installation Instructions
+### Corona Editor Plugin Installation Instructions
 
 1. Install the ***Sublime Text*** **Package Control** plugin if you don't already have it: [https://sublime.wbond.net/installation](https://sublime.wbond.net/installation)
 1. Choose: **Tools** > **Command Palette...** > **Package Control: Install Package**
-1. Find **Corona SDK**, click on it to install it
+1. Find **Corona Editor** by typing in the search field, click on it to install it
 1. Restart ***Sublime Text*** or reopen any .lua files to see the new features
+
+Alternatively, if you are comfortable doing manual installs of Sublime Text plugins, you can download the plugin from [https://github.com/coronalabs/CoronaSDK-SublimeText/archive/master.zip](here).
 
 ### Using the Plugin
 
