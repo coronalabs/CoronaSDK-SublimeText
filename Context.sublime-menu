@@ -1,3 +1,5 @@
 [  
-	{ "caption": "Corona SDK Docs", "command": "corona_docs" }  
+	{ "caption": "-" },
+	{ "caption": "Corona SDK Docs", "command": "corona_docs" },
+	{ "caption": "Function Navigator...", 	"command": "show_overlay", "args": {"overlay": "goto", "text": "@"} }
 ]  
