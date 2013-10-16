@@ -39,21 +39,36 @@
 				<key>4</key>
 				<dict>
 					<key>name</key>
-					<string>punctuation.definition.parameters.begin.lua</string>
+					<string>keyword.control.lua</string>
 				</dict>
 				<key>5</key>
 				<dict>
 					<key>name</key>
-					<string>variable.parameter.function.lua</string>
+					<string>entity.name.function.scope.lua</string>
 				</dict>
 				<key>6</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.lua</string>
+				</dict>
+				<key>7</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.parameters.begin.lua</string>
+				</dict>
+				<key>8</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.function.lua</string>
+				</dict>
+				<key>9</key>
 				<dict>
 					<key>name</key>
 					<string>punctuation.definition.parameters.end.lua</string>
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>\b(function)\s+([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*(\()([^)]*)(\))</string>
+			<string>\b(?:local\s+|)(?:(function)\s+([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)|(function|)\s+([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*=\s*function)\s*(\()([^)]*)(\))</string>
 			<key>name</key>
 			<string>meta.function.lua</string>
 		</dict>
