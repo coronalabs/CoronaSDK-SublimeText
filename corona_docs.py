@@ -10,7 +10,24 @@ import sublime
 import sublime_plugin
 import webbrowser
 import string
+import re
+import urllib
  
+SEARCH_URL = "http://www.google.com/cse?cx=009283852522218786394%3Ag40gqt2m6rq&ie=UTF-8&q={search_term}&sa=Search#gsc.tab=0&gsc.q={search_term}&gsc.page=1"
+
+LIBRARY_APIS = (
+  "ads", "analytics", "audio", "credits", "crypto", "display", "easing",
+  "facebook", "gameNetwork", "global", "graphics", "io", "json", "lfs", "licensing",
+  "math", "media", "native", "network", "os", "package", "physics", "socket", "sprite",
+  "sqlite3", "store", "storyboard", "string", "system", "table", "timer", "transition", "widget" )
+
+# Python version independent UrlEncode
+def UrlEncode(s):
+  try:
+    return urllib.parse.quote_plus(s)
+  except AttributeError:
+    return urllib.quote_plus(s)
+
  
 class CoronaDocsCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -21,7 +38,7 @@ class CoronaDocsCommand(sublime_plugin.TextCommand):
         end = s.b
  
         view_size = self.view.size()
-        terminator = ['\t', ' ', '\"', '\'', '(']
+        terminator = ['\t', ' ', '\"', '\'', '(', '=']
  
         while (start > 0
                 and not self.view.substr(start - 1) in terminator
@@ -33,17 +50,38 @@ class CoronaDocsCommand(sublime_plugin.TextCommand):
                 and self.view.classify(end) & sublime.CLASS_LINE_END == 0):
             end += 1
  
-        # Convert "word" under cursor to Corona Docs link
-        url = self.view.substr(sublime.Region(start, end))
-        url = url.rstrip(string.punctuation)
-        url = url.replace(".", "/");
-        # print("URL : " + url)
+        # Note if the current point is on a Lua keyword (according to
+        # the .tmLanguage definition)
+        isLuaKeyword = self.view.match_selector(start,
+                "keyword.control.lua, support.function.lua, support.function.library.lua")
 
         use_daily_docs = self.view.settings().get("corona_sdk_use_daily_docs")
         if use_daily_docs:
-          docUrl = "http://docs.coronalabs.com/daily/api/library/" + url + ".html";
+          daily = "daily/"
         else:
-          docUrl = "http://docs.coronalabs.com/api/library/" + url + ".html";
+          daily = ""
+
+        # Convert "word" under cursor to Corona Docs link, or a Lua docs link
+        page = self.view.substr(sublime.Region(start, end))
+        page = page.strip(string.punctuation)
+
+        # Look for an embedded period which, if the class name is one of ours,
+        # indicates we should look it up in the "library" section of the docs
+        # (unless the class member doesn't start with a lowercase letter in which
+        # case it's a constant and we'll have to just default to searching for it)
+        if (re.search("\w+\.[a-z]", page) is not None
+              and page.partition(".")[0] in LIBRARY_APIS):
+          page = page.replace(".", "/")
+          docUrl = "http://docs.coronalabs.com/" + daily + "api/library/" + page + ".html";
+        elif isLuaKeyword:
+          # Unfortunately, there's no search on the Lua docs site so we need to guess at
+          # an anchor (if it's not there, you go to the top of the page)
+          docUrl = "http://www.lua.org/manual/5.1/manual.html#pdf-" + page
+        else:
+          # We don't know what we're on, send them to the Corona Docs search page
+          page = UrlEncode(page)
+          docUrl = SEARCH_URL.format(search_term = page)
+
         # print("docURL : " + docUrl)
  
         webbrowser.open_new_tab(docUrl)
