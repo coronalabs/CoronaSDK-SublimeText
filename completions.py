@@ -1,5 +1,5 @@
 #
-# Sublime Text plugin to support Corona SDK
+# Sublime Text plugin to support Corona Editor
 #
 # Copyright (c) 2013 Corona Labs Inc. A mobile development software company. All rights reserved.
 #
@@ -38,7 +38,7 @@ class CoronaLabs:
       # Files in the package are loaded differently in ST2 as ST3
       if (SUBLIME_VERSION < 3000):
         source = 'file'
-        comp_path = PLUGIN_DIR # os.path.join(sublime.packages_path(), 'Corona SDK')
+        comp_path = PLUGIN_DIR # os.path.join(sublime.packages_path(), 'Corona Editor')
         comp_path = os.path.join(comp_path, "corona.completions")
 
         json_data = open(comp_path)
@@ -48,16 +48,16 @@ class CoronaLabs:
         json_data.close()
       else:
         source = 'package'
-        self._completions = json.loads(sublime.load_resource('Packages/Corona SDK/corona.completions'))
+        self._completions = json.loads(sublime.load_resource('Packages/Corona Editor/corona.completions'))
 
       # pprint(self._completions)
-      print("Corona SDK: loaded {0} completions from {1}".format(len(self._completions['completions']), source))
+      print("Corona Editor: loaded {0} completions from {1}".format(len(self._completions['completions']), source))
 
   # extract completions which match prefix
   def find_completions(self, view, prefix):
     self.load_completions()
 
-    print('prefix: ', prefix)
+    # print('prefix: ', prefix)
 
     # Sample:
     #   { "trigger": "audio.stopWithDelay()", "contents": "audio.stopWithDelay( ${1:duration}, ${2:[, options ]} )"},
@@ -118,7 +118,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
     if is_lua_file(view.file_name()):
       auto_build = view.settings().get("corona_sdk_auto_build")
       if auto_build:
-        print("Corona SDK: auto build triggered")
+        print("Corona Editor: auto build triggered")
         view.window().run_command("build")
 
   def on_query_completions(self, view, prefix, locations):
