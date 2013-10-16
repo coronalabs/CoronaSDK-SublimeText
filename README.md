@@ -17,8 +17,9 @@ Alternatively, if you are comfortable doing manual installs of Sublime Text plug
 After restarting ***Sublime Text*** you'll have the following features available when editing .lua files:
 
  * Completion works for all API calls and constants (correctly handling periods in the name)
- * Documentation can be called up by placing the cursor on an API call (or selecting it) and either hitting **F1** or choosing **Corona SDK Docs** from the context menu
+ * Documentation can be called up by placing the cursor on an API call (or selecting it) and either hitting **F1** or choosing **Corona SDK Docs** from the context menu.  Lua keywords will be looked up in the Lua documentation.  If the context of something isn't recognized, a search of the Corona SDK documentation will be initiated
  * The current app can be run in the Simulator by pressing Ctrl+B (Windows) or Cmd+B (MacOSX).  Debug output appears in the "build" window in ***Sublime Text***
+ * Syntax highlighting of Lua with Corona SDK calls is done (choose **View > Syntax > Corona SDK Lua** to enable this)
 
 You can set a ***Sublime Text*** User Preference called "corona\_sdk\_use\_daily\_docs" to true to have documentation lookups go to the Daily Build documentation.
 
