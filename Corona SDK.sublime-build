@@ -3,13 +3,15 @@
 
 	"windows":
 	{
-		"cmd": ["C:\\Program Files\\Corona Labs\\Corona SDK\\Corona Simulator.exe", "$file_path\\main.lua"],
+		"path" : "$PATH;C:\\Program Files\\Corona Labs\\Corona SDK;C:\\Program Files (x86)\\Corona Labs\\Corona SDK",
+		"cmd": ["Corona Simulator.exe", "-singleton", "-no-console", "${project_path:$file_path}\\main.lua"],
 		"file_regex": "(^[C-Z]:[^:]*):([0-9]+):([0-9]*)(.*)"
 	},
 
 	"osx":
 	{
-		"cmd": ["open", "-a", "/Applications/CoronaSDK/Corona Simulator.app", "$file_path/main.lua"],
+		"path": "$PATH:/Applications/CoronaSDK/Corona Simulator.app/Contents/MacOS",
+		"cmd": ["Corona Simulator", "-singleton", "YES", "${project_path:$file_path}/main.lua"],
 		"file_regex": "(^/[^:]*):([0-9]+):([0-9]*)(.*)"
 	}
 }
