@@ -104,8 +104,6 @@ mapLocation.isError
 mapLocation.latitude
 mapLocation.longitude
 mapLocation.name
-mapTap.latitude
-mapTap.longitude
 memoryWarning.name
 mouse.isMiddleButtonDown
 mouse.isPrimaryButtonDown
@@ -223,7 +221,7 @@ userInput.text
 	audio.dispose( audioHandle )
 	audio.fade( [ { [channel=c] [, time=t] [, volume=v ] } ] )
 	audio.fadeOut( [ { [channel=c] [, time=t] } ] )
-	audio.findFreeChannel( [ startChannel ] )
+	audio.findFreeChannel(  [ startChannel ]  )
 	audio.freeChannels
 	audio.getDuration( audioHandle )
 	audio.getMaxVolume( { channel=c } )
@@ -239,7 +237,7 @@ userInput.text
 	audio.reserveChannels( channels )
 	audio.reservedChannels
 	audio.resume( [channel] )
-	audio.rewind( [audioHandle | options] )
+	audio.rewind( [, audioHandle ] [, options ] )
 	audio.seek( time [, audioHandle ] [, options ] )
 	audio.setMaxVolume( volume, options )
 	audio.setMinVolume( volume, options )
@@ -279,23 +277,23 @@ display.fps
 display.imageSuffix
 	display.loadRemoteImage( url, method, listener [, params], destFilename [, baseDir] [, x, y] )
 	display.newCircle( [parentGroup,] xCenter, yCenter, radius )
-	display.newEmbossedText( [parentGroup,] string, left, top, [width, height,] font, size )
+	display.newEmbossedText( [parentGroup,] string, left, top, [width, height,] font, size)
 	display.newGroup()
 	display.newImage( filename [,baseDirectory] [, left, top ] )
 	display.newImageGroup( imageSheet )
-	display.newImageRect( [parentGroup,] filename, [baseDirectory,] width, height )
-	display.newLine( [parentGroup,] x1, y1, x2, y2 )
+	display.newImageRect( [parentGroup,] filename, [baseDirectory] width, height )
+	display.newLine( [parent,] x1,y1, x2,y2 )
 	display.newRect( [parentGroup,] left, top, width, height )
 	display.newRoundedRect( [parentGroup,] left, top, width, height, cornerRadius )
 	display.newSprite( imageSheet, sequenceData )
-	display.newText( { options } )
+	display.newText( options )
 display.pixelHeight
 display.pixelWidth
 	display.remove( object )
-	display.save( displayObject, filename [, baseDirectory] )
+	display.save( group, "group.jpg" )
 display.screenOriginX
 display.screenOriginY
-	display.setDefault( key, r, g, b, alpha )
+	display.setDefault( key, gray )
 	display.setStatusBar( mode )
 display.statusBarHeight
 display.topStatusBarContentHeight
@@ -350,7 +348,7 @@ global.unpack
 	io.type( obj )
 	io.write( arg1 [, arg2] [, ...] )
 	json.decode( data )
-	json.encode( table )
+	json.encode( t )
 	json.null
 	licensing.init( providerName )
 	licensing.verify( listener )
@@ -467,7 +465,7 @@ physics.reflectRay
 physics.start
 	physics.stop()
 	physics.toMKS( unitName, value )
-	sprite.add( spriteSet, sequenceName, startFrame, frameCount, time [, loopParam] )
+	sprite.add( spriteSet, sequenceName, startFrame, frameCount, time, [loopParam] )
 	sprite.newSprite( spriteSet )
 	sprite.newSpriteMultiSet(
 	sprite.newSpriteSet( spriteSheet, startFrame, frameCount )
@@ -502,9 +500,9 @@ storyboard.purgeOnSceneChange
 	storyboard.showOverlay( sceneName [, options ] )
 	storyboard.stage
 	string.byte( s [, i [, j]] )
-	string.char( [arg1 [, ...] )
-	string.find( s, pattern [, init [, plain]] )
-	string.format( formatstring [, ...] )
+	string.char ([arg1 [, ...])
+	string.find (s, pattern [, init [, plain]])
+	string.format (formatstring [, ...])
 	string.gmatch( s, pattern )
 	string.gsub( s, pattern, repl [, n] )
 	string.len( s )
@@ -549,17 +547,9 @@ storyboard.purgeOnSceneChange
 	timer.pause( timerId )
 	timer.performWithDelay( delay, listener [, iterations] )
 	timer.resume( timerId )
-	transition.blink( target, params )
-	transition.cancel()
-	transition.fadeIn( target, params )
-	transition.fadeOut( target, params )
+	transition.cancel( tweenReference )
+	transition.dissolve( src, dst, duration, delayDuration )
 	transition.from( target, params )
-	transition.moveBy( target, params )
-	transition.moveTo( target, params )
-	transition.pause()
-	transition.resume()
-	transition.scaleBy( target, params )
-	transition.scaleTo( target, params )
 	transition.to( target, params )
 widget.migration
 	widget.newButton( options )
@@ -744,7 +734,6 @@ Map.isZoomEnabled
 Map.mapType
 Map.nearestAddress
 Map.removeAllMarkers
-Map.removeMarker
 Map.requestLocation
 Map.setCenter
 Map.setRegion

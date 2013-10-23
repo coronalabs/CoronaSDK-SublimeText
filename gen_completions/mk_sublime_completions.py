@@ -9,6 +9,7 @@
 
 import re
 import string
+import json
 
 preamble = """
 {
@@ -25,13 +26,13 @@ postamble = """
 }
 """
 
-print preamble
+print(preamble)
 
 fh = open('raw-api-definitions')
 
 for line in fh.readlines():
-  line = line.rstrip()
-  # print line
+  line = line.strip()
+  # print(line)
   if line.find(':') != -1:
     # We have a type member, since we can't know what the object is called,
     # complete from the semi-colon only
@@ -42,21 +43,25 @@ for line in fh.readlines():
     argsString = argListMatch.groups()[0]
     funcName = line.replace("("+argsString+")", "")
     args = re.findall("(\[.*?\]|[^\[,]*)", argsString)
-    # print "   funcName", funcName
-    # print "   argsString", argsString
-    # print "   args", args
+    # print("   funcName", funcName)
+    # print("   argsString", argsString)
+    # print("   args", args)
     argCount = 1
     stCompArgs = ""
     for arg in args:
       arg = arg.strip()
       if arg == "":
         continue
-      stCompArgs += ", ${"+str(argCount)+":"+arg+"}"
+      arg = json.dumps(arg)[1:-1] # escape JSON and remove surrounding quotes
+      # if the arg is not optional and includes a comma, add a comma
+      if not arg.startswith("[,"):
+        stCompArgs += ","
+      stCompArgs += " ${"+str(argCount)+":"+arg+"}"
       argCount += 1
     stCompArgs = stCompArgs.lstrip(",");
-    # print "stCompArgs: ", stCompArgs
-    print "{{ \"trigger\": \"{0}()\", \"contents\": \"{0}({1} )\"}},".format(funcName, stCompArgs)
+    # print("stCompArgs: ", stCompArgs)
+    print("{{ \"trigger\": \"{0}()\", \"contents\": \"{0}({1} )\"}},".format(funcName, stCompArgs))
   else:
-    print "\"{0} \",".format(line)
+    print("\"{0}\",".format(line))
 
-print postamble
+print(postamble)

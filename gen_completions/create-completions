@@ -1,0 +1,58 @@
+#!/bin/zsh 
+#
+# Sublime Text plugin to support Corona SDK
+#
+# Copyright (c) 2013 Corona Labs Inc. A mobile development software company. All rights reserved.
+#
+# MIT License - see https://raw.github.com/coronalabs/CoronaSDK-SublimeText/master/LICENSE
+#
+# create-completions - generate a Sublime completions file from a Corona docs directory
+#
+
+CWD=`pwd`
+RAW_COMPS=${CWD}/raw-api-definitions
+SUBLIME_COMPS=${CWD}/corona.completions
+
+if [ "$1" != "" ]
+then
+	DOC_DIR="$1/"
+fi
+
+cd ${DOC_DIR}markdown/api || exit 1
+
+echo "Generating completions for `pwd` ..."
+
+for DIR in `find . -type d \! -name '.*'`
+do
+	WD=`pwd`
+	cd $DIR
+
+	for F in *.markdown
+	do
+		if [ "$F" = "index.markdown" ]
+		then
+			continue
+		fi
+		D=`basename $PWD`
+		N=`basename $F .markdown`
+		# echo -n "$F: "; fgrep -m 1 "	$D.$N" $F || echo 'NOT FOUND'
+		RES=`grep -m 1 "	$D"'[.:]'"$N" $F`
+
+		if [ "$RES" = "" ]
+		then
+			# didn't find a syntax string for the item, just complete using its name
+			RES="$D.$N"
+		fi
+
+		echo $RES
+
+	done
+
+	cd $WD
+done > $RAW_COMPS
+
+cd $CWD
+
+python ./mk_sublime_completions.py >$SUBLIME_COMPS
+
+wc -l $SUBLIME_COMPS
