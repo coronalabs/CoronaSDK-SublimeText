@@ -15,11 +15,12 @@ import urllib
  
 SEARCH_URL = "http://www.google.com/cse?cx=009283852522218786394%3Ag40gqt2m6rq&ie=UTF-8&q={search_term}&sa=Search#gsc.tab=0&gsc.q={search_term}&gsc.page=1"
 
+# Note "lfs", "socket", "sqlite3" are omitted because we don't have complete docs for those
 LIBRARY_APIS = (
   "ads", "analytics", "audio", "credits", "crypto", "display", "easing",
-  "facebook", "gameNetwork", "global", "graphics", "io", "json", "lfs", "licensing",
-  "math", "media", "native", "network", "os", "package", "physics", "socket", "sprite",
-  "sqlite3", "store", "storyboard", "string", "system", "table", "timer", "transition", "widget" )
+  "facebook", "gameNetwork", "global", "graphics", "io", "json", "licensing",
+  "math", "media", "native", "network", "os", "package", "physics", "sprite",
+  "store", "storyboard", "string", "system", "table", "timer", "transition", "widget" )
 
 # Python version independent UrlEncode
 def UrlEncode(s):
@@ -55,7 +56,7 @@ class CoronaDocsCommand(sublime_plugin.TextCommand):
         isLuaKeyword = self.view.match_selector(start,
                 "keyword.control.lua, support.function.lua, support.function.library.lua")
 
-        use_daily_docs = self.view.settings().get("corona_sdk_use_daily_docs")
+        use_daily_docs = self.view.settings().get("corona_sdk_use_daily_docs", False)
         if use_daily_docs:
           daily = "daily/"
         else:
