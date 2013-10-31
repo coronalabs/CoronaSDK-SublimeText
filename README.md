@@ -65,7 +65,7 @@ The current app can be run in the Simulator by pressing Ctrl+B (Windows) or Cmd+
 Syntax highlighting of Lua with Corona SDK calls is done (choose **View > Syntax > Corona SDK Lua** to enable this)
 
 ### Miscellaneous
- * A shortcut to the ***Sublime Text*** **Goto Anything...** function list has been added to the context menu as `Function Navigator...`.
+ * A shortcut to the ***Sublime Text*** **Goto Anything...** function list has been added to the context menu as `Function Navigator...` This lists the functions defined in the current file and choosing one takes you to that definition.
 
 ## Reporting Issues
 
