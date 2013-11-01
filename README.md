@@ -65,10 +65,10 @@ The current app can be run in the Simulator by pressing Ctrl+B (Windows) or Cmd+
 Syntax highlighting of Lua with Corona SDK calls is done (choose **View > Syntax > Corona SDK Lua** to enable this)
 
 ### Miscellaneous
- * A shortcut to the ***Sublime Text*** **Goto Anything...** function list has been added to the context menu as `Function Navigator...`.
+ * A shortcut to the ***Sublime Text*** **Goto Anything...** function list has been added to the context menu as `Function Navigator...` This lists the functions defined in the current file and choosing one takes you to that definition.
 
 ## Reporting Issues
 
-You can find discussion about Corona Editor on our [http://forums.coronalabs.com/forum/630-corona-editor/](Forum).
+You can find discussion about Corona Editor on our [http://forums.coronalabs.com/forum/630-corona-editor/](Forum).  Let us know if you'd like to try prerelease versions.
 
 If some aspect of the plugin doesn't behave as expected be sure to include any console output when reporting the problem.  You can view the console using **View > Show Console** and copy and paste the information displayed there.
