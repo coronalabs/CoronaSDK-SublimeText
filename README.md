@@ -72,3 +72,7 @@ Syntax highlighting of Lua with Corona SDK calls is done (choose **View > Syntax
 You can find discussion about Corona Editor on our [http://forums.coronalabs.com/forum/630-corona-editor/](Forum).  Let us know if you'd like to try prerelease versions.
 
 If some aspect of the plugin doesn't behave as expected be sure to include any console output when reporting the problem.  You can view the console using **View > Show Console** and copy and paste the information displayed there.
+
+## Thanks
+
+Many thanks to the Corona users who have provided feedback and suggestions to make Corona Editor even better.  Particular thanks to _develephant_ and _givemeyourgits_ for their contributions and help.
