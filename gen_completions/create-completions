@@ -12,6 +12,7 @@
 CWD=`pwd`
 RAW_COMPS=${CWD}/raw-api-definitions
 SUBLIME_COMPS=${CWD}/corona.completions
+INVALID_COMPLETIONS=${CWD}/invalid-completions-list
 
 if [ "$1" != "" ]
 then
@@ -35,21 +36,35 @@ do
 		fi
 		D=`basename $PWD`
 		N=`basename $F .markdown`
-		# echo -n "$F: "; fgrep -m 1 "	$D.$N" $F || echo 'NOT FOUND'
-		RES=`grep -m 1 "	$D"'[.:]'"$N" $F`
+
+		# This finds the first line of the "Syntax" section of most files
+		RES=`egrep -m 1 '	[A-Za-z]*?[.:]*'"$N" $F | sed -e 's/^	//'`
 
 		if [ "$RES" = "" ]
 		then
-			# didn't find a syntax string for the item, just complete using its name
-			RES="$D.$N"
+			# didn't find a syntax string for the item,
+			# look for a header at the top of the file
+			RES=`head -2 $F | sed -n '/^#/s/^# \(.*\)/\1	'$D'/p'`
 		fi
 
-		echo $RES
+		if [ "$RES" = "" ]
+		then
+			# didn't find a syntax string or a header for the item,
+			# just complete using its name
+			RES="$D.$N\t$D"
+		fi
 
+		# Remove any "object" prefix as completion works better without it
+		echo $RES | sed -e 's/object[.:]//'
+
+		# Find any explicit completion items in the file
+		# (it's assumed they are formatted with backticks which 
+		# might need adjustment)
+		fgrep '<!--- completion -->' $F | sed -e 's/.*`\([^`]*\)`.*/\1	'$D'/'
 	done
 
 	cd $WD
-done > $RAW_COMPS
+done | fgrep -v -f $INVALID_COMPLETIONS | sort -u > $RAW_COMPS
 
 cd $CWD
 

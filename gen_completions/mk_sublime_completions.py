@@ -17,7 +17,6 @@ preamble = """
 
       "completions":
         [
-
 """
 
 postamble = """
@@ -31,6 +30,7 @@ print(preamble)
 fh = open('raw-api-definitions')
 
 for line in fh.readlines():
+  typeDesc = "unknown"
   line = line.strip()
   # print(line)
   if line.find(':') != -1:
@@ -38,10 +38,16 @@ for line in fh.readlines():
     # complete from the semi-colon only
     line = line.partition(':')[2]
 
+  if line.find("\t") != -1:
+    # We have a type description after a tab
+    typeDesc = line.partition("\t")[2]
+    line = line.partition("\t")[0]
+
   argListMatch = re.search("\((.*)\)", line)
   if argListMatch != None:
     argsString = argListMatch.groups()[0]
     funcName = line.replace("("+argsString+")", "")
+    funcName = funcName.strip()
     args = re.findall("(\[.*?\]|[^\[,]*)", argsString)
     # print("   funcName", funcName)
     # print("   argsString", argsString)
@@ -60,8 +66,8 @@ for line in fh.readlines():
       argCount += 1
     stCompArgs = stCompArgs.lstrip(",");
     # print("stCompArgs: ", stCompArgs)
-    print("{{ \"trigger\": \"{0}()\", \"contents\": \"{0}({1} )\"}},".format(funcName, stCompArgs))
+    print("{{ \"trigger\": \"{0}()\\t{2}\", \"contents\": \"{0}({1} )\"}},".format(funcName, stCompArgs, typeDesc))
   else:
-    print("\"{0}\",".format(line))
+    print("{{ \"trigger\": \"{0}\\t{1}\", \"contents\": \"{0}\"}},".format(line, typeDesc))
 
 print(postamble)

@@ -1,836 +1,871 @@
-accelerometer.deltaTime
-accelerometer.isShake
-accelerometer.name
-accelerometer.xGravity
-accelerometer.xInstant
-accelerometer.yGravity
-accelerometer.yInstant
-accelerometer.zGravity
-accelerometer.zInstant
-audio.channel
-audio.completed
-audio.handle
-audio.name
-audio.phase
-axis.axis
-axis.device
-axis.name
-axis.normalizedValue
-axis.rawValue
-collision.contact
-collision.element1
-collision.element2
-collision.name
-collision.object1
-collision.object2
-collision.phase
-collision.x
-collision.y
-completion.action
-completion.name
-completion.target
-creditsRequest.name
-creditsRequest.newCredits
-creditsRequest.totalCredits
-enterFrame.name
-enterFrame.time
-fbconnect.didComplete
-fbconnect.expiration
-fbconnect.isError
-fbconnect.name
-fbconnect.phase
-fbconnect.response
-fbconnect.token
-fbconnect.type
-gameNetwork.data
-gameNetwork.errorCode
-gameNetwork.errorMessage
-gameNetwork.localPlayerScore
-gameNetwork.name
-gameNetwork.provider
-gameNetwork.type
-gyroscope.deltaTime
-gyroscope.name
-gyroscope.xRotation
-gyroscope.yRotation
-gyroscope.zRotation
-heading.geographic
-heading.magnetic
-heading.name
-inputDeviceStatus.connectionStateChanged
-inputDeviceStatus.device
-inputDeviceStatus.name
-inputDeviceStatus.reconfigured
-key.descriptor
-key.device
-key.isAltDown
-key.isCtrlDown
-key.isShiftDown
-key.keyName
-key.name
-key.nativeKeyCode
-key.phase
-licensing.errorType
-licensing.expiration
-licensing.isError
-licensing.isVerified
-licensing.name
-licensing.provider
-licensing.response
-location.accuracy
-location.altitude
-location.direction
-location.errorCode
-location.errorMessage
-location.latitude
-location.longitude
-location.name
-location.speed
-location.time
-mapAddress.city
-mapAddress.cityDetail
-mapAddress.country
-mapAddress.countryCode
-mapAddress.errorMessage
-mapAddress.isError
-mapAddress.name
-mapAddress.postalCode
-mapAddress.region
-mapAddress.regionDetail
-mapAddress.street
-mapAddress.streetDetail
-mapLocation.errorMessage
-mapLocation.isError
-mapLocation.latitude
-mapLocation.longitude
-mapLocation.name
-memoryWarning.name
-mouse.isMiddleButtonDown
-mouse.isPrimaryButtonDown
-mouse.isSecondaryButtonDown
-mouse.name
-mouse.time
-mouse.x
-mouse.y
-networkRequest.bytesEstimated
-networkRequest.bytesTransferred
-networkRequest.header
-networkRequest.isError
-networkRequest.name
-networkRequest.phase
-networkRequest.requestId
-networkRequest.response
-networkRequest.responseHeaders
-networkRequest.responseType
-networkRequest.status
-networkRequest.url
-networkStatus.address
-networkStatus.isConnectionOnDemand
-networkStatus.isConnectionRequired
-networkStatus.isInteractionRequired
-networkStatus.isReachable
-networkStatus.isReachableViaCellular
-networkStatus.isReachableViaWiFi
-networkStatus.name
-notification.applicationState
-notification.custom
-notification.name
-notification.type
-orientation.delta
-orientation.name
-orientation.type
-popup.name
-popup.type
-postCollision.contact
-postCollision.force
-postCollision.friction
-postCollision.name
-postCollision.object1
-postCollision.object2
-postCollision.other
-preCollision.contact
-preCollision.element1
-preCollision.element2
-preCollision.name
-preCollision.object1
-preCollision.object2
-preCollision.other
-preCollision.x
-preCollision.y
-productList.invalidProducts
-productList.name
-productList.products
-resize.name
-createScene.name
-createScene.params
-destroyScene.name
-didExitScene.name
-enterScene.name
-enterScene.params
-exitScene.name
-overlayBegan.name
-overlayBegan.sceneName
-overlayEnded.name
-overlayEnded.sceneName
-willEnterScene.name
-willEnterScene.params
-sprite.name
-sprite.phase
-sprite.sprite
-sprite.target
-storeTransaction.name
-storeTransaction.transaction
-system.name
-system.type
-system.url
-tap.name
-tap.numTaps
-tap.x
-tap.y
-timer.count
-timer.name
-timer.source
-timer.time
-touch.id
-touch.name
-touch.phase
-touch.target
-touch.time
-touch.x
-touch.xStart
-touch.y
-touch.yStart
-unhandledError.errorMessage
-unhandledError.stackTrace
-urlRequest.errorCode
-urlRequest.errorMessage
-urlRequest.name
-urlRequest.type
-urlRequest.url
-userInput.newCharacters
-userInput.oldText
-userInput.phase
-userInput.startPosition
-userInput.target
-userInput.text
-	ads.hide()
-	ads.init( providerName, appId [, listener] )
-	ads.show( adUnitType [, params] )
-	analytics.init( apiKey )
-	analytics.logEvent( eventID )
-	audio.dispose( audioHandle )
-	audio.fade( [ { [channel=c] [, time=t] [, volume=v ] } ] )
-	audio.fadeOut( [ { [channel=c] [, time=t] } ] )
-	audio.findFreeChannel(  [ startChannel ]  )
-	audio.freeChannels
-	audio.getDuration( audioHandle )
-	audio.getMaxVolume( { channel=c } )
-	audio.getMinVolume( { channel=c } )
-	audio.getVolume( [ { [channel=c]  } ] )
-	audio.isChannelActive( channel )
-	audio.isChannelPaused( channel )
-	audio.isChannelPlaying( channel )
-	audio.loadSound( audiofileName [, baseDir ]  )
-	audio.loadStream( audioFileName [, baseDir ]  )
-	audio.pause( [channel] )
-	audio.play( audioHandle [, options ] )
-	audio.reserveChannels( channels )
-	audio.reservedChannels
-	audio.resume( [channel] )
-	audio.rewind( [, audioHandle ] [, options ] )
-	audio.seek( time [, audioHandle ] [, options ] )
-	audio.setMaxVolume( volume, options )
-	audio.setMinVolume( volume, options )
-	audio.setVolume( volume [, options ] )
-	audio.stop( [channel] )
-	audio.stopWithDelay( duration [, options ] )
-	audio.totalChannels
-	audio.unreservedFreeChannels
-	audio.unreservedUsedChannels
-	audio.usedChannels
-	credits.init( ARG1 [, ARG2] )
-	credits.requestUpdate( ARG1 [, ARG2] )
-	credits.showOffers( ARG1 [, ARG2] )
-	crypto.digest( algorithm, data [, raw] )
-	crypto.hmac( algorithm, data, key [, raw] )
-	crypto.md4
-	crypto.md5
-	crypto.sha1
-	crypto.sha224
-	crypto.sha256
-	crypto.sha384
-	crypto.sha512
-display.actualContentHeight
-display.actualContentWidth
-	display.capture( displayObject [, saveToPhotoLibraryFlag ] )
-	display.captureBounds( screenBounds [, saveToAlbum ] )
-	display.captureScreen()
-display.contentCenterX
-display.contentCenterY
-display.contentHeight
-display.contentScaleX
-display.contentScaleY
-display.contentWidth
-display.currentStage
-display.fps
-	display.getCurrentStage()
-display.imageSuffix
-	display.loadRemoteImage( url, method, listener [, params], destFilename [, baseDir] [, x, y] )
-	display.newCircle( [parentGroup,] xCenter, yCenter, radius )
-	display.newEmbossedText( [parentGroup,] string, left, top, [width, height,] font, size)
-	display.newGroup()
-	display.newImage( filename [,baseDirectory] [, left, top ] )
-	display.newImageGroup( imageSheet )
-	display.newImageRect( [parentGroup,] filename, [baseDirectory] width, height )
-	display.newLine( [parent,] x1,y1, x2,y2 )
-	display.newRect( [parentGroup,] left, top, width, height )
-	display.newRoundedRect( [parentGroup,] left, top, width, height, cornerRadius )
-	display.newSprite( imageSheet, sequenceData )
-	display.newText( options )
-display.pixelHeight
-display.pixelWidth
-	display.remove( object )
-	display.save( group, "group.jpg" )
-display.screenOriginX
-display.screenOriginY
-	display.setDefault( key, gray )
-	display.setStatusBar( mode )
-display.statusBarHeight
-display.topStatusBarContentHeight
-display.viewableContentHeight
-display.viewableContentWidth
-easing.inExpo
-easing.inOutExpo
-easing.inOutQuad
-easing.inQuad
-easing.linear
-easing.outExpo
-easing.outQuad
-	facebook.login( appId, listener [, permissions ] )
-	facebook.logout()
-	facebook.publishInstall( appId )
-	facebook.request( path [, httpMethod, params] )
-	facebook.showDialog( action [, params ] )
-	gameNetwork.init( providerName [, ...] )
-gameNetwork.request
-	gameNetwork.show( name [, data ] )
-global.assert
-global.collectgarbage
-global.error
-global.getfenv
-global.getmetatable
-global.ipairs
-global.next
-global.pairs
-global.pcall
-global.print
-global.rawequal
-global.rawget
-global.rawset
-global.select
-global.setfenv
-global.setmetatable
-global.tonumber
-global.tostring
-global.type
-global.unpack
-	graphics.newGradient( color1, color2 [ , direction] )
-	graphics.newImageSheet( filename, [baseDir, ] options )
-	graphics.newMask( filename [, baseDir] )
-	io.close( [file] )
-	io.flush()
-	io.input( [file] )
-	io.lines( filename )
-	io.open( filename_path, [, mode] )
-	io.output( [file] )
-	io.read( [fmt1] [, fmt2] [, ...] )
-	io.tmpfile()
-	io.type( obj )
-	io.write( arg1 [, arg2] [, ...] )
-	json.decode( data )
-	json.encode( t )
-	json.null
-	licensing.init( providerName )
-	licensing.verify( listener )
-	math.abs( x )
-	math.acos( x )
-	math.asin( x )
-	math.atan( x )
-	math.atan2( y, x )
-	math.ceil( x )
-	math.cos( x )
-	math.cosh( x )
-	math.deg( x )
-	math.exp( x )
-	math.floor( x )
-	math.fmod( x, y )
-	math.frexp( x )
-	math.huge
-	math.inf
-	math.ldexp( m, e )
-	math.log( x )
-	math.log10( x )
-	math.max( x, ... )
-	math.min( x, ... )
-	math.modf( x )
-	math.pi
-	math.pow( x, y )
-	math.rad( x )
-	math.random()
-	math.randomseed( x )
-	math.round( x )
-	math.sin( x )
-	math.sinh( x )
-	math.sqrt( x )
-	math.tan( x )
-	math.tanh( x )
-	media.RemoteSource
-	media.getSoundVolume()
-media.hasSource
-	media.newEventSound( filename [, baseDir] )
-	media.newRecording( [path] )
-	media.pauseSound()
-	media.playEventSound( sound [, baseDir] [, completionListener] )
-	media.playSound( soundfile [, baseDir] [, onComplete] )
-	media.playVideo( path [, baseSource ], showControls, listener )
-	media.save( filename [, baseDir] )
-	media.setSoundVolume( vol )
-	media.show( mediaSource, listener )
-	media.stopSound()
-	native.canShowPopup( name )
-	native.cancelAlert( alert )
-	native.cancelWebPopup()
-	native.getFontNames()
-	native.getProperty( key )
-	native.getSync( filename, parms )
-	native.newFont( name [, size] )
-	native.newMapView( left, top, width, height )
-	native.newTextBox( left, top, width, height [, listener ] )
-	native.newTextField( left, top, width, height [, listener] )
-	native.newVideo( left, top, width, height )
-	native.newWebView( left, top, width, height )
-native.requestExit
-	native.setActivityIndicator( state )
-	native.setKeyboardFocus( textField )
-	native.setProperty( key, value )
-	native.setSync( filename, params )
-	native.showAlert( title, message [, { buttonLabels } [, listener] ] )
-	native.showPopup( name )
-	native.showWebPopup( url [, options] )  
-native.systemFont
-native.systemFontBold
-	network.canDetectNetworkStatusChanges
-	network.cancel( requestId )
-	network.download( url, method, listener [, params], filename [, baseDirectory] )
-	network.request( url, method, listener [, params] )
-	network.setStatusListener( hostURL, listener )
-	network.upload( url, method, listener [, params], filename [, baseDirectory] [, contentType] )
-	os.clock()
-	os.date( [format [, time] ] )
-	os.difftime( t1, t2 )
-	os.execute( cmd )
-	os.exit( [ exit ] )
-	os.remove( file )
-	os.rename( oldname, newname )
-	os.time( [table] )
-	package.loaded
-	package.loaders
-package.module
-package.require
-	package.seeall
-	physics.addBody(object, [bodyType,] {density=d, friction=f, bounce=b [,radius=r] [,filter=f]})
-	physics.fromMKS( unitName, value ) 
-	physics.getAverageCollisionPositions()
-	physics.getDebugErrorsEnabled()
-	physics.getGravity()
-	physics.getMKS( key )
-	physics.getReportCollisionsInContentCoordinates()
-	physics.newJoint( jointType, ... )
-	physics.pause()
-physics.queryRegion
-physics.rayCast
-physics.reflectRay
-	physics.removeBody( object )
-	physics.setAverageCollisionPositions( enabled )
-	physics.setContinuous( enabled )
-	physics.setDebugErrorsEnabled( enabled )
-	physics.setDrawMode( mode )
-	physics.setGravity( gx, gy )
-	physics.setMKS( key, value )
-	physics.setPositionIterations( value )
-	physics.setReportCollisionsInContentCoordinates( enabled )
-	physics.setScale( value )
-	physics.setTimeStep( dt )
-	physics.setVelocityIterations( value )
-physics.start
-	physics.stop()
-	physics.toMKS( unitName, value )
-	sprite.add( spriteSet, sequenceName, startFrame, frameCount, time, [loopParam] )
-	sprite.newSprite( spriteSet )
-	sprite.newSpriteMultiSet(
-	sprite.newSpriteSet( spriteSheet, startFrame, frameCount )
-	sprite.newSpriteSheet( spriteSheetFile, [baseDir,]  frameWidth, frameHeight )
-	sprite.newSpriteSheetFromData( spriteSheetImageFile, [baseDir,] coordinateData )
-	store.availableStores
-	store.canLoadProducts
-	store.canMakePurchases
-	store.finishTransaction( transaction )
-	store.init( [storeName,] listener )
-	store.isActive
-	store.loadProducts( productIdentifiers, listener )
-	store.purchase( productList )
-	store.restore()
-	store.target
-	storyboard.disableAutoPurge
-	storyboard.getCurrentSceneName()
-	storyboard.getPrevious()
-	storyboard.getScene( sceneName )
-	storyboard.gotoScene( sceneName [, options] )
-	storyboard.hideOverlay( [ purgeOnly, effect, effectTime ] )
-storyboard.isDebug
-	storyboard.loadScene( sceneName [, doNotLoadView, params ] )
-	storyboard.newScene( [ sceneName ] )
-	storyboard.printMemUsage()
-	storyboard.purgeAll()
-storyboard.purgeOnSceneChange
-	storyboard.purgeScene( sceneName )
-	storyboard.reloadScene()
-	storyboard.removeAll()
-	storyboard.removeScene( sceneName )
-	storyboard.showOverlay( sceneName [, options ] )
-	storyboard.stage
-	string.byte( s [, i [, j]] )
-	string.char ([arg1 [, ...])
-	string.find (s, pattern [, init [, plain]])
-	string.format (formatstring [, ...])
-	string.gmatch( s, pattern )
-	string.gsub( s, pattern, repl [, n] )
-	string.len( s )
-	string.lower( s )
-	string.match( s, pattern [, init] ) 
-	string.rep( s, n )
-	string.reverse( s )
-	string.sub( s, i [, j] )
-	string.upper( s )
-	system.CachesDirectory
-	system.DocumentsDirectory
-	system.ResourceDirectory
-	system.TemporaryDirectory
-	system.activate( feature )
-	system.cancelNotification()
-	system.deactivate()
-	system.getIdleTimer()
-	system.getInfo( property )
-	system.getInputDevices()
-	system.getPreference( category, name )
-	system.getTimer()
-	system.hasEventSource( eventName )
-	system.openURL( url )
-	system.orientation
-	system.pathForFile( filename [, baseDirectory] )
-	system.scheduleNotification( secondsFromNow [, options] )
-	system.setAccelerometerInterval( frequency )
-	system.setGyroscopeInterval( frequency )
-	system.setIdleTimer( enabled )
-	system.setLocationAccuracy( distance )
-	system.setLocationThreshold( distance )
-	system.setTapDelay( delayTime )
-	system.vibrate()
-	table.concat( t )
-	table.copy( t )
-	table.indexOf( t, element )
-	table.insert( t, value )
-	table.maxn( t )
-	table.remove( t )
-	table.sort( t )
-	timer.cancel( timerId )
-	timer.pause( timerId )
-	timer.performWithDelay( delay, listener [, iterations] )
-	timer.resume( timerId )
-	transition.cancel( tweenReference )
-	transition.dissolve( src, dst, duration, delayDuration )
-	transition.from( target, params )
-	transition.to( target, params )
-widget.migration
-	widget.newButton( options )
-	widget.newPickerWheel( options )
-	widget.newProgressView( options )
-	widget.newScrollView( options )
-	widget.newSegmentedControl( options )
-	widget.newSlider( options )
-	widget.newSpinner( options )
-	widget.newStepper( options )
-	widget.newSwitch( options )
-	widget.newTabBar( options )
-	widget.newTableView( options )
-	widget.setTheme( themeFile )
-type.Array
-type.Boolean
-type.Constant
-type.CoronaClass
-type.Event
-type.Function
-type.ImageGroup
-type.Library
-type.Listener
-type.Module
-type.Number
-type.Object
-type.String
-type.Table
-Body.angularDamping
-Body.angularVelocity
-	Body:applyAngularImpulse( appliedForce )
-	Body:applyForce( xForce, yForce, bodyX, bodyY )
-	Body:applyLinearImpulse( xForce, yForce, bodyX, bodyY )
-	Body:applyTorque( appliedForce )
-Body.bodyType
-	Body:getLinearVelocity()
-Body.gravityScale
-Body.isAwake
-Body.isBodyActive
-Body.isBullet
-Body.isFixedRotation
-Body.isSensor
-Body.isSleepingAllowed
-Body.linearDamping
-	Body:resetMassData()
-	Body:setLinearVelocity( xVelocity, yVelocity )
-ButtonWidget.getLabel
-ButtonWidget.setEnabled
-ButtonWidget.setLabel
-CoronaLibrary.getCurrentProvider
-CoronaLibrary.name
-CoronaLibrary.publisherId
-CoronaLibrary.revision
-CoronaLibrary.setCurrentProvider
-CoronaLibrary.version
-CoronaPrototype.initialize
-CoronaPrototype.instanceOf
-CoronaPrototype.isClass
-CoronaPrototype.isRoot
-CoronaPrototype.new
-CoronaPrototype.newClass
-CoronaPrototype.setExtension
-DisplayObject.alpha
-DisplayObject.blendMode
-DisplayObject.contentBounds
-DisplayObject.contentHeight
-DisplayObject.contentToLocal
-DisplayObject.contentWidth
-DisplayObject.height
-DisplayObject.isHitTestMasked
-DisplayObject.isHitTestable
-DisplayObject.isVisible
-DisplayObject.localToContent
-DisplayObject.maskRotation
-DisplayObject.maskScaleX
-DisplayObject.maskScaleY
-DisplayObject.maskX
-DisplayObject.maskY
-DisplayObject.parent
-DisplayObject.removeSelf
-DisplayObject.rotate
-DisplayObject.rotation
-DisplayObject.scale
-DisplayObject.setMask
-DisplayObject.setReferencePoint
-DisplayObject.toBack
-DisplayObject.toFront
-DisplayObject.translate
-DisplayObject.width
-DisplayObject.x
-DisplayObject.xOrigin
-DisplayObject.xReference
-DisplayObject.xScale
-DisplayObject.y
-DisplayObject.yOrigin
-DisplayObject.yReference
-DisplayObject.yScale
-EventListener.addEventListener
-EventListener.dispatchEvent
-EventListener.removeEventListener
-	File:close()
-	File:flush()
-	File:lines()
-	File:read( [fmt1] [, fmt2] [, ...] )
-	File:seek( [mode] [, offset] )
-	File:setvbuf( mode [, size ] )
-	File:write( arg1 [, arg2] [, ...] )
-GameNetwork.match
-GameNetwork.outcome
-GameNetwork.participant
-GameNetwork.status
-GroupObject.insert
-GroupObject.numChildren
-GroupObject.remove
-InputAxis.accuracy
-InputAxis.descriptor
-InputAxis.maxValue
-InputAxis.minValue
-InputAxis.number
-InputAxis.type
-InputDevice.androidDeviceId
-InputDevice.canVibrate
-InputDevice.connectionState
-InputDevice.descriptor
-InputDevice.displayName
-InputDevice.getAxes
-InputDevice.isConnected
-InputDevice.permanentId
-InputDevice.type
-InputDevice.vibrate
-Joint.dampingRatio
-Joint.frequency
-	Joint:getAnchorA()
-	Joint:getAnchorB()
-Joint.getGroundAnchorA
-Joint.getGroundAnchorB
-	Joint:getLimits()
-Joint.getLocalAnchorA
-Joint.getLocalAnchorB
-Joint.getLocalAxisA
-	Joint:getReactionForce()
-	Joint:getRotationLimits()
-Joint.getTarget
-Joint.isActive
-Joint.isCollideConnected
-Joint.isLimitEnabled
-Joint.isMotorEnabled
-Joint.joint1
-Joint.joint2
-Joint.jointAngle
-Joint.jointSpeed
-Joint.jointTranslation
-Joint.length
-Joint.length1
-Joint.length2
-Joint.limitState
-Joint.maxForce
-Joint.maxLength
-Joint.maxMotorForce
-Joint.maxMotorTorque
-Joint.maxTorque
-Joint.motorForce
-Joint.motorSpeed
-Joint.motorTorque
-Joint.ratio
-Joint.reactionTorque
-Joint.referenceAngle
-Joint.removeSelf
-	Joint:setLimits( upper, lower )
-	Joint:setRotationLimits( lowerLimit, upperLimit )
-Joint.setTarget
-Joint.springDampingRatio
-Joint.springFrequency
-	LineObject:append( x, y [, ... ] )
-	LineObject:setColor( red, green, blue [, alpha ] )
-Map.addMarker
-Map.getAddressLocation
-Map.getUserLocation
-Map.isLocationVisible
-Map.isScrollEnabled
-Map.isZoomEnabled
-Map.mapType
-Map.nearestAddress
-Map.removeAllMarkers
-Map.requestLocation
-Map.setCenter
-Map.setRegion
-PhysicsContact.bounce
-PhysicsContact.friction
-PhysicsContact.isEnabled
-PhysicsContact.isTouching
-PickerWidget.getValues
-ProgressViewWidget.getProgress
-ProgressViewWidget.resizeView
-ProgressViewWidget.setProgress
-	Recording:getSampleRate()
-	Recording:getTunerFrequency()
-	Recording:getTunerVolume()
-	Recording:isRecording()
-	Recording:setSampleRate( r )
-	Recording:startRecording()
-	Recording:startTuner()
-	Recording:stopRecording()
-	Recording:stopTuner()
-	Runtime:hasEventSource( eventSourceName )
-	Runtime:hideErrorAlerts( )
-ScrollViewWidget.getContentPosition
-ScrollViewWidget.scrollTo
-ScrollViewWidget.scrollToPosition
-ScrollViewWidget.setScrollHeight
-ScrollViewWidget.setScrollWidth
-ScrollViewWidget.takeFocus
-SliderWidget.setValue
-SliderWidget.value
-SpinnerWidget.start
-SpinnerWidget.stop
-SpriteInstance.animating
-SpriteInstance.currentFrame
-	SpriteInstance:pause()
-	SpriteInstance:play()
-	SpriteInstance:prepare( [sequence] )
-SpriteInstance.sequence
-SpriteInstance.timeScale
-SpriteObject.frame
-SpriteObject.isPlaying
-SpriteObject.numFrames
-	SpriteObject:pause()
-	SpriteObject:play()
-SpriteObject.sequence
-	SpriteObject:setFrame( frameIndex )
-SpriteObject.setSequence
-SpriteObject.timeScale
-	SpriteSheet:dispose()
-	StageObject:setFocus( object [, touchId ] )
-StepperWidget.maximumValue
-StepperWidget.minimumValue
-StepperWidget.value
-SwitchWidget.setState
-TabBarWidget.setSelected
-TableViewWidget.deleteAllRows
-TableViewWidget.deleteRow
-TableViewWidget.getContentPosition
-TableViewWidget.getNumRows
-TableViewWidget.insertRow
-TableViewWidget.scrollToIndex
-TableViewWidget.scrollToY
-TextBox.align
-TextBox.font
-TextBox.hasBackground
-TextBox.isEditable
-TextBox.setReturnKey
-TextBox.setTextColor
-TextBox.size
-TextBox.text
-TextField.align
-TextField.font
-TextField.hasBackground
-TextField.inputType
-TextField.isSecure
-TextField.setReturnKey
-TextField.setTextColor
-TextField.size
-TextField.text
-TextObject.setTextColor
-TextObject.size
-TextObject.text
-	VectorObject:setFillColor( gray )
-	VectorObject:setStrokeColor( red, green, blue [, alpha ] )
-VectorObject.strokeWidth
-Video.currentTime
-Video.isMuted
-Video.load
-Video.pause
-Video.play
-Video.seek
-Video.totalTime
-WebView.back
-WebView.canGoBack
-WebView.canGoForward
-WebView.forward
-WebView.hasBackground
-WebView.reload
-WebView.request
-WebView.stop
+	latitude:setText( latitudeText )	location
+	longitude:setText( longitudeText )	location
+	speed:setText( speedText )	location
+Array	type
+Body:applyAngularImpulse( appliedForce )	Body
+Body:applyForce( xForce, yForce, bodyX, bodyY )	Body
+Body:applyLinearImpulse( xForce, yForce, bodyX, bodyY )	Body
+Body:applyTorque( appliedForce )	Body
+Body:getLinearVelocity()	Body
+Body:resetMassData()	Body
+Body:setLinearVelocity( xVelocity, yVelocity )	Body
+Boolean	type
+Constant	type
+CoronaClass	type
+Event	type
+File:close()	File
+File:flush()	File
+File:lines()	File
+File:read( [fmt1] [, fmt2] [, ...] )	File
+File:seek( [mode] [, offset] )	File
+File:setvbuf( mode [, size ] )	File
+File:write( arg1 [, arg2] [, ...] )	File
+Function	type
+ImageGroup	type
+Joint:getAnchorA()	Joint
+Joint:getAnchorB()	Joint
+Joint:getLimits()	Joint
+Joint:getReactionForce()	Joint
+Joint:getRotationLimits()	Joint
+Joint:setLimits( upper, lower )	Joint
+Joint:setRotationLimits( lowerLimit, upperLimit )	Joint
+Library	type
+LineObject:append( x, y [, ... ] )	LineObject
+LineObject:setColor( red, green, blue [, alpha ] )	LineObject
+Listener	type
+Number	type
+Object	type
+Recording:getSampleRate()	Recording
+Recording:getTunerFrequency()	Recording
+Recording:getTunerVolume()	Recording
+Recording:isRecording()	Recording
+Recording:setSampleRate( r )	Recording
+Recording:startRecording()	Recording
+Recording:startTuner()	Recording
+Recording:stopRecording()	Recording
+Recording:stopTuner()	Recording
+Runtime:hasEventSource( eventSourceName )	Runtime
+Runtime:hideErrorAlerts( )	Runtime
+SpriteInstance:pause()	SpriteInstance
+SpriteInstance:play()	SpriteInstance
+SpriteInstance:prepare( [sequence] )	SpriteInstance
+SpriteObject:pause()	SpriteObject
+SpriteObject:play()	SpriteObject
+SpriteObject:setFrame( frameIndex )	SpriteObject
+SpriteSheet:dispose()	SpriteSheet
+StageObject:setFocus( object [, touchId ] )	StageObject
+String	type
+Table	type
+VectorObject:setFillColor( gray )	VectorObject
+VectorObject:setStrokeColor( red, green, blue [, alpha ] )	VectorObject
+accuracy	InputAxis
+addEventListener( eventName, listener )	EventListener
+addMarker( latitude, longitude )	Map
+ads.hide()	ads
+ads.init( providerName, appId [, listener] )	ads
+ads.show( adUnitType [, params] )	ads
+align	TextBox
+align	TextField
+alpha	DisplayObject
+analytics.init( apiKey )	analytics
+analytics.logEvent( eventID )	analytics
+androidDeviceId	InputDevice
+angularDamping	Body
+angularVelocity	Body
+animating	SpriteInstance
+assert( v [, message] )	global
+audio.dispose( audioHandle )	audio
+audio.fade( [ { [channel=c] [, time=t] [, volume=v ] } ] )	audio
+audio.fadeOut( [ { [channel=c] [, time=t] } ] )	audio
+audio.findFreeChannel( [ startChannel ] )	audio
+audio.freeChannels	audio
+audio.getDuration( audioHandle )	audio
+audio.getMaxVolume( { channel=c } )	audio
+audio.getMinVolume( { channel=c } )	audio
+audio.getVolume( [ { [channel=c]  } ] )	audio
+audio.isChannelActive( channel )	audio
+audio.isChannelPaused( channel )	audio
+audio.isChannelPlaying( channel )	audio
+audio.loadSound( audiofileName [, baseDir ]  )	audio
+audio.loadStream( audioFileName [, baseDir ]  )	audio
+audio.pause( [channel] )	audio
+audio.play( audioHandle [, options ] )	audio
+audio.reserveChannels( channels )	audio
+audio.reservedChannels	audio
+audio.resume( [channel] )	audio
+audio.rewind( [audioHandle | options] )	audio
+audio.seek( time [, audioHandle ] [, options ] )	audio
+audio.setMaxVolume( volume, options )	audio
+audio.setMinVolume( volume, options )	audio
+audio.setVolume( volume [, options ] )	audio
+audio.stop( [channel] )	audio
+audio.stopWithDelay( duration [, options ] )	audio
+audio.totalChannels	audio
+audio.unreservedFreeChannels	audio
+audio.unreservedUsedChannels	audio
+audio.usedChannels	audio
+back()	WebView
+blendMode	DisplayObject
+bodyType	Body
+bounce	PhysicsContact
+canGoBack	WebView
+canGoForward	WebView
+canVibrate	InputDevice
+collectgarbage( [opt [, arg]] )	global
+connectionState	InputDevice
+contentBounds	DisplayObject
+contentHeight	DisplayObject
+contentToLocal( xContent, yContent )	DisplayObject
+contentWidth	DisplayObject
+credits.init( ARG1 [, ARG2] )	credits
+credits.requestUpdate( ARG1 [, ARG2] )	credits
+credits.showOffers( ARG1 [, ARG2] )	credits
+crypto.digest( algorithm, data [, raw] )	crypto
+crypto.hmac( algorithm, data, key [, raw] )	crypto
+crypto.md4	crypto
+crypto.md5	crypto
+crypto.sha1	crypto
+crypto.sha224	crypto
+crypto.sha256	crypto
+crypto.sha384	crypto
+crypto.sha512	crypto
+currentFrame	SpriteInstance
+currentTime	Video
+dampingRatio	Joint
+deleteAllRows()	TableViewWidget
+deleteRow( rowIndex )	TableViewWidget
+descriptor	InputAxis
+descriptor	InputDevice
+dispatchEvent( event )	EventListener
+display.BottomCenterReferencePoint	DisplayObject
+display.BottomLeftReferencePoint	DisplayObject
+display.BottomRightReferencePoint	DisplayObject
+display.CenterLeftReferencePoint	DisplayObject
+display.CenterReferencePoint	DisplayObject
+display.CenterRightReferencePoint	DisplayObject
+display.DarkStatusBar	display
+display.DefaultStatusBar	display
+display.HiddenStatusBar	display
+display.TopCenterReferencePoint	DisplayObject
+display.TopLeftReferencePoint	DisplayObject
+display.TopRightReferencePoint	DisplayObject
+display.TranslucentStatusBar	display
+display.actualContentHeight	display
+display.actualContentWidth	display
+display.capture( displayObject [, saveToPhotoLibraryFlag ] )	display
+display.captureBounds( screenBounds [, saveToAlbum ] )	display
+display.captureScreen()	display
+display.contentCenterX	display
+display.contentCenterY	display
+display.contentHeight	display
+display.contentScaleX	display
+display.contentScaleY	display
+display.contentWidth	display
+display.currentStage	display
+display.fps	display
+display.getCurrentStage()	display
+display.imageSuffix	display
+display.loadRemoteImage( url, method, listener [, params], destFilename [, baseDir] [, x, y] )	display
+display.newCircle( [parentGroup,] xCenter, yCenter, radius )	display
+display.newEmbossedText( [parentGroup,] string, left, top, [width, height,] font, size )	display
+display.newGroup()	display
+display.newImage( filename [,baseDirectory] [, left, top ] )	display
+display.newImageGroup( imageSheet )	display
+display.newImageRect( [parentGroup,] filename, [baseDirectory,] width, height )	display
+display.newLine( [parentGroup,] x1, y1, x2, y2 )	display
+display.newRect( [parentGroup,] left, top, width, height )	display
+display.newRoundedRect( [parentGroup,] left, top, width, height, cornerRadius )	display
+display.newSprite( imageSheet, sequenceData )	display
+display.newText( { options } )	display
+display.pixelHeight	display
+display.pixelWidth	display
+display.remove( object )	display
+display.save( displayObject, filename [, baseDirectory] )	display
+display.screenOriginX	display
+display.screenOriginY	display
+display.setDefault( key, r, g, b, alpha )	display
+display.setStatusBar( mode )	display
+display.statusBarHeight	display
+display.topStatusBarContentHeight	display
+display.viewableContentHeight	display
+display.viewableContentWidth	display
+displayName	InputDevice
+easing.inExpo()	easing
+easing.inOutExpo()	easing
+easing.inOutQuad()	easing
+easing.inQuad()	easing
+easing.linear()	easing
+easing.outExpo()	easing
+easing.outQuad()	easing
+error( message [, level] )	global
+event.accuracy	location
+event.action	completion
+event.address	networkStatus
+event.altitude	location
+event.applicationState	notification
+event.axis	axis
+event.bytesEstimated	networkRequest
+event.bytesTransferred	networkRequest
+event.channel	audio
+event.city	mapAddress
+event.cityDetail	mapAddress
+event.completed	audio
+event.connectionStateChanged	inputDeviceStatus
+event.contact	collision
+event.contact	postCollision
+event.contact	preCollision
+event.count	timer
+event.country	mapAddress
+event.countryCode	mapAddress
+event.custom	notification
+event.data	gameNetwork
+event.delta	orientation
+event.deltaTime	accelerometer
+event.deltaTime	gyroscope
+event.descriptor	key
+event.device	axis
+event.device	inputDeviceStatus
+event.device	key
+event.didComplete	fbconnect
+event.direction	location
+event.duration	completion
+event.element1	collision
+event.element1	preCollision
+event.element2	collision
+event.element2	preCollision
+event.errorCode	gameNetwork
+event.errorCode	location
+event.errorCode	urlRequest
+event.errorMessage	gameNetwork
+event.errorMessage	location
+event.errorMessage	mapAddress
+event.errorMessage	mapLocation
+event.errorMessage	unhandledError
+event.errorMessage	urlRequest
+event.errorType	licensing
+event.expiration	fbconnect
+event.expiration	licensing
+event.fileSize	completion
+event.force	postCollision
+event.friction	postCollision
+event.geographic	heading
+event.handle	audio
+event.header	networkRequest
+event.id	touch
+event.invalidProducts	productList
+event.isAltDown	key
+event.isConnectionOnDemand	networkStatus
+event.isConnectionRequired	networkStatus
+event.isCtrlDown	key
+event.isError	fbconnect
+event.isError	licensing
+event.isError	mapAddress
+event.isError	mapLocation
+event.isError	networkRequest
+event.isInteractionRequired	networkStatus
+event.isMiddleButtonDown	mouse
+event.isPrimaryButtonDown	mouse
+event.isReachable	networkStatus
+event.isReachableViaCellular	networkStatus
+event.isReachableViaWiFi	networkStatus
+event.isSecondaryButtonDown	mouse
+event.isShake	accelerometer
+event.isShiftDown	key
+event.isVerified	licensing
+event.keyName	key
+event.latitude	mapLocation
+event.latitude	mapMarker
+event.latitude	mapTap
+event.localPlayerScore	gameNetwork
+event.longitude	mapLocation
+event.longitude	mapMarker
+event.longitude	mapTap
+event.magnetic	heading
+event.markerId	mapMarker
+event.name	accelerometer
+event.name	audio
+event.name	axis
+event.name	collision
+event.name	completion
+event.name	createScene
+event.name	creditsRequest
+event.name	destroyScene
+event.name	didExitScene
+event.name	enterFrame
+event.name	enterScene
+event.name	exitScene
+event.name	fbconnect
+event.name	gameNetwork
+event.name	gyroscope
+event.name	heading
+event.name	inputDeviceStatus
+event.name	key
+event.name	licensing
+event.name	location
+event.name	mapAddress
+event.name	mapLocation
+event.name	memoryWarning
+event.name	mouse
+event.name	networkRequest
+event.name	networkStatus
+event.name	notification
+event.name	orientation
+event.name	overlayBegan
+event.name	overlayEnded
+event.name	popup
+event.name	postCollision
+event.name	preCollision
+event.name	productList
+event.name	resize
+event.name	storeTransaction
+event.name	system
+event.name	tap
+event.name	timer
+event.name	touch
+event.name	urlRequest
+event.name	willEnterScene
+event.nativeKeyCode	key
+event.newCharacters	userInput
+event.newCredits	creditsRequest
+event.normalizedValue	axis
+event.numTaps	tap
+event.object1	collision
+event.object1	postCollision
+event.object1	preCollision
+event.object2	collision
+event.object2	postCollision
+event.object2	preCollision
+event.oldText	userInput
+event.other	postCollision
+event.other	preCollision
+event.params	createScene
+event.params	enterScene
+event.params	willEnterScene
+event.phase	audio
+event.phase	collision
+event.phase	fbconnect
+event.phase	key
+event.phase	networkRequest
+event.phase	sprite
+event.phase	touch
+event.phase	userInput
+event.postalCode	mapAddress
+event.products	productList
+event.provider	gameNetwork
+event.provider	licensing
+event.rawValue	axis
+event.reconfigured	inputDeviceStatus
+event.region	mapAddress
+event.regionDetail	mapAddress
+event.request	mapLocation
+event.requestId	networkRequest
+event.response	fbconnect
+event.response	licensing
+event.response	networkRequest
+event.responseHeaders	networkRequest
+event.responseType	networkRequest
+event.sceneName	overlayBegan
+event.sceneName	overlayEnded
+event.source	timer
+event.sprite	sprite
+event.stackTrace	unhandledError
+event.startPosition	userInput
+event.status	networkRequest
+event.street	mapAddress
+event.streetDetail	mapAddress
+event.target	completion
+event.target	sprite
+event.target	touch
+event.target	userInput
+event.text	userInput
+event.time	enterFrame
+event.time	location
+event.time	mouse
+event.time	timer
+event.time	touch
+event.token	fbconnect
+event.totalCredits	creditsRequest
+event.transaction	storeTransaction
+event.type	fbconnect
+event.type	gameNetwork
+event.type	mapLocation
+event.type	notification
+event.type	orientation
+event.type	popup
+event.type	system
+event.type	urlRequest
+event.url	completion
+event.url	networkRequest
+event.url	system
+event.url	urlRequest
+event.x	collision
+event.x	mouse
+event.x	preCollision
+event.x	tap
+event.x	touch
+event.xGravity	accelerometer
+event.xInstant	accelerometer
+event.xRaw	accelerometer
+event.xRotation	gyroscope
+event.xStart	touch
+event.y	collision
+event.y	mouse
+event.y	preCollision
+event.y	tap
+event.y	touch
+event.yGravity	accelerometer
+event.yInstant	accelerometer
+event.yRaw	accelerometer
+event.yRotation	gyroscope
+event.yStart	touch
+event.zGravity	accelerometer
+event.zInstant	accelerometer
+event.zRaw	accelerometer
+event.zRotation	gyroscope
+facebook.login( appId, listener [, permissions ] )	facebook
+facebook.logout()	facebook
+facebook.publishInstall( appId )	facebook
+facebook.request( path [, httpMethod, params] )	facebook
+facebook.showDialog( action [, params ] )	facebook
+font	TextBox
+font	TextField
+forward()	WebView
+frame	SpriteObject
+frequency	Joint
+friction	PhysicsContact
+gameNetwork.init( providerName [, ...] )	gameNetwork
+gameNetwork.match	GameNetwork
+gameNetwork.outcome	GameNetwork
+gameNetwork.participant	GameNetwork
+gameNetwork.request()	gameNetwork
+gameNetwork.show( name [, data ] )	gameNetwork
+gameNetwork.status	GameNetwork
+getAddressLocation( location )	Map
+getAnchorA()	Joint
+getAxes()	InputDevice
+getContentPosition()	ScrollViewWidget
+getContentPosition()	TableViewWidget
+getCurrentProvider()	CoronaLibrary
+getGroundAnchorA()	Joint
+getGroundAnchorB()	Joint
+getLabel()	ButtonWidget
+getProgress()	ProgressViewWidget
+getTarget()	Joint
+getUserLocation()	Map
+getValues()	PickerWidget
+getfenv( [f] )	global
+getmetatable( object )	global
+graphics.newGradient( color1, color2 [ , direction] )	graphics
+graphics.newImageSheet( filename, [baseDir, ] options )	graphics
+graphics.newMask( filename [, baseDir] )	graphics
+gravityScale	Body
+group:insert( [index,] child, [, resetTransform] )	GroupObject
+hasBackground	TextBox
+hasBackground	TextField
+hasBackground	WebView
+height	DisplayObject
+initialize()	CoronaPrototype
+inputType	TextField
+insertRow( options )	TableViewWidget
+instanceOf( class )	CoronaPrototype
+io.close( [file] )	io
+io.flush()	io
+io.input( [file] )	io
+io.lines( filename )	io
+io.open( filename_path, [, mode] )	io
+io.output( [file] )	io
+io.read( [fmt1] [, fmt2] [, ...] )	io
+io.tmpfile()	io
+io.type( obj )	io
+io.write( arg1 [, arg2] [, ...] )	io
+ipairs( t )	global
+isAwake	Body
+isBodyActive	Body
+isBullet	Body
+isClass()	CoronaPrototype
+isCollideConnected	Joint
+isConnected	InputDevice
+isEditable	TextBox
+isEnabled	PhysicsContact
+isFixedRotation	Body
+isHitTestMasked	DisplayObject
+isHitTestable	DisplayObject
+isLimitEnabled	Joint
+isLocationVisible	Map
+isMotorEnabled	Joint
+isMuted	Video
+isPlaying	SpriteObject
+isRoot()	CoronaPrototype
+isScrollEnabled	Map
+isSecure	TextField
+isSensor	Body
+isSleepingAllowed	Body
+isTouching	PhysicsContact
+isVisible	DisplayObject
+isZoomEnabled	Map
+joint1	Joint
+joint2	Joint
+jointAngle	Joint
+jointSpeed	Joint
+jointTranslation	Joint
+json.decode( data )	json
+json.encode( table )	json
+json.null	json
+length	Joint
+length1	Joint
+length2	Joint
+licensing.init( providerName )	licensing
+licensing.verify( listener )	licensing
+limitState	Joint
+linearDamping	Body
+load( path )	Video
+localToContent( x, y )	DisplayObject
+mapType	Map
+maskRotation	DisplayObject
+maskScaleX	DisplayObject
+maskScaleY	DisplayObject
+maskX	DisplayObject
+maskY	DisplayObject
+math.abs( x )	math
+math.acos( x )	math
+math.asin( x )	math
+math.atan( x )	math
+math.atan2( y, x )	math
+math.ceil( x )	math
+math.cos( x )	math
+math.cosh( x )	math
+math.deg( x )	math
+math.exp( x )	math
+math.floor( x )	math
+math.fmod( x, y )	math
+math.frexp( x )	math
+math.huge	math
+math.inf	math
+math.ldexp( m, e )	math
+math.log( x )	math
+math.log10( x )	math
+math.max( x, ... )	math
+math.min( x, ... )	math
+math.modf( x )	math
+math.pi	math
+math.pow( x, y )	math
+math.rad( x )	math
+math.random()	math
+math.randomseed( x )	math
+math.round( x )	math
+math.sin( x )	math
+math.sinh( x )	math
+math.sqrt( x )	math
+math.tan( x )	math
+math.tanh( x )	math
+maxForce	Joint
+maxLength	Joint
+maxMotorForce	Joint
+maxMotorTorque	Joint
+maxTorque	Joint
+maxValue	InputAxis
+maximumValue	StepperWidget
+media.Camera	media
+media.PhotoLibrary	media
+media.RemoteSource	media
+media.SavedPhotosAlbum	media
+media.capturePhoto	media
+media.captureVideo( { listener = onComplete } )	media
+media.getSoundVolume()	media
+media.hasSource( mediaSource )	media
+media.newEventSound( filename [, baseDir] )	media
+media.newRecording( [path] )	media
+media.pauseSound()	media
+media.playEventSound( sound [, baseDir] [, completionListener] )	media
+media.playSound( soundfile [, baseDir] [, onComplete] )	media
+media.playVideo( path [, baseSource ], showControls, listener )	media
+media.save( filename [, baseDir] )	media
+media.selectPhoto( { listener = sessionComplete, origin = myButton.contentBounds } )	media
+media.selectVideo( media.PhotoLibrary, { listener = sessionComplete, origin = myButton.contentBounds } )	media
+media.setSoundVolume( vol )	media
+media.show( mediaSource, listener )	media
+media.stopSound()	media
+minValue	InputAxis
+minimumValue	StepperWidget
+module()	package
+motorForce	Joint
+motorSpeed	Joint
+motorTorque	Joint
+name	CoronaLibrary
+native.canShowPopup( name )	native
+native.cancelAlert( alert )	native
+native.cancelWebPopup()	native
+native.getFontNames()	native
+native.getProperty( key )	native
+native.getSync( filename, parms )	native
+native.newFont( name [, size] )	native
+native.newMapView( left, top, width, height )	native
+native.newTextBox( left, top, width, height [, listener ] )	native
+native.newTextField( left, top, width, height [, listener] )	native
+native.newVideo( left, top, width, height )	native
+native.newWebView( left, top, width, height )	native
+native.requestExit()	native
+native.setActivityIndicator( state )	native
+native.setKeyboardFocus( textField )	native
+native.setProperty( key, value )	native
+native.setSync( filename, params )	native
+native.showAlert( title, message [, { buttonLabels } [, listener] ] )	native
+native.showPopup( name )	native
+native.showWebPopup( url [, options] )  	native
+native.systemFont	native
+native.systemFontBold	native
+nearestAddress( latitude, longitude, resultHandler )	Map
+network.canDetectNetworkStatusChanges	network
+network.cancel( requestId )	network
+network.download( url, method, listener [, params], filename [, baseDirectory] )	network
+network.request( url, method, listener [, params] )	network
+network.setStatusListener( hostURL, listener )	network
+network.upload( url, method, listener [, params], filename [, baseDirectory] [, contentType] )	network
+new()	CoronaPrototype
+newClass( name )	CoronaPrototype
+next( array [, index] )	global
+numChildren	GroupObject
+numFrames	SpriteObject
+number	InputAxis
+os.clock()	os
+os.date( [format [, time] ] )	os
+os.difftime( t1, t2 )	os
+os.execute( cmd )	os
+os.exit( [ exit ] )	os
+os.remove( file )	os
+os.rename( oldname, newname )	os
+os.time( [table] )	os
+package.loaded	package
+package.loaders	package
+package.seeall	package
+pairs( t )	global
+parent	DisplayObject
+pause()	Video
+pcall( f [, ...] )	global
+permanentId	InputDevice
+physics.addBody(object, [bodyType,] {density=d, friction=f, bounce=b [,radius=r] [,filter=f]})	physics
+physics.fromMKS( unitName, value ) 	physics
+physics.getAverageCollisionPositions()	physics
+physics.getDebugErrorsEnabled()	physics
+physics.getGravity()	physics
+physics.getMKS( key )	physics
+physics.getReportCollisionsInContentCoordinates()	physics
+physics.newJoint( jointType, ... )	physics
+physics.pause()	physics
+physics.queryRegion()	physics
+physics.rayCast()	physics
+physics.reflectRay()	physics
+physics.removeBody( object )	physics
+physics.setAverageCollisionPositions( enabled )	physics
+physics.setContinuous( enabled )	physics
+physics.setDebugErrorsEnabled( enabled )	physics
+physics.setDrawMode( mode )	physics
+physics.setGravity( gx, gy )	physics
+physics.setMKS( key, value )	physics
+physics.setPositionIterations( value )	physics
+physics.setReportCollisionsInContentCoordinates( enabled )	physics
+physics.setScale( value )	physics
+physics.setTimeStep( dt )	physics
+physics.setVelocityIterations( value )	physics
+physics.start()	physics
+physics.stop()	physics
+physics.toMKS( unitName, value )	physics
+play()	Video
+print( ... )	global
+publisherId	CoronaLibrary
+ratio	Joint
+rawequal( value1, value2 )	global
+rawget( table, index )	global
+rawset( table, index, value )	global
+reactionTorque	Joint
+reload()	WebView
+remove( indexOrChild )	GroupObject
+removeAllMarkers()	Map
+removeEventListener( eventName, listener )	EventListener
+removeMarker(markerId)	Map
+removeSelf()	DisplayObject
+removeSelf()	Joint
+request( url )	WebView
+requestLocation( location, resultHandler )	Map
+require()	package
+resizeView( newWidth )	ProgressViewWidget
+revision	CoronaLibrary
+rotate( deltaAngle )	DisplayObject
+rotation	DisplayObject
+scale( xScale, yScale )	DisplayObject
+scrollTo( position, options )	ScrollViewWidget
+scrollToIndex( index, time, onComplete )	TableViewWidget
+scrollToPosition( options )	ScrollViewWidget
+scrollToY( options )	TableViewWidget
+seek( timeInSeconds )	Video
+select( index, ... )	global
+sequence	SpriteInstance
+sequence	SpriteObject
+setCenter( latitude, longitude [, isAnimated] )	Map
+setCurrentProvider( provider )	CoronaLibrary
+setEnabled( isEnabled )	ButtonWidget
+setExtension( indexFunc )	CoronaPrototype
+setLabel()	ButtonWidget
+setMask( mask )	DisplayObject
+setProgress( progress )	ProgressViewWidget
+setReferencePoint( referencePoint )	DisplayObject
+setRegion( latitude, longitude, latitudeSpan, longitudeSpan [, isAnimated] )	Map
+setReturnKey(key)	TextBox
+setReturnKey(key)	TextField
+setScrollHeight( newHeight )	ScrollViewWidget
+setScrollWidth( newWidth )	ScrollViewWidget
+setSelected( buttonIndex )	TabBarWidget
+setSequence( [ sequenceName ] )	SpriteObject
+setState( options )	SwitchWidget
+setTarget( x, y )	Joint
+setTextColor( gray )	TextObject
+setTextColor( r, g, b )	TextBox
+setTextColor( r, g, b )	TextField
+setValue( percent )	SliderWidget
+setfenv( f, table )	global
+setmetatable( table, metatable )	global
+size	TextBox
+size	TextField
+size	TextObject
+springDampingRatio	Joint
+springFrequency	Joint
+sprite.add( spriteSet, sequenceName, startFrame, frameCount, time [, loopParam] )	sprite
+sprite.newSprite( spriteSet )	sprite
+sprite.newSpriteMultiSet(	sprite
+sprite.newSpriteSet( spriteSheet, startFrame, frameCount )	sprite
+sprite.newSpriteSheet( spriteSheetFile, [baseDir,]  frameWidth, frameHeight )	sprite
+sprite.newSpriteSheetFromData( spriteSheetImageFile, [baseDir,] coordinateData )	sprite
+start()	SpinnerWidget
+stop()	SpinnerWidget
+stop()	WebView
+store.availableStores	store
+store.canLoadProducts	store
+store.canMakePurchases	store
+store.finishTransaction( transaction )	store
+store.init( [storeName,] listener )	store
+store.isActive	store
+store.loadProducts( productIdentifiers, listener )	store
+store.purchase( productList )	store
+store.restore()	store
+store.target	store
+storyboard.disableAutoPurge	storyboard
+storyboard.getCurrentSceneName()	storyboard
+storyboard.getPrevious()	storyboard
+storyboard.getScene( sceneName )	storyboard
+storyboard.gotoScene( sceneName [, options] )	storyboard
+storyboard.hideOverlay( [ purgeOnly, effect, effectTime ] )	storyboard
+storyboard.isDebug	storyboard
+storyboard.loadScene( sceneName [, doNotLoadView, params ] )	storyboard
+storyboard.newScene( [ sceneName ] )	storyboard
+storyboard.printMemUsage()	storyboard
+storyboard.purgeAll()	storyboard
+storyboard.purgeOnSceneChange	storyboard
+storyboard.purgeScene( sceneName )	storyboard
+storyboard.reloadScene()	storyboard
+storyboard.removeAll()	storyboard
+storyboard.removeScene( sceneName )	storyboard
+storyboard.showOverlay( sceneName [, options ] )	storyboard
+storyboard.stage	storyboard
+string.byte( s [, i [, j]] )	string
+string.char( [arg1 [, ...] )	string
+string.find( s, pattern [, init [, plain]] )	string
+string.format( formatstring [, ...] )	string
+string.gmatch( s, pattern )	string
+string.gsub( s, pattern, repl [, n] )	string
+string.len( s )	string
+string.lower( s )	string
+string.match( s, pattern [, init] ) 	string
+string.rep( s, n )	string
+string.reverse( s )	string
+string.sub( s, i [, j] )	string
+string.upper( s )	string
+strokeWidth	VectorObject
+system.CachesDirectory	system
+system.DocumentsDirectory	system
+system.ResourceDirectory	system
+system.TemporaryDirectory	system
+system.activate( feature )	system
+system.cancelNotification()	system
+system.deactivate()	system
+system.getIdleTimer()	system
+system.getInfo( property )	system
+system.getInputDevices()	system
+system.getPreference( category, name )	system
+system.getTimer()	system
+system.hasEventSource( eventName )	system
+system.openURL( url )	system
+system.orientation	system
+system.pathForFile( filename [, baseDirectory] )	system
+system.scheduleNotification( secondsFromNow [, options] )	system
+system.setAccelerometerInterval( frequency )	system
+system.setGyroscopeInterval( frequency )	system
+system.setIdleTimer( enabled )	system
+system.setLocationAccuracy( distance )	system
+system.setLocationThreshold( distance )	system
+system.setTapDelay( delayTime )	system
+system.vibrate()	system
+table.concat( t )	table
+table.copy( t )	table
+table.indexOf( t, element )	table
+table.insert( t, value )	table
+table.maxn( t )	table
+table.remove( t )	table
+table.sort( t )	table
+takeFocus( event )	ScrollViewWidget
+text	TextBox
+text	TextField
+text	TextObject
+timeScale	SpriteInstance
+timeScale	SpriteObject
+timer.cancel( timerId )	timer
+timer.pause( timerId )	timer
+timer.performWithDelay( delay, listener [, iterations] )	timer
+timer.resume( timerId )	timer
+toBack()	DisplayObject
+toFront()	DisplayObject
+tonumber( e [, base ] )	global
+tostring( e )	global
+totalTime	Video
+transition.blink( target, params )	transition
+transition.cancel()	transition
+transition.fadeIn( target, params )	transition
+transition.fadeOut( target, params )	transition
+transition.from( target, params )	transition
+transition.moveBy( target, params )	transition
+transition.moveTo( target, params )	transition
+transition.pause()	transition
+transition.resume()	transition
+transition.scaleBy( target, params )	transition
+transition.scaleTo( target, params )	transition
+transition.to( target, params )	transition
+translate( deltaX, deltaY )	DisplayObject
+type	InputAxis
+type	InputDevice
+type( v )	global
+type.Module	type
+unpack( list [, i [, j ]] )	global
+value	SliderWidget
+value	StepperWidget
+version	CoronaLibrary
+vibrate()	InputDevice
+widget.newButton( options )	widget
+widget.newPickerWheel( options )	widget
+widget.newProgressView( options )	widget
+widget.newScrollView( options )	widget
+widget.newSegmentedControl( options )	widget
+widget.newSlider( options )	widget
+widget.newSpinner( options )	widget
+widget.newStepper( options )	widget
+widget.newSwitch( options )	widget
+widget.newTabBar( options )	widget
+widget.newTableView( options )	widget
+widget.setTheme( themeFile )	widget
+width	DisplayObject
+x	DisplayObject
+xOrigin	DisplayObject
+xReference	DisplayObject
+xScale	DisplayObject
+y	DisplayObject
+yOrigin	DisplayObject
+yReference	DisplayObject
+yScale	DisplayObject

@@ -155,7 +155,7 @@ class CoronaLabs:
     end = s.b
 
     view_size = view.size()
-    terminator = ['\t', ' ', '\"', '\'']
+    terminator = ['\t', ' ', '\"', '\'', ':']
 
     while (start > 0
             and not view.substr(start - 1) in terminator
