@@ -6,7 +6,7 @@ Corona Editor is the official ***Corona SDK*** plugin for ***Sublime Text***.  D
 ## Installation Instructions
 
 1. Install the ***Sublime Text*** **Package Control** plugin if you don't already have it: [https://sublime.wbond.net/installation](https://sublime.wbond.net/installation)
-1. Choose: **Tools** > **Command Palette...** > **Package Control: Install Package**
+1. In ***Sublime Text*** choose: **Tools** > **Command Palette...** > **Package Control: Install Package**
 1. Find **Corona Editor** by typing in the search field, click on it to install it
 1. Restart ***Sublime Text*** or reopen any .lua files to see the new features
 
