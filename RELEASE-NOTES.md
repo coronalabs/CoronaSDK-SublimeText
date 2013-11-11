@@ -2,6 +2,11 @@
 
 Always check [https://github.com/coronalabs/CoronaSDK-SublimeText/blob/master/README.md](the README) for the latest information.
 
+### 0.8.9
+
+ * **Completions**
+	Improved completions including display of object types in the completion list.
+
 ### 0.8.8
 
  * **Completions**
