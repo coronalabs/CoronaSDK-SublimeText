@@ -624,6 +624,7 @@ network.upload( url, method, listener [, params], filename [, baseDirectory] [, 
 new()	CoronaPrototype
 newClass( name )	CoronaPrototype
 next( array [, index] )	global
+nil		Keyword
 numChildren	GroupObject
 numFrames	SpriteObject
 number	InputAxis
