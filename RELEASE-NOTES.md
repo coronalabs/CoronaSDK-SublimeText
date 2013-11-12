@@ -5,7 +5,8 @@ Always check [https://github.com/coronalabs/CoronaSDK-SublimeText/blob/master/RE
 ### 0.8.9
 
  * **Completions**
-	Improved completions including display of object types in the completion list.
+	Various improvements to completion including many more completions and the inclusion of "types". 
+	Colons are now handled correctly so Lua objects now complete properly.
 
 ### 0.8.8
 
