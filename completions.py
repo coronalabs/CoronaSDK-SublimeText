@@ -10,8 +10,13 @@ from os.path import basename, dirname, realpath
 import json
 from pprint import pprint
 
-PLUGIN_DIR = dirname(realpath(__file__))
-SUBLIME_VERSION = 3000 if sublime.version() == '' else int(sublime.version())
+try:
+    from . import corona_utils # P3
+except:
+    import corona_utils # P2
+
+# We expose the completions to the snippets code
+CoronaCompletions = None
 
 # print('SUBLIME_VERSION: ', SUBLIME_VERSION)
 
@@ -19,7 +24,7 @@ SUBLIME_VERSION = 3000 if sublime.version() == '' else int(sublime.version())
 # Utility functions
 #
 def is_lua_file(filename):
-  return filename.endswith('.lua')
+  return filename.endswith('.lua') if filename is not None else True
 
 # determine if 'obj' is a string in both Python 2.x and 3.x
 def is_string_instance(obj):
@@ -55,11 +60,15 @@ class CoronaLabs:
   _fuzzyMatcher = None
   _fuzzyPrefix = None
 
+  def __init__(self):
+    self.load_completions(True)
+
   # If we're running ST2, load completions from file
   # else, load completions from member of package
   def load_completions(self, use_daily_docs):
-    source = "corona.completions" + ("-daily" if use_daily_docs else "-public")
+    # Only load once
     if (len(self._completions) == 0):
+      source = "corona.completions" + ("-daily" if use_daily_docs else "-public")
       if (SUBLIME_VERSION < 3000):
         comp_path = PLUGIN_DIR # os.path.join(sublime.packages_path(), 'Corona Editor')
         comp_path = os.path.join(comp_path, source)
@@ -73,6 +82,9 @@ class CoronaLabs:
 
       # pprint(self._completions)
       print("Corona Editor: loaded {0} completions from {1}".format(len(self._completions['completions']), source))
+
+    global CoronaCompletions
+    CoronaCompletions = self._completions
 
   def setupFuzzyMatch(self, prefix):
     self._fuzzyMatcher = FuzzyMatcher()
