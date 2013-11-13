@@ -18,7 +18,7 @@ except:
 # We expose the completions to the snippets code
 CoronaCompletions = None
 
-# print('SUBLIME_VERSION: ', SUBLIME_VERSION)
+# print('SUBLIME_VERSION: ', corona_utils.SUBLIME_VERSION)
 
 #
 # Utility functions
@@ -69,8 +69,8 @@ class CoronaLabs:
     # Only load once
     if (len(self._completions) == 0):
       source = "corona.completions" + ("-daily" if use_daily_docs else "-public")
-      if (SUBLIME_VERSION < 3000):
-        comp_path = PLUGIN_DIR # os.path.join(sublime.packages_path(), 'Corona Editor')
+      if (corona_utils.SUBLIME_VERSION < 3000):
+        comp_path = corona_utils.PLUGIN_DIR # os.path.join(sublime.packages_path(), 'Corona Editor')
         comp_path = os.path.join(comp_path, source)
         json_data = open(comp_path)
         self._completions = json.load(json_data)
