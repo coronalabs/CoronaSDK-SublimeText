@@ -11,19 +11,20 @@ import json
 from pprint import pprint
 
 try:
-    from . import corona_utils # P3
+    from . import _corona_utils # P3
 except:
-    import corona_utils # P2
+    import _corona_utils # P2
 
 # We expose the completions to the snippets code
 CoronaCompletions = None
 
-# print('SUBLIME_VERSION: ', corona_utils.SUBLIME_VERSION)
+# print('SUBLIME_VERSION: ', _corona_utils.SUBLIME_VERSION)
 
 #
 # Utility functions
 #
 def is_lua_file(filename):
+  # Note this defaults new files to being Lua files for our purposes
   return filename.endswith('.lua') if filename is not None else True
 
 # determine if 'obj' is a string in both Python 2.x and 3.x
@@ -61,24 +62,23 @@ class CoronaLabs:
   _fuzzyPrefix = None
 
   def __init__(self):
-    self.load_completions(True)
+    self.load_completions(sublime.active_window().active_view().settings().get("corona_sdk_use_docset", "public"))
 
   # If we're running ST2, load completions from file
   # else, load completions from member of package
-  def load_completions(self, use_daily_docs):
+  def load_completions(self, docset):
     # Only load once
     if (len(self._completions) == 0):
-      source = "corona.completions" + ("-daily" if use_daily_docs else "-public")
-      if (corona_utils.SUBLIME_VERSION < 3000):
-        comp_path = corona_utils.PLUGIN_DIR # os.path.join(sublime.packages_path(), 'Corona Editor')
-        comp_path = os.path.join(comp_path, source)
+      source = docset if docset in ['public', 'legacy', 'daily'] else 'public'
+      if (_corona_utils.SUBLIME_VERSION < 3000):
+        comp_path = os.path.join(_corona_utils.PACKAGE_DIR, source)
         json_data = open(comp_path)
         self._completions = json.load(json_data)
         json_data.close()
 
       else:
 
-        self._completions = json.loads(sublime.load_resource("Packages/Corona Editor/" + source))
+        self._completions = json.loads(sublime.load_resource(_corona_utils.ST_PACKAGE_PATH + source))
 
       # pprint(self._completions)
       print("Corona Editor: loaded {0} completions from {1}".format(len(self._completions['completions']), source))
@@ -115,7 +115,7 @@ class CoronaLabs:
   #  * if there's a period in the "completion target", return only the part following the period in the completions
 
   def find_completions(self, view, prefix):
-    self.load_completions(view.settings().get("corona_sdk_use_daily_docs", False))
+    self.load_completions(view.settings().get("corona_sdk_use_docset", "public"))
     use_fuzzy_completion = view.settings().get("corona_sdk_use_fuzzy_completion", True)
 
     completion_target = self.current_word(view)
@@ -211,8 +211,9 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
     # We should do something "correct" like checking the selector
     # to determine whether we should use Corona completions but
     # the path of least surprise is just to check the file extension
-    # if view.match_selector(locations[0], "source.lua - entity"):
-    if is_lua_file(view.file_name()) and use_corona_sdk_completion:
+    # if is_lua_file(view.file_name()) and use_corona_sdk_completion:
+    # however, that makes too many things completable and is a usability issue
+    if view.match_selector(locations[0], "source.lua - entity"):
       comps = self.find_completions(view, prefix)
       flags = 0 # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
       return (comps, flags)
