@@ -56,11 +56,11 @@ class CoronaDocsCommand(sublime_plugin.TextCommand):
         isLuaKeyword = self.view.match_selector(start,
                 "keyword.control.lua, support.function.lua, support.function.library.lua")
 
-        use_daily_docs = self.view.settings().get("corona_sdk_use_daily_docs", False)
-        if use_daily_docs:
-          daily = "daily/"
+        use_docset = self.view.settings().get("corona_sdk_use_docset", "public")
+        if use_docset in ['legacy', 'daily']:
+          docset = use_docset + "/"
         else:
-          daily = ""
+          docset = ""
 
         # Convert "word" under cursor to Corona Docs link, or a Lua docs link
         page = self.view.substr(sublime.Region(start, end))
@@ -73,7 +73,7 @@ class CoronaDocsCommand(sublime_plugin.TextCommand):
         if (re.search("\w+\.[a-z]", page) is not None
               and page.partition(".")[0] in LIBRARY_APIS):
           page = page.replace(".", "/")
-          docUrl = "http://docs.coronalabs.com/" + daily + "api/library/" + page + ".html";
+          docUrl = "http://docs.coronalabs.com/" + docset + "api/library/" + page + ".html";
         elif isLuaKeyword:
           # Unfortunately, there's no search on the Lua docs site so we need to guess at
           # an anchor (if it's not there, you go to the top of the page)
