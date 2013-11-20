@@ -33,11 +33,13 @@ class AboutCoronaEditorCommand(sublime_plugin.WindowCommand):
   _dev_about_info = '{"url": "https://www.coronalabs.com/", "version": "<development>", "description": "Corona Editor is the official Corona SDK plugin for Sublime Text"}'
 
   def run(self):
-    self.load_json("package-manifest.json")
+    self.load_json("package-metadata.json")
     sublime_info = "[Sublime Text " + sublime.version() +"/"+ sublime.channel() +"/"+ sublime.platform() +"/"+ sublime.arch() +"]"
     canary_file = os.path.join(_corona_utils.PACKAGE_DIR, "about.py") if _corona_utils.SUBLIME_VERSION < 3000 else _corona_utils.PACKAGE_DIR
     install_info = "Installed: " + str(datetime.datetime.fromtimestamp(os.path.getmtime(canary_file)))
-    sublime.message_dialog("Corona Editor for Sublime Text\n\nVersion: "+ self._about_info['version'] +"\n\n"+ install_info +"\n\n"+ self._about_info['description'] +"\n\n"+ sublime_info)
+    about_mesg = "Corona Editor for Sublime Text\n\nVersion: "+ self._about_info['version'] +"\n\n"+ install_info +"\n\n"+ self._about_info['description'] +"\n\n"+ sublime_info
+    print("about: " + about_mesg.replace("\n\n", " | "))
+    sublime.message_dialog(about_mesg)
 
   # If we're running ST2, load JSON from file
   # else, load JSON from member of package
