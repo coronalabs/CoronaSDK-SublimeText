@@ -18,8 +18,6 @@ except:
 # We expose the completions to the snippets code
 CoronaCompletions = None
 
-# print('SUBLIME_VERSION: ', _corona_utils.SUBLIME_VERSION)
-
 #
 # Utility functions
 #
@@ -61,15 +59,13 @@ class CoronaLabs:
   _fuzzyMatcher = None
   _fuzzyPrefix = None
 
-  def __init__(self):
-    self.load_completions(sublime.active_window().active_view().settings().get("corona_sdk_use_docset", "public"))
-
   # If we're running ST2, load completions from file
   # else, load completions from member of package
   def load_completions(self, docset):
     # Only load once
     if (len(self._completions) == 0):
       source = docset if docset in ['public', 'legacy', 'daily'] else 'public'
+      source = "corona.completions-" + source
       if (_corona_utils.SUBLIME_VERSION < 3000):
         comp_path = os.path.join(_corona_utils.PACKAGE_DIR, source)
         json_data = open(comp_path)
