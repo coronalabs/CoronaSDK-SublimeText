@@ -38,3 +38,5 @@ nosetests.xml
 
 # Junk
 OUT
+
+misc/*
