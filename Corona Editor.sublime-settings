@@ -1,0 +1,31 @@
+// Corona Editor default settings
+{
+	// If you don't like Corona Editor's completion you can turn it off
+	// entirely using this preference.
+	"corona_sdk_completion": true,
+
+	// Set to "false" to turn off "fuzzy completion" and just complete based
+	// on the characters typed so far as a prefix.
+	"corona_sdk_use_fuzzy_completion": true,
+
+	// Corona Editor turns off the special meaning of periods as "word
+	// separators" in Sublime Text to make Corona completions work better.  If
+	// you like to use cursor movement keys like "Alt+Arrow" to move to the
+	// periods in function calls you might want to turn this off.  The most
+	// obvious effect of turning it off is that when you type a period all the
+	// completions disappear until you type another character.
+	"corona_sdk_complete_periods": true,
+
+	// Set this to the path of your Corona Simulator if it's not installed
+	// in the default location for your operating system (remember to double
+	// backslashes in Windows' paths)
+	// "corona_sdk_simulator_path": "<path-to-simulator>",
+
+	// If you set this to "true" the Sublime Text "build" command will be
+	// issued any time you save a Lua file.
+	"corona_sdk_auto_build": false,
+
+	// Choose which documentation set you want to use.  Can be one of
+	// "public" (the default), "legacy" or "daily".
+ 	"corona_sdk_use_docset": "public"
+}
