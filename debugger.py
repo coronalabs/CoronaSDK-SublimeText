@@ -482,17 +482,8 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
       cmd = "start"
 
     if cmd == "start":
-      self.window.run_command("show_panel", {"panel": "console"})
+      # self.window.run_command("show_panel", {"panel": "console"})
       # sublime.log_commands(True)
-
-      if coronaDbg:
-        if sublime.ok_cancel_dialog("Debugger is already running.  Do you want to restart?", "Restart"):
-          coronaDbg.doCommand("exit")
-          StopSubprocess()
-          coronaDbg.join() # Wait for thread to complete
-          coronaDbg = None
-        else:
-          return
 
       self.saved_layout = self.window.get_layout()
 
@@ -607,7 +598,7 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
       if coronaDbg is not None:
         coronaDbg.doCommand("dump " + variable_name)
       else:
-        sublime.error_message("Debugger is not running")
+        sublime.error_message("Corona Debugger is not running")
 
   def toggle_breakpoint(self, filename, lineno, toggle = True):
     global coronaBreakpointsSettings
