@@ -18,17 +18,30 @@ After restarting ***Sublime Text*** you'll have several new features available w
 
 There are several ***Sublime Text*** User Preferences that can be set to fine tune the behavior of the plugin.  You can find information on setting User Preferences [http://www.sublimetext.com/docs/3/settings.html](here).
 
+### Debugger
+The Corona Debugger allows code to be single stepped, variables to be examined and breakpoints to be set.  You can run the debugger using the **Corona SDK** menu from any file in the project and it will automatically find **main.lua**.  Right click on a code line in the editor and choose **Toggle Breakpoint** to turn breakpoints on and off.  Select the name of a variable and choose **Inspect Variable** from the context menu to see its value.
+
+A simpler alternative to the **Build** command in ***Sublime Text*** is the **Run Project** command in the **Corona SDK** menu.  It doesn't have all the bells and whistles of the build system but it is quick and easy.  It is also better at finding your project's **main.lua** if you aren't using ***Sublime Text***'s projects.
+
+##### Preferences
+ * **corona_sdk_simulator_path** (default: system dependent)
+
+	Set this to the path of your Corona Simulator if it's not installed
+	in the default location for your operating system (remember to double
+	the backslashes in Windows' paths)
+
+##### Current Gotchas
+ * If you **Run** the project and it doesn't hit a breakpoint, you'll have to stop and restart to regain control (in particular, setting a breakpoint on a line of code you know is being executed wont stop the program).
+ * Single stepping through "internal locations" is tedious.
+ * Using the **Run Project** command while in the Debugger can result in a confused state.
+
 ### Completion 
-Completion works for all API calls and constants (correctly handling periods in the name).  Fuzzy matching is optionally done to increase the chances of finding the item you are looking for.
+Completion works for all API calls and constants (correctly handling periods in the name).  Fuzzy matching is optionally done to increase the chances of finding the item you are looking for.  Completion relies on the current **Syntax** setting so when creating new files you should use **View / Syntax / Corona SDK Lua** command to set the correct syntax for the new file.
 
 ##### Preferences
  * **corona_sdk_completion** (default: True)
 
 	If you don't like Corona Editor's completion you can turn it off entirely using this preference.
-
- * **corona_sdk_use_daily_docs** (default: False)
-
-	Tell the completion system to use the "Daily Build" completions rather than the "Public Release" ones.
 
  * **corona_sdk_use_fuzzy_completion** (default: True)
 
@@ -38,9 +51,9 @@ Completion works for all API calls and constants (correctly handling periods in 
 
 	Corona Editor turns off the special meaning of periods as "word separators" in Sublime Text to make Corona completions work better.  If you like to use cursor movement keys like "Alt+Arrow" to move to the periods in function calls you might want to turn this off.  The most obvious effect of turning it off is that when you type a period all the completions disappear until you type another character.
 
- * **corona_sdk_auto_build** (default: False)
+ * **corona_sdk_use_docset** (default: "public")
 
-	If you set this to "True" the Sublime Text "build" command will be issued any time you save a Lua file.
+	Choose which completion set you want to use.  Can be one of "public" (the default), "legacy" or "daily".
 
 ##### Current Gotchas
  * The order of items in the completions popup seems a little odd but is due to Sublime's "fuzzy" matching
@@ -50,9 +63,9 @@ Documentation can be called up by placing the cursor on an API call (or selectin
 
 
 ##### Preferences
- * **corona_sdk_use_daily_docs** (default: False)
+ * **corona_sdk_use_docset** (default: "public")
 
- 	Opt to go to the "Daily Build" documentation instead of the "Public Release" documentation.
+ 	Choose which documentation set you want to use.  Can be one of "public" (the default), "legacy" or "daily".
 
 ##### Current Gotchas
  * Note that right clicking on an item wont move the cursor there so you can't right click on a term that's not at the insertion point and then pick "Corona SDK Docs" from the context menu as it's the position of the text cursor that determines what's looked up (left click on the item first)
@@ -60,6 +73,10 @@ Documentation can be called up by placing the cursor on an API call (or selectin
 
 ### Build System
 The current app can be run in the Simulator by pressing Ctrl+B (Windows) or Cmd+B (MacOSX).  Debug output appears in the "build" window in ***Sublime Text***
+
+ * **corona_sdk_auto_build** (default: False)
+
+	If you set this to "True" the Sublime Text "build" command will be issued any time you save a Lua file.
 
 ### Syntax Highlighting
 Syntax highlighting of Lua with Corona SDK calls is done (choose **View > Syntax > Corona SDK Lua** to enable this)
