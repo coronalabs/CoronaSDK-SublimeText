@@ -10,6 +10,7 @@
 import re
 import string
 import json
+import sys
 
 preamble = """
 {
@@ -20,14 +21,18 @@ preamble = """
 """
 
 postamble = """
-      ""
     ]
 }
 """
 
-print(preamble)
+if len(sys.argv) != 2:
+  print("Usage: "+ sys.argv[0] + " <raw-completions>")
+  sys.exit(1)
 
-fh = open('raw-api-definitions')
+fh = open(sys.argv[1])
+
+print(preamble)
+output = ""
 
 for line in fh.readlines():
   typeDesc = "unknown"
@@ -43,7 +48,11 @@ for line in fh.readlines():
     typeDesc = line.partition("\t")[2]
     line = line.partition("\t")[0]
 
+  if output != "":
+    output += ",\n"
+
   argListMatch = re.search("\((.*)\)", line)
+
   if argListMatch != None:
     argsString = argListMatch.groups()[0]
     funcName = line.replace("("+argsString+")", "")
@@ -66,8 +75,9 @@ for line in fh.readlines():
       argCount += 1
     stCompArgs = stCompArgs.lstrip(",");
     # print("stCompArgs: ", stCompArgs)
-    print("{{ \"trigger\": \"{0}()\\t{2}\", \"contents\": \"{0}({1} )\"}},".format(funcName, stCompArgs, typeDesc))
+    output += "{{ \"trigger\": \"{0}()\\t{2}\", \"contents\": \"{0}({1} )\"}}".format(funcName, stCompArgs, typeDesc)
   else:
-    print("{{ \"trigger\": \"{0}\\t{1}\", \"contents\": \"{0}\"}},".format(line, typeDesc))
+    output += "{{ \"trigger\": \"{0}\\t{1}\", \"contents\": \"{0}\"}}".format(line, typeDesc)
 
+print(output)
 print(postamble)

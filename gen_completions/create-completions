@@ -9,65 +9,92 @@
 # create-completions - generate a Sublime completions file from a Corona docs directory
 #
 
-CWD=`pwd`
-RAW_COMPS=${CWD}/raw-api-definitions
-SUBLIME_COMPS=${CWD}/corona.completions
-INVALID_COMPLETIONS=${CWD}/invalid-completions-list
-
-if [ "$1" != "" ]
+if [ $# != 3 ]
 then
-	DOC_DIR="$1/"
+	echo "Usage: `basename $0` <api-daily-repo-dir> <api-public-repo-dir> <api-legacy-repo-dir>"
+	exit 1
 fi
 
-cd ${DOC_DIR}markdown/api || exit 1
+CWD=`pwd`
+INVALID_COMPLETIONS=${CWD}/invalid-completions-list
+ADDITIONAL_COMPLETIONS=${CWD}/additional-completions-list
 
-echo "Generating completions for `pwd` ..."
-
-for DIR in `find . -type d \! -name '.*'`
+for DOC_DIR in $*
 do
-	WD=`pwd`
-	cd $DIR
+	DOC_DIR="$DOC_DIR"
 
-	for F in *.markdown
+	LEVEL=`echo "$DOC_DIR" | sed -e 's/.*-//'`
+	if [ "$LEVEL" != "daily" -a "$LEVEL" != "public" -a "$LEVEL" != "legacy" ]
+	then
+		echo "`basename $0`: docs repo directory must end in '-daily', '-public' or '-legacy'"
+		exit 1
+	fi
+
+	cd ${DOC_DIR}/markdown/api || exit 1
+
+	echo "Generating completions for `pwd` ($LEVEL) ..."
+	RAW_COMPS=${CWD}/raw-api-definitions-$LEVEL
+	SUBLIME_COMPS=${CWD}/corona.completions-$LEVEL
+
+	for DIR in `find . -type d \! -name '.*'`
 	do
-		if [ "$F" = "index.markdown" ]
+		WD=`pwd`
+
+		if [ "`echo $DIR/*.markdown`" = "" ]
 		then
+			echo "`basename $0`: no markdown files in '$DIR'" >&2
 			continue
 		fi
-		D=`basename $PWD`
-		N=`basename $F .markdown`
 
-		# This finds the first line of the "Syntax" section of most files
-		RES=`egrep -m 1 '	[A-Za-z]*?[.:]*'"$N" $F | sed -e 's/^	//'`
+		cd $DIR
 
-		if [ "$RES" = "" ]
-		then
-			# didn't find a syntax string for the item,
-			# look for a header at the top of the file
-			RES=`head -2 $F | sed -n '/^#/s/^# \(.*\)/\1	'$D'/p'`
-		fi
+		for F in *.markdown
+		do
+			if [ "$F" = "index.markdown" ]
+			then
+				continue
+			fi
+			D=`basename $PWD`
+			N=`basename $F .markdown`
 
-		if [ "$RES" = "" ]
-		then
-			# didn't find a syntax string or a header for the item,
-			# just complete using its name
-			RES="$D.$N\t$D"
-		fi
+			# This finds the first line of the "Syntax" section of most files
+			RES=`egrep -m 1 '	[A-Za-z]*?[.:]*'"$N" $F | sed -e 's/^	//'`
 
-		# Remove any "object" prefix as completion works better without it
-		echo $RES | sed -e 's/object[.:]//'
+			if [ "$RES" = "" ]
+			then
+				# didn't find a syntax string for the item,
+				# look for a header at the top of the file
+				RES=`head -2 "$F" | sed -n '/^#/s/^# \(.*\)/\1/p'`
+			fi
 
-		# Find any explicit completion items in the file
-		# (it's assumed they are formatted with backticks which 
-		# might need adjustment)
-		fgrep '<!--- completion -->' $F | sed -e 's/.*`\([^`]*\)`.*/\1	'$D'/'
-	done
+			if [ "$RES" = "" ]
+			then
+				# didn't find a syntax string or a header for the item,
+				# just complete using its name
+				RES="$D.$N"
+			fi
 
-	cd $WD
-done | fgrep -v -f $INVALID_COMPLETIONS | sort -u > $RAW_COMPS
+			# Add an approximation of "type" separated by a tab
+			RES="$RES	$D"
+
+			# Remove any "object" prefix as completion works better without it
+			echo "$RES" | sed -e 's/object[.:]//'
+
+			# Find any explicit completion items in the file
+			# (it's assumed they are formatted with backticks which 
+			# might need adjustment)
+			fgrep '<!--- completion -->' "$F" | sed -e 's/.*`\([^`]*\)`.*/\1/'
+		done
+
+		cd $WD
+
+	done | fgrep -v -f $INVALID_COMPLETIONS | cat - $ADDITIONAL_COMPLETIONS | sort -u > $RAW_COMPS
+
+	python ${CWD}/mk_sublime_completions.py $RAW_COMPS >$SUBLIME_COMPS
+	wc -l $SUBLIME_COMPS
+
+	mv -v $SUBLIME_COMPS $CWD/../
+done
 
 cd $CWD
 
-python ./mk_sublime_completions.py >$SUBLIME_COMPS
-
-wc -l $SUBLIME_COMPS

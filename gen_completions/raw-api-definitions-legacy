@@ -77,7 +77,7 @@ assert( v [, message] )	global
 audio.dispose( audioHandle )	audio
 audio.fade( [ { [channel=c] [, time=t] [, volume=v ] } ] )	audio
 audio.fadeOut( [ { [channel=c] [, time=t] } ] )	audio
-audio.findFreeChannel( [ startChannel ] )	audio
+audio.findFreeChannel(  [ startChannel ]  )	audio
 audio.freeChannels	audio
 audio.getDuration( audioHandle )	audio
 audio.getMaxVolume( { channel=c } )	audio
@@ -93,7 +93,7 @@ audio.play( audioHandle [, options ] )	audio
 audio.reserveChannels( channels )	audio
 audio.reservedChannels	audio
 audio.resume( [channel] )	audio
-audio.rewind( [audioHandle | options] )	audio
+audio.rewind( [, audioHandle ] [, options ] )	audio
 audio.seek( time [, audioHandle ] [, options ] )	audio
 audio.setMaxVolume( volume, options )	audio
 audio.setMinVolume( volume, options )	audio
@@ -137,19 +137,19 @@ deleteRow( rowIndex )	TableViewWidget
 descriptor	InputAxis
 descriptor	InputDevice
 dispatchEvent( event )	EventListener
-display.BottomCenterReferencePoint	DisplayObject
-display.BottomLeftReferencePoint	DisplayObject
-display.BottomRightReferencePoint	DisplayObject
-display.CenterLeftReferencePoint	DisplayObject
-display.CenterReferencePoint	DisplayObject
-display.CenterRightReferencePoint	DisplayObject
-display.DarkStatusBar	display
-display.DefaultStatusBar	display
-display.HiddenStatusBar	display
-display.TopCenterReferencePoint	DisplayObject
-display.TopLeftReferencePoint	DisplayObject
-display.TopRightReferencePoint	DisplayObject
-display.TranslucentStatusBar	display
+display.BottomCenterReferencePoint
+display.BottomLeftReferencePoint
+display.BottomRightReferencePoint
+display.CenterLeftReferencePoint
+display.CenterReferencePoint
+display.CenterRightReferencePoint
+display.DarkStatusBar
+display.DefaultStatusBar
+display.HiddenStatusBar
+display.TopCenterReferencePoint
+display.TopLeftReferencePoint
+display.TopRightReferencePoint
+display.TranslucentStatusBar
 display.actualContentHeight	display
 display.actualContentWidth	display
 display.capture( displayObject [, saveToPhotoLibraryFlag ] )	display
@@ -167,29 +167,30 @@ display.getCurrentStage()	display
 display.imageSuffix	display
 display.loadRemoteImage( url, method, listener [, params], destFilename [, baseDir] [, x, y] )	display
 display.newCircle( [parentGroup,] xCenter, yCenter, radius )	display
-display.newEmbossedText( [parentGroup,] string, left, top, [width, height,] font, size )	display
+display.newEmbossedText( [parentGroup,] string, left, top, [width, height,] font, size)	display
 display.newGroup()	display
 display.newImage( filename [,baseDirectory] [, left, top ] )	display
 display.newImageGroup( imageSheet )	display
-display.newImageRect( [parentGroup,] filename, [baseDirectory,] width, height )	display
-display.newLine( [parentGroup,] x1, y1, x2, y2 )	display
+display.newImageRect( [parentGroup,] filename, [baseDirectory] width, height )	display
+display.newLine( [parent,] x1,y1, x2,y2 )	display
 display.newRect( [parentGroup,] left, top, width, height )	display
 display.newRoundedRect( [parentGroup,] left, top, width, height, cornerRadius )	display
 display.newSprite( imageSheet, sequenceData )	display
-display.newText( { options } )	display
+display.newText( options )	display
 display.pixelHeight	display
 display.pixelWidth	display
 display.remove( object )	display
-display.save( displayObject, filename [, baseDirectory] )	display
+display.save( group, "group.jpg" )	display
 display.screenOriginX	display
 display.screenOriginY	display
-display.setDefault( key, r, g, b, alpha )	display
+display.setDefault( key, gray )	display
 display.setStatusBar( mode )	display
 display.statusBarHeight	display
 display.topStatusBarContentHeight	display
 display.viewableContentHeight	display
 display.viewableContentWidth	display
 displayName	InputDevice
+do	Keyword
 easing.inExpo()	easing
 easing.inOutExpo()	easing
 easing.inOutQuad()	easing
@@ -197,6 +198,7 @@ easing.inQuad()	easing
 easing.linear()	easing
 easing.outExpo()	easing
 easing.outQuad()	easing
+end	Keyword
 error( message [, level] )	global
 event.accuracy	location
 event.action	completion
@@ -228,7 +230,6 @@ event.device	inputDeviceStatus
 event.device	key
 event.didComplete	fbconnect
 event.direction	location
-event.duration	completion
 event.element1	collision
 event.element1	preCollision
 event.element2	collision
@@ -245,7 +246,6 @@ event.errorMessage	urlRequest
 event.errorType	licensing
 event.expiration	fbconnect
 event.expiration	licensing
-event.fileSize	completion
 event.force	postCollision
 event.friction	postCollision
 event.geographic	heading
@@ -274,14 +274,9 @@ event.isShiftDown	key
 event.isVerified	licensing
 event.keyName	key
 event.latitude	mapLocation
-event.latitude	mapMarker
-event.latitude	mapTap
 event.localPlayerScore	gameNetwork
 event.longitude	mapLocation
-event.longitude	mapMarker
-event.longitude	mapTap
 event.magnetic	heading
-event.markerId	mapMarker
 event.name	accelerometer
 event.name	audio
 event.name	axis
@@ -357,7 +352,6 @@ event.rawValue	axis
 event.reconfigured	inputDeviceStatus
 event.region	mapAddress
 event.regionDetail	mapAddress
-event.request	mapLocation
 event.requestId	networkRequest
 event.response	fbconnect
 event.response	licensing
@@ -388,13 +382,11 @@ event.totalCredits	creditsRequest
 event.transaction	storeTransaction
 event.type	fbconnect
 event.type	gameNetwork
-event.type	mapLocation
 event.type	notification
 event.type	orientation
 event.type	popup
 event.type	system
 event.type	urlRequest
-event.url	completion
 event.url	networkRequest
 event.url	system
 event.url	urlRequest
@@ -405,7 +397,6 @@ event.x	tap
 event.x	touch
 event.xGravity	accelerometer
 event.xInstant	accelerometer
-event.xRaw	accelerometer
 event.xRotation	gyroscope
 event.xStart	touch
 event.y	collision
@@ -415,18 +406,17 @@ event.y	tap
 event.y	touch
 event.yGravity	accelerometer
 event.yInstant	accelerometer
-event.yRaw	accelerometer
 event.yRotation	gyroscope
 event.yStart	touch
 event.zGravity	accelerometer
 event.zInstant	accelerometer
-event.zRaw	accelerometer
 event.zRotation	gyroscope
 facebook.login( appId, listener [, permissions ] )	facebook
 facebook.logout()	facebook
 facebook.publishInstall( appId )	facebook
 facebook.request( path [, httpMethod, params] )	facebook
 facebook.showDialog( action [, params ] )	facebook
+false	Keyword
 font	TextBox
 font	TextField
 forward()	WebView
@@ -509,7 +499,7 @@ jointAngle	Joint
 jointSpeed	Joint
 jointTranslation	Joint
 json.decode( data )	json
-json.encode( table )	json
+json.encode( t )	json
 json.null	json
 length	Joint
 length1	Joint
@@ -565,12 +555,10 @@ maxMotorTorque	Joint
 maxTorque	Joint
 maxValue	InputAxis
 maximumValue	StepperWidget
-media.Camera	media
-media.PhotoLibrary	media
+media.Camera
+media.PhotoLibrary
 media.RemoteSource	media
-media.SavedPhotosAlbum	media
-media.capturePhoto	media
-media.captureVideo( { listener = onComplete } )	media
+media.SavedPhotosAlbum
 media.getSoundVolume()	media
 media.hasSource( mediaSource )	media
 media.newEventSound( filename [, baseDir] )	media
@@ -580,8 +568,6 @@ media.playEventSound( sound [, baseDir] [, completionListener] )	media
 media.playSound( soundfile [, baseDir] [, onComplete] )	media
 media.playVideo( path [, baseSource ], showControls, listener )	media
 media.save( filename [, baseDir] )	media
-media.selectPhoto( { listener = sessionComplete, origin = myButton.contentBounds } )	media
-media.selectVideo( media.PhotoLibrary, { listener = sessionComplete, origin = myButton.contentBounds } )	media
 media.setSoundVolume( vol )	media
 media.show( mediaSource, listener )	media
 media.stopSound()	media
@@ -612,7 +598,9 @@ native.setSync( filename, params )	native
 native.showAlert( title, message [, { buttonLabels } [, listener] ] )	native
 native.showPopup( name )	native
 native.showWebPopup( url [, options] )  	native
+native.systemFont
 native.systemFont	native
+native.systemFontBold
 native.systemFontBold	native
 nearestAddress( latitude, longitude, resultHandler )	Map
 network.canDetectNetworkStatusChanges	network
@@ -624,7 +612,7 @@ network.upload( url, method, listener [, params], filename [, baseDirectory] [, 
 new()	CoronaPrototype
 newClass( name )	CoronaPrototype
 next( array [, index] )	global
-nil		Keyword
+nil	Keyword
 numChildren	GroupObject
 numFrames	SpriteObject
 number	InputAxis
@@ -644,7 +632,7 @@ parent	DisplayObject
 pause()	Video
 pcall( f [, ...] )	global
 permanentId	InputDevice
-physics.addBody(object, [bodyType,] {density=d, friction=f, bounce=b [,radius=r] [,filter=f]})	physics
+physics.addBody( object, [bodyType,] {density=d, friction=f, bounce=b [,filter=f]} )	physics
 physics.fromMKS( unitName, value ) 	physics
 physics.getAverageCollisionPositions()	physics
 physics.getDebugErrorsEnabled()	physics
@@ -683,7 +671,6 @@ reload()	WebView
 remove( indexOrChild )	GroupObject
 removeAllMarkers()	Map
 removeEventListener( eventName, listener )	EventListener
-removeMarker(markerId)	Map
 removeSelf()	DisplayObject
 removeSelf()	Joint
 request( url )	WebView
@@ -706,7 +693,7 @@ setCenter( latitude, longitude [, isAnimated] )	Map
 setCurrentProvider( provider )	CoronaLibrary
 setEnabled( isEnabled )	ButtonWidget
 setExtension( indexFunc )	CoronaPrototype
-setLabel()	ButtonWidget
+setLabel( label )	ButtonWidget
 setMask( mask )	DisplayObject
 setProgress( progress )	ProgressViewWidget
 setReferencePoint( referencePoint )	DisplayObject
@@ -730,7 +717,7 @@ size	TextField
 size	TextObject
 springDampingRatio	Joint
 springFrequency	Joint
-sprite.add( spriteSet, sequenceName, startFrame, frameCount, time [, loopParam] )	sprite
+sprite.add( spriteSet, sequenceName, startFrame, frameCount, time, [loopParam] )	sprite
 sprite.newSprite( spriteSet )	sprite
 sprite.newSpriteMultiSet(	sprite
 sprite.newSpriteSet( spriteSheet, startFrame, frameCount )	sprite
@@ -768,9 +755,9 @@ storyboard.removeScene( sceneName )	storyboard
 storyboard.showOverlay( sceneName [, options ] )	storyboard
 storyboard.stage	storyboard
 string.byte( s [, i [, j]] )	string
-string.char( [arg1 [, ...] )	string
-string.find( s, pattern [, init [, plain]] )	string
-string.format( formatstring [, ...] )	string
+string.char ([arg1 [, ...])	string
+string.find (s, pattern [, init [, plain]])	string
+string.format (formatstring [, ...])	string
 string.gmatch( s, pattern )	string
 string.gsub( s, pattern, repl [, n] )	string
 string.len( s )	string
@@ -816,6 +803,7 @@ takeFocus( event )	ScrollViewWidget
 text	TextBox
 text	TextField
 text	TextObject
+then	Keyword
 timeScale	SpriteInstance
 timeScale	SpriteObject
 timer.cancel( timerId )	timer
@@ -827,19 +815,12 @@ toFront()	DisplayObject
 tonumber( e [, base ] )	global
 tostring( e )	global
 totalTime	Video
-transition.blink( target, params )	transition
-transition.cancel()	transition
-transition.fadeIn( target, params )	transition
-transition.fadeOut( target, params )	transition
+transition.cancel( tweenReference )	transition
+transition.dissolve( src, dst, duration, delayDuration )	transition
 transition.from( target, params )	transition
-transition.moveBy( target, params )	transition
-transition.moveTo( target, params )	transition
-transition.pause()	transition
-transition.resume()	transition
-transition.scaleBy( target, params )	transition
-transition.scaleTo( target, params )	transition
 transition.to( target, params )	transition
 translate( deltaX, deltaY )	DisplayObject
+true	Keyword
 type	InputAxis
 type	InputDevice
 type( v )	global
