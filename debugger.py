@@ -36,11 +36,13 @@ def is_string_instance(obj):
   except NameError:
     return isinstance(obj, str)
 
-# debugFP = open(_corona_utils.PACKAGE_DIR+"/../User/CoronaEditor.log", "w", 1)
+debugFP = open(os.path.normpath(_corona_utils.PACKAGE_DIR+"/../User/CoronaEditor.log"), "w", 1)
 def debug(s):
-  log_line = str(datetime.datetime.now()) + ": " + str(s)
-  # if debugFP:
-  #  debugFP.write(log_line + "\n")
+  # <CoronaDebuggerThread(Thread-5, started 4583960576)>
+  thread_id = re.sub(r'.*\(([^,]*),.*', r'\1', str(threading.current_thread()))
+  log_line = str(datetime.datetime.now()) + " (" + str(thread_id) + "): " + str(s)
+  if debugFP:
+    debugFP.write(log_line + "\n")
   print(log_line)
 
 HOST = ''   # Symbolic name meaning all available interfaces
@@ -181,7 +183,7 @@ class CoronaDebuggerThread(threading.Thread):
       self.performCommand(cmd)
       debuggerCmdQ.task_done()
 
-    on_main_thread(lambda: self.completionCallback(self.threadID))
+    # on_main_thread(lambda: self.completionCallback(self.threadID))
 
     debug('CoronaDebuggerThread: ends')
 
@@ -348,10 +350,10 @@ class CoronaDebuggerThread(threading.Thread):
             dataStr += self.readFromPUT(int(length - len(dataStr)))
           if cmd == 'backtrace':
             # Tidy up backtrace
-            if dataStr.find('platform/resources/init.lua:') != -1:
+            if dataStr.find('platform/resources/init.lua:') != -1 or dataStr.find('?:0') != -1:
               # Stopped in internal code
               dataStr = re.sub(r' at .*platform/resources/init\.lua:[0-9]*', ' at <internal location>', dataStr)
-              dataStr = re.sub(r'\?:0', ' at <internal location>', dataStr)
+              dataStr = re.sub(r' at \?:0', ' at <internal location>', dataStr)
             else:
               # Stopped in user code, elide the project directory
               dataStr = dataStr.replace(self.projectDir+'/', '')
@@ -386,15 +388,13 @@ class CoronaDebuggerThread(threading.Thread):
       # debug("showSublimeContext: view: " + str(view) + "; size: " + str(view.size()))
       # testing that "view" is not None is insufficient here
       if view is not None and view.size() >= 0:
-        debug("fn1: "+ view.file_name())
         if view.file_name() != filename:
           self.activateViewWithFile(filename, line)
 
         window.run_command("goto_line", { "line" : line } )
+        # view might have changed
         view = window.active_view()
-        debug("fn2: "+ view.file_name())
         mark = [view.line(view.text_point(line - 1, 0))]
-        debug("mark: " + str(mark))
         view.erase_regions("current_line") # removes it if we change files
         view.add_regions("current_line", mark, "current_line", "dot", sublime.DRAW_OUTLINED) # sublime.HIDDEN | sublime.PERSISTENT)
       else:
@@ -459,6 +459,13 @@ class CoronaDebuggerThread(threading.Thread):
 
   def doStep(self):
     self.doContinue("STEP")
+
+class CoronaDebuggerListener(sublime_plugin.EventListener):
+  def on_post_save(self, view):
+    debug("CoronaDebuggerListener:on_post_save: " + view.file_name())
+    if coronaDbg is not None and view.file_name().endswith(".lua"):
+      if sublime.ok_cancel_dialog(view.file_name() + " has changed.  Do you want to restart the Debugger?", "Restart"):
+        sublime.set_timeout(lambda: sublime.active_window().run_command("corona_debugger", {"cmd" : "restart"}), 0)
 
 
 class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
@@ -528,6 +535,11 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
         RunSubprocess(dbg_cmd)
         coronaDbg.start()
 
+    elif cmd == "restart":
+      if coronaDbg is not None:
+        self.window.run_command("corona_debugger", {"cmd" : "exit"})
+      sublime.set_timeout(lambda: self.window.run_command("corona_debugger", {"cmd" : "start"}), 0)
+
     elif cmd == "exit":
       if self.window.num_groups() > 1:
         for view in self.window.views():
@@ -542,14 +554,9 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
         if coronaDbg:
           coronaDbg.doCommand(cmd)
         StopSubprocess()
+        # coronaDbg.join()
         coronaDbg = None
-    elif cmd == "run":
-      coronaDbg.doCommand(cmd)
-    elif cmd == "step":
-      coronaDbg.doCommand(cmd)
-      coronaDbg.doCommand('backtrace')
-      coronaDbg.doCommand('locals')
-    elif cmd == "over":
+    elif cmd in [ "run", "step", "over" ]:
       coronaDbg.doCommand(cmd)
       coronaDbg.doCommand('backtrace')
       coronaDbg.doCommand('locals')
@@ -570,7 +577,7 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
       else:
         cmd = "delb"
 
-      cmd += " " + filename
+      cmd += " " + '"' + filename + '"'
       cmd += " " + str(lineno)
       debug("setb: " + cmd)
 
@@ -709,7 +716,7 @@ def outputToPane(name, text, erase = True):
   if text is None:
     text = subProcOutputQ.get()
     queueing = True
-  # print("name: ", name, "text: ", text)
+  # debug("outputToPane: name: " + name + "text: " + text)
   window = sublime.active_window()
   for view in window.views():
     if view.name() == name:
@@ -779,3 +786,4 @@ def StopSubprocess():
   debug("StopSubprocess: " + str(coronaDbgThread))
   if coronaDbgThread and coronaDbgThread.is_alive():
     coronaDbgThread.terminate()
+    coronaDbgThread.join()
