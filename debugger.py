@@ -36,7 +36,7 @@ def is_string_instance(obj):
   except NameError:
     return isinstance(obj, str)
 
-debugFP = open(os.path.normpath(_corona_utils.PACKAGE_DIR+"/../User/CoronaEditor.log"), "w", 1)
+debugFP = None # open(os.path.normpath(_corona_utils.PACKAGE_DIR+"/../User/CoronaEditor.log"), "w", 1)
 def debug(s):
   # <CoronaDebuggerThread(Thread-5, started 4583960576)>
   thread_id = re.sub(r'.*\(([^,]*),.*', r'\1', str(threading.current_thread()))
