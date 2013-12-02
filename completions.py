@@ -209,7 +209,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
     # the path of least surprise is just to check the file extension
     # if is_lua_file(view.file_name()) and use_corona_sdk_completion:
     # however, that makes too many things completable and is a usability issue
-    if view.match_selector(locations[0], "source.lua - entity"):
+    if use_corona_sdk_completion and view.match_selector(locations[0], "source.lua - entity"):
       comps = self.find_completions(view, prefix)
       flags = 0 # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
       return (comps, flags)
