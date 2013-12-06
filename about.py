@@ -5,16 +5,16 @@
 #
 # MIT License - see https://raw.github.com/coronalabs/CoronaSDK-SublimeText/master/LICENSE
 
-import sublime, sublime_plugin
+import sublime
+import sublime_plugin
 import os.path
-import platform
 import json
 import datetime
 
 try:
-  from . import _corona_utils # P3
+  from . import _corona_utils  # P3
 except:
-  import _corona_utils # P2
+  import _corona_utils  # P2
 
 """
 # This is run by ST3 after the plugins have loaded (and the ST API is ready for calls)
@@ -28,16 +28,17 @@ if corona_utils.SUBLIME_VERSION < 3000:
   corona_utils.Init()
 """
 
+
 class AboutCoronaEditorCommand(sublime_plugin.WindowCommand):
   _about_info = None
   _dev_about_info = '{"url": "https://www.coronalabs.com/", "version": "<development>", "description": "Corona Editor is the official Corona SDK plugin for Sublime Text"}'
 
   def run(self):
     self.load_json("package-metadata.json")
-    sublime_info = "[Sublime Text " + sublime.version() +"/"+ sublime.channel() +"/"+ sublime.platform() +"/"+ sublime.arch() +"]"
+    sublime_info = "[Sublime Text " + sublime.version() + "/" + sublime.channel() + "/" + sublime.platform() + "/" + sublime.arch() + "]"
     canary_file = os.path.join(_corona_utils.PACKAGE_DIR, "about.py") if _corona_utils.SUBLIME_VERSION < 3000 else _corona_utils.PLUGIN_PATH
     install_info = "Installed: " + str(datetime.datetime.fromtimestamp(os.path.getmtime(canary_file)))
-    about_mesg = "Corona Editor for Sublime Text\n\nVersion: "+ self._about_info['version'] +"\n\n"+ install_info +"\n\n"+ self._about_info['description'] +"\n\n"+ sublime_info
+    about_mesg = "Corona Editor for Sublime Text\n\nVersion: " + self._about_info['version'] + "\n\n" + install_info + "\n\n" + self._about_info['description'] + "\n\n" + sublime_info
     print("about: " + about_mesg.replace("\n\n", " | "))
     sublime.message_dialog(about_mesg)
 
@@ -54,7 +55,7 @@ class AboutCoronaEditorCommand(sublime_plugin.WindowCommand):
       else:
         json_data.close()
 
-    else: # we're on ST3
+    else:  # we're on ST3
 
       try:
         self._about_info = json.loads(sublime.load_resource(_corona_utils.ST_PACKAGE_PATH + filename))
@@ -63,4 +64,3 @@ class AboutCoronaEditorCommand(sublime_plugin.WindowCommand):
 
     # pprint(self._about_info)
     # print("About: " + str(self._about_info))
-
