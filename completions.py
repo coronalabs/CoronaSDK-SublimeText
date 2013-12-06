@@ -5,18 +5,20 @@
 #
 # MIT License - see https://raw.github.com/coronalabs/CoronaSDK-SublimeText/master/LICENSE
 
-import sublime, sublime_plugin, os, re, threading
-from os.path import basename, dirname, realpath
+import sublime
+import sublime_plugin
+import os
+import re
 import json
-from pprint import pprint
 
 try:
-    from . import _corona_utils # P3
+  from . import _corona_utils  # P3
 except:
-    import _corona_utils # P2
+  import _corona_utils  # P2
 
 # We expose the completions to the snippets code
 CoronaCompletions = None
+
 
 #
 # Utility functions
@@ -25,12 +27,14 @@ def is_lua_file(filename):
   # Note this defaults new files to being Lua files for our purposes
   return filename.endswith('.lua') if filename is not None else True
 
+
 # determine if 'obj' is a string in both Python 2.x and 3.x
 def is_string_instance(obj):
   try:
     return isinstance(obj, basestring)
   except NameError:
     return isinstance(obj, str)
+
 
 class FuzzyMatcher():
 
@@ -40,8 +44,8 @@ class FuzzyMatcher():
     self.regex2 = ''
 
   def setPattern(self, pattern):
-    self.regex1 = re.compile('.*?'.join(map(re.escape, list(pattern)))) # look for characters in pattern in order
-    self.regex2 = re.compile('\\b'+pattern) # look for exact prefixes matching pattern
+    self.regex1 = re.compile('.*?'.join(map(re.escape, list(pattern))))  # look for characters in pattern in order
+    self.regex2 = re.compile('\\b'+pattern)  # look for exact prefixes matching pattern
 
   def score(self, string):
     match = self.regex1.search(string)
@@ -51,6 +55,7 @@ class FuzzyMatcher():
     else:
       return (100.0 / ((1 + match.start()) * (match.end() - match.start() + 1))) + (self.prefix_match_tweak if tweak is not None else 0)
 
+
 #
 # CoronaLabs Class
 #
@@ -58,6 +63,13 @@ class CoronaLabs:
   _completions = []
   _fuzzyMatcher = None
   _fuzzyPrefix = None
+
+  def __init__(self):
+    global CoronaCompletions
+    CoronaCompletions = self
+
+  def initialize(self):
+    self.load_completions(sublime.active_window().active_view().settings().get("corona_sdk_use_docset", "public"))
 
   # If we're running ST2, load completions from file
   # else, load completions from member of package
@@ -78,9 +90,6 @@ class CoronaLabs:
 
       # pprint(self._completions)
       print("Corona Editor: loaded {0} completions from {1}".format(len(self._completions['completions']), source))
-
-    global CoronaCompletions
-    CoronaCompletions = self._completions
 
   def setupFuzzyMatch(self, prefix):
     self._fuzzyMatcher = FuzzyMatcher()
@@ -133,14 +142,14 @@ class CoronaLabs:
     # ST completion files contain an array that is a mixture of strings and dicts
     comps = []
     for c in self._completions['completions']:
-      if isinstance( c, dict ):
+      if isinstance(c, dict):
         #if c['trigger'].startswith(completion_target):
         if self.fuzzyMatchString(c['trigger'], use_fuzzy_completion):
-          comps.append( (c['trigger'], c['contents'] if not trim_result else c['contents'].partition('.')[2]) )
+          comps.append((c['trigger'], c['contents'] if not trim_result else c['contents'].partition('.')[2]))
       elif is_string_instance(c):
         # if c.startswith(completion_target):
         if self.fuzzyMatchString(c, use_fuzzy_completion):
-          comps.append( (c, c if not trim_result else c.partition('.')[2]) )
+          comps.append((c, c if not trim_result else c.partition('.')[2]))
 
     # print("comps: ", comps)
     # print("extract_completions: ", view.extract_completions(completion_target))
@@ -177,8 +186,10 @@ class CoronaLabs:
 
     return view.substr(sublime.Region(start, end))
 
+
 class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
-  # Optionally trigger a "build" when a .lua file is saved.  This is best 
+
+  # Optionally trigger a "build" when a .lua file is saved.  This is best
   # done by setting the "Relaunch Simulator when project is modified" setting
   # in the Simulator itself but is provided here for cases where that option
   # doesn't work
@@ -190,10 +201,10 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
         view.window().run_command("build")
 
   def on_query_completions(self, view, prefix, locations):
-    current_file = view.file_name()
     comps = []
 
     use_corona_sdk_completion = view.settings().get("corona_sdk_completion", True)
+
     use_periods_in_completion = view.settings().get("corona_sdk_complete_periods", True)
 
     # Completion behavior is improved if periods are included in the completion process but
@@ -209,9 +220,9 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
     # the path of least surprise is just to check the file extension
     # if is_lua_file(view.file_name()) and use_corona_sdk_completion:
     # however, that makes too many things completable and is a usability issue
-    if view.match_selector(locations[0], "source.lua - entity"):
+    if use_corona_sdk_completion and view.match_selector(locations[0], "source.lua - entity"):
       comps = self.find_completions(view, prefix)
-      flags = 0 # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
+      flags = 0  # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
       return (comps, flags)
     else:
       return []
