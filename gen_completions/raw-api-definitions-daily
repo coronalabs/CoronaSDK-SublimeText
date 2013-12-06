@@ -46,8 +46,6 @@ Recording:stopRecording()	Recording
 Recording:stopTuner()	Recording
 Runtime:hasEventSource( eventSourceName )	Runtime
 Runtime:hideErrorAlerts( )	Runtime
-ShapeObject:setFillColor( gray )	ShapeObject
-ShapeObject:setStrokeColor( red, green, blue [, alpha ] )	ShapeObject
 SpriteObject:pause()	SpriteObject
 SpriteObject:play()	SpriteObject
 SpriteObject:setFrame( frameIndex )	SpriteObject
@@ -134,19 +132,19 @@ deleteRow( rowIndex )	TableViewWidget
 descriptor	InputAxis
 descriptor	InputDevice
 dispatchEvent( event )	EventListener
-display.BottomCenterReferencePoint
-display.BottomLeftReferencePoint
-display.BottomRightReferencePoint
-display.CenterLeftReferencePoint
-display.CenterReferencePoint
-display.CenterRightReferencePoint
-display.DarkStatusBar
-display.DefaultStatusBar
-display.HiddenStatusBar
-display.TopCenterReferencePoint
-display.TopLeftReferencePoint
-display.TopRightReferencePoint
-display.TranslucentStatusBar
+display.BottomCenterReferencePoint	DisplayObject
+display.BottomLeftReferencePoint	DisplayObject
+display.BottomRightReferencePoint	DisplayObject
+display.CenterLeftReferencePoint	DisplayObject
+display.CenterReferencePoint	DisplayObject
+display.CenterRightReferencePoint	DisplayObject
+display.DarkStatusBar	display
+display.DefaultStatusBar	display
+display.HiddenStatusBar	display
+display.TopCenterReferencePoint	DisplayObject
+display.TopLeftReferencePoint	DisplayObject
+display.TopRightReferencePoint	DisplayObject
+display.TranslucentStatusBar	display
 display.actualContentHeight	display
 display.actualContentWidth	display
 display.capture( displayObject [, saveToPhotoLibraryFlag ] )	display
@@ -165,7 +163,7 @@ display.imageSuffix	display
 display.loadRemoteImage( url, method, listener [, params], destFilename [, baseDir] [, x, y] )	display
 display.newCircle( xCenter, yCenter, radius )	display
 display.newContainer( [parent, ] width, height )	display
-display.newEmbossedText( [parentGroup,] string, left, top, [width, height,] font, size )	display
+display.newEmbossedText( { options } )	display
 display.newGroup()	display
 display.newImage( filename [,baseDirectory] [, left, top ] )	display
 display.newImageGroup()	display
@@ -201,17 +199,20 @@ easing.outExpo()	easing
 easing.outQuad()	easing
 end	Keyword
 error( message [, level] )	global
+event.a	colorSample
 event.accuracy	location
 event.action	completion
 event.address	networkStatus
 event.altitude	location
 event.applicationState	notification
 event.axis	axis
+event.b	colorSample
 event.bytesEstimated	networkRequest
 event.bytesTransferred	networkRequest
 event.channel	audio
 event.city	mapAddress
 event.cityDetail	mapAddress
+event.colorSample	colorSample
 event.completed	audio
 event.connectionStateChanged	inputDeviceStatus
 event.contact	collision
@@ -251,6 +252,7 @@ event.expiration	licensing
 event.fileSize	completion
 event.force	postCollision
 event.friction	postCollision
+event.g	colorSample
 event.geographic	heading
 event.handle	audio
 event.header	networkRequest
@@ -289,6 +291,7 @@ event.name	accelerometer
 event.name	audio
 event.name	axis
 event.name	collision
+event.name	colorSample
 event.name	completion
 event.name	createScene
 event.name	creditsRequest
@@ -357,6 +360,7 @@ event.postalCode	mapAddress
 event.products	productList
 event.provider	gameNetwork
 event.provider	licensing
+event.r	colorSample
 event.rawValue	axis
 event.reconfigured	inputDeviceStatus
 event.region	mapAddress
@@ -404,6 +408,7 @@ event.url	networkRequest
 event.url	system
 event.url	urlRequest
 event.x	collision
+event.x	colorSample
 event.x	mouse
 event.x	preCollision
 event.x	tap
@@ -414,6 +419,7 @@ event.xRaw	accelerometer
 event.xRotation	gyroscope
 event.xStart	touch
 event.y	collision
+event.y	colorSample
 event.y	mouse
 event.y	preCollision
 event.y	tap
@@ -427,12 +433,14 @@ event.zGravity	accelerometer
 event.zInstant	accelerometer
 event.zRaw	accelerometer
 event.zRotation	gyroscope
+facebook.accessDenied	facebook
 facebook.login( appId, listener [, permissions ] )	facebook
 facebook.logout()	facebook
 facebook.publishInstall( appId )	facebook
 facebook.request( path [, httpMethod, params] )	facebook
 facebook.showDialog( action [, params ] )	facebook
 false	Keyword
+fill	ShapeObject
 font	TextBox
 font	TextField
 forward()	WebView
@@ -570,11 +578,11 @@ maxMotorForce	Joint
 maxMotorTorque	Joint
 maxTorque	Joint
 maxValue	InputAxis
-maximumValue	StepperWidget
-media.Camera
-media.PhotoLibrary
+maximumValue = 50,	StepperWidget
+media.Camera	media
+media.PhotoLibrary	media
 media.RemoteSource	media
-media.SavedPhotosAlbum
+media.SavedPhotosAlbum	media
 media.capturePhoto	media
 media.captureVideo	media
 media.getSoundVolume()	media
@@ -592,7 +600,7 @@ media.setSoundVolume( vol )	media
 media.show( mediaSource, listener )	media
 media.stopSound()	media
 minValue	InputAxis
-minimumValue	StepperWidget
+minimumValue = 0,	StepperWidget
 module()	package
 motorForce	Joint
 motorSpeed	Joint
@@ -618,9 +626,7 @@ native.setSync( filename, params )	native
 native.showAlert( title, message [, { buttonLabels } [, listener] ] )	native
 native.showPopup( name )	native
 native.showWebPopup( url [, options] )  	native
-native.systemFont
 native.systemFont	native
-native.systemFontBold
 native.systemFontBold	native
 nearestAddress( latitude, longitude, resultHandler )	Map
 network.canDetectNetworkStatusChanges	network
@@ -719,6 +725,7 @@ setCenter( latitude, longitude [, isAnimated] )	Map
 setCurrentProvider( provider )	CoronaLibrary
 setEnabled( isEnabled )	ButtonWidget
 setExtension( indexFunc )	CoronaPrototype
+setFillColor( gray )	ShapeObject
 setLabel( label )	ButtonWidget
 setMask( mask )	DisplayObject
 setProgress( progress )	ProgressViewWidget
@@ -731,6 +738,7 @@ setScrollWidth( newWidth )	ScrollViewWidget
 setSelected( buttonIndex )	TabBarWidget
 setSequence( [ sequenceName ] )	SpriteObject
 setState( options )	SwitchWidget
+setStrokeColor( gray )	ShapeObject
 setTarget( x, y )	Joint
 setTextColor( gray )	TextObject
 setTextColor( r, g, b )	TextBox
@@ -795,6 +803,7 @@ string.rep( s, n )	string
 string.reverse( s )	string
 string.sub( s, i [, j] )	string
 string.upper( s )	string
+stroke	ShapeObject
 strokeWidth	ShapeObject
 system.CachesDirectory	system
 system.DocumentsDirectory	system

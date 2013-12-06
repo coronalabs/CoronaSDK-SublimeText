@@ -137,19 +137,19 @@ deleteRow( rowIndex )	TableViewWidget
 descriptor	InputAxis
 descriptor	InputDevice
 dispatchEvent( event )	EventListener
-display.BottomCenterReferencePoint
-display.BottomLeftReferencePoint
-display.BottomRightReferencePoint
-display.CenterLeftReferencePoint
-display.CenterReferencePoint
-display.CenterRightReferencePoint
-display.DarkStatusBar
-display.DefaultStatusBar
-display.HiddenStatusBar
-display.TopCenterReferencePoint
-display.TopLeftReferencePoint
-display.TopRightReferencePoint
-display.TranslucentStatusBar
+display.BottomCenterReferencePoint	DisplayObject
+display.BottomLeftReferencePoint	DisplayObject
+display.BottomRightReferencePoint	DisplayObject
+display.CenterLeftReferencePoint	DisplayObject
+display.CenterReferencePoint	DisplayObject
+display.CenterRightReferencePoint	DisplayObject
+display.DarkStatusBar	display
+display.DefaultStatusBar	display
+display.HiddenStatusBar	display
+display.TopCenterReferencePoint	DisplayObject
+display.TopLeftReferencePoint	DisplayObject
+display.TopRightReferencePoint	DisplayObject
+display.TranslucentStatusBar	display
 display.actualContentHeight	display
 display.actualContentWidth	display
 display.capture( displayObject [, saveToPhotoLibraryFlag ] )	display
@@ -555,10 +555,10 @@ maxMotorTorque	Joint
 maxTorque	Joint
 maxValue	InputAxis
 maximumValue	StepperWidget
-media.Camera
-media.PhotoLibrary
+media.Camera	media
+media.PhotoLibrary	media
 media.RemoteSource	media
-media.SavedPhotosAlbum
+media.SavedPhotosAlbum	media
 media.getSoundVolume()	media
 media.hasSource( mediaSource )	media
 media.newEventSound( filename [, baseDir] )	media
@@ -598,9 +598,7 @@ native.setSync( filename, params )	native
 native.showAlert( title, message [, { buttonLabels } [, listener] ] )	native
 native.showPopup( name )	native
 native.showWebPopup( url [, options] )  	native
-native.systemFont
 native.systemFont	native
-native.systemFontBold
 native.systemFontBold	native
 nearestAddress( latitude, longitude, resultHandler )	Map
 network.canDetectNetworkStatusChanges	network

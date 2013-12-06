@@ -83,7 +83,7 @@ do
 			# Find any explicit completion items in the file
 			# (it's assumed they are formatted with backticks which 
 			# might need adjustment)
-			fgrep '<!--- completion -->' "$F" | sed -e 's/.*`\([^`]*\)`.*/\1/'
+			fgrep '<!--- completion -->' "$F" | sed -e 's/.*`\([^`]*\)`.*/\1	'$D'/'
 		done
 
 		cd $WD
