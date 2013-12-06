@@ -2,6 +2,14 @@
 
 Always check [https://github.com/coronalabs/CoronaSDK-SublimeText/blob/master/README.md](the README) for the latest information.
 
+### 0.9.0
+
+ * **Debugger**
+ 	A debugger for Corona apps has been added.
+
+ * **Completions**
+	Completions now use the "syntax" of the current file so they work before a file is saved (if you set the syntax using **View > Syntax > Corona SDK Lua**.  Completions have been updated and now include a "legacy" option.
+
 ### 0.8.9
 
  * **Completions**
