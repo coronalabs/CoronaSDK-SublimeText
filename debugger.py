@@ -553,7 +553,7 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
       filename = self.window.active_view().file_name()
       if filename is None or not filename.endswith(".lua"):
         filename = None
-        # Current file not a .lua file, see if we have one open
+        # No current .lua file, see if we have one open
         for view in self.window.views():
           if view.file_name() and view.file_name().endswith(".lua"):
             if filename is None or not filename.endswith("main.lua"):  # prefer a 'main.lua' if there is one
