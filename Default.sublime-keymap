@@ -2,7 +2,7 @@
 	{ "keys": ["f1"], "command": "corona_docs" },
 	{ "keys": ["f10"], "command": "corona_debugger", "args": {"cmd": "run"} },
 	{ "keys": ["shift+f10"], "command": "corona_debugger", "args": {"cmd": "exit"} },
-	{ "keys": ["ctrl+f10"], "command": "run_project" },
+	{ "keys": ["super+f10"], "command": "run_project" },
 	{ "keys": ["f11"], "command": "corona_debugger", "args": {"cmd": "over"} },
 	{ "keys": ["shift+f11"], "command": "corona_debugger", "args": {"cmd": "step"} }
 ]
