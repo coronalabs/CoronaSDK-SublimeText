@@ -5,16 +5,14 @@
 #
 # MIT License - see https://raw.github.com/coronalabs/CoronaSDK-SublimeText/master/LICENSE
 
-import sublime, sublime_plugin
-import os.path
-import platform
-import json
-import datetime
+import sublime
+import sublime_plugin
 
 try:
-  from . import _corona_utils # P3
+  from . import _corona_utils  # P3
 except:
-  import _corona_utils # P2
+  import _corona_utils  # P2
+
 
 class ToggleBuildPanelCommand(sublime_plugin.WindowCommand):
 
@@ -32,14 +30,12 @@ class ToggleBuildPanelCommand(sublime_plugin.WindowCommand):
     else:
       return "Show Build Panel"
 
+
 class RunProjectCommand(sublime_plugin.WindowCommand):
 
-  def run(self):
-    cmd = []
-
-    simulator_path, simulator_flags = _corona_utils.GetSimulatorCmd()
-
-    # find a main.lua file to start the Simulator with
+  # find a main.lua file to start the Simulator with or failing that, any open Lua
+  # file we can use as a place to start looking for a main.lua
+  def findLuaFile(self):
     filename = self.window.active_view().file_name()
     if filename is None or not filename.endswith(".lua"):
       filename = None
@@ -47,6 +43,15 @@ class RunProjectCommand(sublime_plugin.WindowCommand):
       for view in self.window.views():
         if view.file_name() and view.file_name().endswith(".lua"):
           filename = view.file_name()
+    return filename
+
+  def is_enabled(self):
+    return self.findLuaFile() is not None
+
+  def run(self):
+    cmd = []
+
+    filename = self.findLuaFile()
 
     if filename is None:
       sublime.error_message("Can't find an open '.lua' file to determine the location of 'main.lua'")
@@ -56,7 +61,9 @@ class RunProjectCommand(sublime_plugin.WindowCommand):
       sublime.error_message("Can't locate 'main.lua' for this project (try opening it in an editor tab)")
       return
 
-    cmd = [ simulator_path ]
+    simulator_path, simulator_flags = _corona_utils.GetSimulatorCmd(mainlua)
+
+    cmd = [simulator_path]
     cmd += simulator_flags
     cmd.append(mainlua)
 
@@ -66,6 +73,3 @@ class RunProjectCommand(sublime_plugin.WindowCommand):
     self.window.run_command("save")
 
     self.window.run_command('exec', {'cmd': cmd})
-
-  def is_enabled(self):
-    return self.window.active_view() is not None
