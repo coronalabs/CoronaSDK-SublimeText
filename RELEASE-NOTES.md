@@ -2,7 +2,7 @@
 
 Always check [https://github.com/coronalabs/CoronaSDK-SublimeText/blob/master/README.md](the README) for the latest information.
 
-### 0.9.0
+### 1.0.0
 
  * **Debugger**
  	A debugger for Corona apps has been added.
