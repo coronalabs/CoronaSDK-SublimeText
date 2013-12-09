@@ -113,7 +113,7 @@ If some aspect of the plugin doesn't behave as expected be sure to include any c
 
 ### Mac
 
-You may want to set the `Use all F1, F2, etc. keys as standard function keys` option in **System Preferences / Keyboard** to make using F10 and F11 easier for the debugger.
+You may want to set the `Use all F1, F2, etc. keys as standard function keys` option in **System Preferences / Keyboard** to make using F10 and F11 easier for the debugger.  Alternatively you may want to reassign the keys used to drive the debugger; information on how to this can be found at http://www.sublimetext.com/docs/key-bindings
 
 ## Thanks
 
