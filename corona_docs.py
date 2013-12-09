@@ -75,7 +75,10 @@ class CoronaDocsCommand(sublime_plugin.TextCommand):
     # indicates we should look it up in the "library" section of the docs
     # (unless the class member doesn't start with a lowercase letter in which
     # case it's a constant and we'll have to just default to searching for it)
-    if (re.search("\w+\.[a-z]", page) is not None and
+    if page is None or page == "":
+      # Nothing is selected, take them to API home
+      docUrl = "http://docs.coronalabs.com/" + docset + "api/index.html"
+    elif (re.search("\w+\.[a-z]", page) is not None and
        page.partition(".")[0] in LIBRARY_APIS):
       page = page.replace(".", "/")
       docUrl = "http://docs.coronalabs.com/" + docset + "api/library/" + page + ".html"
