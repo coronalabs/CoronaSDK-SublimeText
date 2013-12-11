@@ -5,10 +5,16 @@ Always check [https://github.com/coronalabs/CoronaSDK-SublimeText/blob/master/RE
 ### 1.0.0
 
  * **Debugger**
- 	A debugger for Corona apps has been added.
+ 	A debugger for Corona apps an be accessed using the **Corona Editor > Debugger** menu.
+
+ * **Snippets**
+ 	A library of code snippets is available via the **Corona Editor > Snippets** menu.
 
  * **Completions**
 	Completions now use the "syntax" of the current file so they work before a file is saved (if you set the syntax using **View > Syntax > Corona SDK Lua**.  Completions have been updated and now include a "legacy" option.
+
+ * **Menu Integration**
+ 	Most features are available in the "Corona Editor" menu.
 
 ### 0.8.9
 
