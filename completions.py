@@ -128,9 +128,10 @@ class CoronaLabs:
     # print('completion_target: ', completion_target)
 
     # because we adjust the prefix to make completions with periods in them work better we may need to
-    # trim the part before the period from the returned string (or it will appear to be doubled). Of
-    # course, if we've removed periods from the word_separators we don't need to do this.
-    trim_result = True if '.' in completion_target and view.settings().get("corona_sdk_complete_periods", True) else False
+    # trim the part before the period from the returned string (or it will appear to be doubled).
+    trim_result = True if '.' in completion_target else False
+
+    # print('completion_target: ', completion_target, "; trim_result: ", trim_result, "; corona_sdk_complete_periods: ", view.settings().get("corona_sdk_complete_periods", True) )
 
     self.setupFuzzyMatch(completion_target)
 
