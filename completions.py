@@ -45,7 +45,7 @@ class FuzzyMatcher():
 
   def setPattern(self, pattern):
     self.regex1 = re.compile('.*?'.join(map(re.escape, list(pattern))))  # look for characters in pattern in order
-    self.regex2 = re.compile('\\b'+pattern)  # look for exact prefixes matching pattern
+    self.regex2 = re.compile('\\b'+re.escape(pattern))  # look for exact prefixes matching pattern
 
   def score(self, string):
     match = self.regex1.search(string)
