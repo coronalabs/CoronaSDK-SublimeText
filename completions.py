@@ -206,28 +206,13 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
         view.window().run_command("build")
 
   def on_query_completions(self, view, prefix, locations):
-    comps = []
+    if not view.match_selector(locations[0], "source.lua - entity"):
+      return None
 
-    use_corona_sdk_completion = getEditorSetting("corona_sdk_completion", True)
+    if not getEditorSetting("corona_sdk_completion"):
+      return None
 
-    use_periods_in_completion = getEditorSetting("corona_sdk_complete_periods", True)
-
-    # Completion behavior is improved if periods are included in the completion process but
-    # the only way to do this is to remove the period from the "word_separators" preference.
-    # Doing this breaks some intraline cursor movement (like Alt+Arrow) so we make it optional.
-    if use_periods_in_completion:
-      word_separators = view.settings().get("word_separators")
-      word_separators = word_separators.replace('.', '')
-      view.settings().set("word_separators", word_separators)
-
-    # We should do something "correct" like checking the selector
-    # to determine whether we should use Corona completions but
-    # the path of least surprise is just to check the file extension
-    # if is_lua_file(view.file_name()) and use_corona_sdk_completion:
-    # however, that makes too many things completable and is a usability issue
-    if use_corona_sdk_completion and view.match_selector(locations[0], "source.lua - entity"):
-      comps = self.find_completions(view, prefix)
-      flags = 0  # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
-      return (comps, flags)
-    else:
-      return []
+    comps = self.find_completions(view, prefix)
+    flags = 0  # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
+    return (comps, flags)
+  
