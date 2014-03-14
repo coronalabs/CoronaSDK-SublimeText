@@ -67,6 +67,7 @@ class CoronaLabs:
   _completions = []
   _fuzzyMatcher = None
   _fuzzyPrefix = None
+  findWhiteSpace=re.compile("([^,])\s")
 
   def __init__(self):
     global CoronaCompletions
@@ -126,6 +127,7 @@ class CoronaLabs:
   def find_completions(self, view):
     self.load_completions(getEditorSetting("corona_sdk_use_docset", "public"))
     use_fuzzy_completion = getEditorSetting("corona_sdk_use_fuzzy_completion", True)
+    strip_white_space=getEditorSetting("completions_strip_white_space")
     completion_target = self.current_word(view)
 
     # print('completion_target: ', completion_target)
@@ -146,14 +148,21 @@ class CoronaLabs:
     # ST completion files contain an array that is a mixture of strings and dicts
     comps = []
     for c in self._completions['completions']:
+      trigger=None
+      contents=None
       if isinstance(c, dict):
-        #if c['trigger'].startswith(completion_target):
-        if self.fuzzyMatchString(c['trigger'], use_fuzzy_completion):
-          comps.append((c['trigger'], c['contents'] if not trim_result else c['contents'].partition('.')[2]))
+        trigger=c['trigger']
+        contents=c['contents']
       elif is_string_instance(c):
-        # if c.startswith(completion_target):
-        if self.fuzzyMatchString(c, use_fuzzy_completion):
-          comps.append((c, c if not trim_result else c.partition('.')[2]))
+        trigger=c
+        content=c
+      else:
+        continue
+
+      if self.fuzzyMatchString(trigger, use_fuzzy_completion):
+        if strip_white_space:
+          contents=CoronaLabs.findWhiteSpace.sub("\\1",contents)
+        comps.append((trigger, contents if not trim_result else contents.partition('.')[2]))
 
     # print("comps: ", comps)
     # print("extract_completions: ", view.extract_completions(completion_target))

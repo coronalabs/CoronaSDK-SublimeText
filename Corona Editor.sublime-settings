@@ -27,5 +27,12 @@
 
 	// Choose which documentation set you want to use.  Can be one of
 	// "public" (the default), "legacy" or "daily".
- 	"corona_sdk_use_docset": "public"
+ 	"corona_sdk_use_docset": "public",
+
+ 	// remove white space from the completions, for example by default a
+ 	// completion might look like:
+ 	// display.capture( displayObject [, saveToPhotoLibrary ] )
+ 	// when set to true it will become
+ 	// display.capture(displayObject[, saveToPhotoLibrary])
+ 	"completions_strip_white_space":false
 }
