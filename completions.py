@@ -115,7 +115,7 @@ class CoronaLabs:
       else:
         return False
 
-  # extract completions which match prefix
+  # extract completions which match currently selected word
   # Completions are problematic because Sublime uses the "word_separators" preference to decide where tokens
   # begin and end which, by default, means that periods are not completed properly.  One options is to remove
   # periods from "word_separators" and this works well except that it breaks intra line cursor movement with Alt-arrow.
@@ -123,10 +123,9 @@ class CoronaLabs:
   #  * determine the "completion target" ourselves based on the view instead of using the provided prefix
   #  * if there's a period in the "completion target", return only the part following the period in the completions
 
-  def find_completions(self, view, prefix):
+  def find_completions(self, view):
     self.load_completions(getEditorSetting("corona_sdk_use_docset", "public"))
     use_fuzzy_completion = getEditorSetting("corona_sdk_use_fuzzy_completion", True)
-
     completion_target = self.current_word(view)
 
     # print('completion_target: ', completion_target)
@@ -212,7 +211,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
     if not getEditorSetting("corona_sdk_completion"):
       return None
 
-    comps = self.find_completions(view, prefix)
+    comps = self.find_completions(view)
     flags = 0  # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
     return (comps, flags)
   
