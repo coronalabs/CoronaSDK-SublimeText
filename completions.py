@@ -160,10 +160,9 @@ class CoronaLabs:
         continue
 
       if self.fuzzyMatchString(trigger, use_fuzzy_completion):
-        if strip_white_space:
-          contents=CoronaLabs.findWhiteSpace.sub("\\1",contents)
-        comps.append((trigger, contents if not trim_result else contents.partition('.')[2]))
-
+        contents=contents if not strip_white_space else CoronaLabs.findWhiteSpace.sub("\\1",contents)
+        contents=contents if not trim_result else contents.partition('.')[2]
+        comps.append((trigger, contents))
     # print("comps: ", comps)
     # print("extract_completions: ", view.extract_completions(completion_target))
 
