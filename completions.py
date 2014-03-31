@@ -155,7 +155,7 @@ class CoronaLabs:
         contents=c['contents']
       elif is_string_instance(c):
         trigger=c
-        content=c
+        contents=c
       else:
         continue
 
