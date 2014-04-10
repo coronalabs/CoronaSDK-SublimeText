@@ -161,7 +161,8 @@ class CoronaLabs:
 
       if self.fuzzyMatchString(trigger, use_fuzzy_completion):
         contents=contents if not strip_white_space else CoronaLabs.findWhiteSpace.sub("\\1",contents)
-        contents=contents if not trim_result else contents.partition('.')[2]
+        # sublime seams to treat auto complete on strings like event.phase differently to display.newCircle()
+        contents=contents if not trim_result or '(' not in contents else contents.partition('.')[2]
         comps.append((trigger, contents))
     # print("comps: ", comps)
     # print("extract_completions: ", view.extract_completions(completion_target))
