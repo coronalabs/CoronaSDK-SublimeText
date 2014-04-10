@@ -89,7 +89,7 @@ def GetSimulatorCmd(mainlua=None, debug=False):
   if mainlua is not None:
     simulator_path = GetSimulatorPathFromBuildSettings(mainlua)
     if simulator_path is None:
-      simulator_path = view.settings().get("corona_sdk_simulator_path", None)
+      simulator_path = GetSetting("corona_sdk_simulator_path", None)
 
   if platform == "osx":
     if simulator_path is None:
@@ -148,7 +148,6 @@ def GetSimulatorPathFromBuildSettings(mainlua):
 
 # Given an existing file path or directory, find the likely "main.lua" for this project
 def ResolveMainLua(path):
-
   # debug("ResolveMainLua: path: "+str(path))
   path = os.path.abspath(path)
   if not os.path.isdir(path):
@@ -161,3 +160,9 @@ def ResolveMainLua(path):
     return mainlua
   else:
     return ResolveMainLua(os.path.join(path, ".."))
+
+def GetSetting(key,default=None):
+  # repeated calls to load_settings return same object without further disk reads
+  s = sublime.load_settings('Corona Editor.sublime-settings')
+  return s.get(key, default)
+

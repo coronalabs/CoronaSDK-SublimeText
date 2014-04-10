@@ -35,7 +35,6 @@ def is_string_instance(obj):
   except NameError:
     return isinstance(obj, str)
 
-
 class FuzzyMatcher():
 
   def __init__(self):
@@ -69,7 +68,7 @@ class CoronaLabs:
     CoronaCompletions = self
 
   def initialize(self):
-    self.load_completions(sublime.active_window().active_view().settings().get("corona_sdk_use_docset", "public"))
+    self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", "public"))
 
   # If we're running ST2, load completions from file
   # else, load completions from member of package
@@ -120,8 +119,8 @@ class CoronaLabs:
   #  * if there's a period in the "completion target", return only the part following the period in the completions
 
   def find_completions(self, view, prefix):
-    self.load_completions(view.settings().get("corona_sdk_use_docset", "public"))
-    use_fuzzy_completion = view.settings().get("corona_sdk_use_fuzzy_completion", True)
+    self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", "public"))
+    use_fuzzy_completion = _corona_utils.GetSetting("corona_sdk_use_fuzzy_completion", True)
 
     completion_target = self.current_word(view)
 
@@ -131,7 +130,7 @@ class CoronaLabs:
     # trim the part before the period from the returned string (or it will appear to be doubled).
     trim_result = True if '.' in completion_target else False
 
-    # print('completion_target: ', completion_target, "; trim_result: ", trim_result, "; corona_sdk_complete_periods: ", view.settings().get("corona_sdk_complete_periods", True) )
+    # print('completion_target: ', completion_target, "; trim_result: ", trim_result, "; corona_sdk_complete_periods: ", _corona_utils.GetSetting("corona_sdk_complete_periods", True) )
 
     self.setupFuzzyMatch(completion_target)
 
@@ -196,7 +195,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
   # doesn't work
   def on_post_save(self, view):
     if is_lua_file(view.file_name()):
-      auto_build = view.settings().get("corona_sdk_auto_build", False)
+      auto_build = _corona_utils.GetSetting("corona_sdk_auto_build", False)
       if auto_build:
         print("Corona Editor: auto build triggered")
         view.window().run_command("build")
@@ -204,9 +203,9 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
   def on_query_completions(self, view, prefix, locations):
     comps = []
 
-    use_corona_sdk_completion = view.settings().get("corona_sdk_completion", True)
+    use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", True)
 
-    use_periods_in_completion = view.settings().get("corona_sdk_complete_periods", True)
+    use_periods_in_completion = _corona_utils.GetSetting("corona_sdk_complete_periods", True)
 
     # Completion behavior is improved if periods are included in the completion process but
     # the only way to do this is to remove the period from the "word_separators" preference.
