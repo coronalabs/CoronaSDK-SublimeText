@@ -16,16 +16,24 @@ except:
 
 class ToggleBuildPanelCommand(sublime_plugin.WindowCommand):
 
+  def __init__(self, window):
+    self.window = window
+    self.output_panel = None
+
   def run(self):
-    output_panel = self.window.get_output_panel("exec")
-    if output_panel.window():
+    # The output panel content is cleared anytime "get_output_panel()" is called
+    # so we minimize how often we do that
+    if self.output_panel is None:
+      self.output_panel = self.window.get_output_panel("exec")
+    if self.output_panel.window():
       self.window.run_command("hide_panel", {"panel": "output.exec"})
     else:
       self.window.run_command("show_panel", {"panel": "output.exec"})
 
   def description(self):
-    output_panel = self.window.get_output_panel("exec")
-    if output_panel.window():
+    if self.output_panel is None:
+      self.output_panel = self.window.get_output_panel("exec")
+    if self.output_panel.window():
       return "Hide Build Panel"
     else:
       return "Show Build Panel"
