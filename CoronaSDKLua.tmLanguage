@@ -49,7 +49,7 @@
 				<key>6</key>
 				<dict>
 					<key>name</key>
-					<string>variable.parameter.function.lua</string>
+					<string>variable</string>
 				</dict>
 				<key>7</key>
 				<dict>
@@ -222,7 +222,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>\b(ads\.[a-zA-Z]+|analytics\.[a-zA-Z]+|audio\.[a-zA-Z]+|credits\.[a-zA-Z]+|crypto\.[a-zA-Z0-9]+|display\.[a-zA-Z]+|easing\.[a-zA-Z]+|facebook\.[a-zA-Z]+|gameNetwork\.[a-zA-Z]+|global\.[a-zA-Z]+|graphics\.[a-zA-Z]+|io\.[a-zA-Z]+|json\.[a-zA-Z]+|lfs\.[a-zA-Z]+|licensing\.[a-zA-Z]+|math\.[a-zA-Z0-9]+|mime\.[a-zA-Z0-9]+|media\.[a-zA-Z]+|native\.[a-zA-Z]+|network\.[a-zA-Z]+|os\.[a-zA-Z]+|package\.[a-zA-Z]+|physics\.[a-zA-Z]+|socket\.[a-zA-Z]+|sprite\.[a-zA-Z]+|sqlite3\.[a-zA-Z]+|store\.[a-zA-Z]+|storyboard\.[a-zA-Z]+|string\.[a-zA-Z]+|syntax\.[a-zA-Z]+|system\.[a-zA-Z]+|table\.[a-zA-Z]+|timer\.[a-zA-Z]+|transition\.[a-zA-Z]+|widget\.[a-zA-Z]+)\b</string>
+			<string>\b(ads|analytics|audio|composer|credits|crypto|display|easing|facebook|gameNetwork|global|graphics|io|json|lfs|licensing|math|mime|media|native|network|os|package|physics|socket|sprite|sqlite3|store|storyboard|string|syntax|system|table|timer|transition|widget)\.[a-zA-Z0-9]+\b</string>
 			<key>name</key>
 			<string>support.function.library.corona</string>
 		</dict>
