@@ -23,9 +23,10 @@ CoronaCompletions = None
 #
 # Utility functions
 #
-def is_lua_file(filename):
-  # Note this defaults new files to being Lua files for our purposes
-  return filename.endswith('.lua') if filename is not None else True
+def is_lua_file(view):
+  # Fairly rigorous test for being a Corona Lua file
+  # Note this means users have to set new files to the right syntax to get completions
+  return view.match_selector(view.sel()[0].a, "source.lua.corona")
 
 
 # determine if 'obj' is a string in both Python 2.x and 3.x
@@ -62,11 +63,13 @@ class CoronaLabs:
   _completions = []
   _fuzzyMatcher = None
   _fuzzyPrefix = None
+  _findWhiteSpace = re.compile("([^,])\s")
 
   def __init__(self):
     global CoronaCompletions
     CoronaCompletions = self
 
+  # Called by the snippets module to make sure completions are loaded
   def initialize(self):
     self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", "public"))
 
@@ -87,7 +90,7 @@ class CoronaLabs:
 
         self._completions = json.loads(sublime.load_resource(_corona_utils.ST_PACKAGE_PATH + source))
 
-      # pprint(self._completions)
+      # print(self._completions)
       print("Corona Editor: loaded {0} completions from {1}".format(len(self._completions['completions']), source))
 
   def setupFuzzyMatch(self, prefix):
@@ -121,14 +124,14 @@ class CoronaLabs:
   def find_completions(self, view, prefix):
     self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", "public"))
     use_fuzzy_completion = _corona_utils.GetSetting("corona_sdk_use_fuzzy_completion", True)
+    strip_white_space = _corona_utils.GetSetting("corona_completions_strip_white_space", False)
 
     completion_target = self.current_word(view)
 
-    # print('completion_target: ', completion_target)
-
-    # because we adjust the prefix to make completions with periods in them work better we may need to
-    # trim the part before the period from the returned string (or it will appear to be doubled).
-    trim_result = True if '.' in completion_target else False
+    # Because we adjust the prefix to make completions with periods in them work better we may need to
+    # trim the part before the period from the returned string (or it will appear to be doubled). Note
+    # this only happens for "dict" completions, not "string" completions.
+    trim_result = completion_target.endswith(".")
 
     # print('completion_target: ', completion_target, "; trim_result: ", trim_result, "; corona_sdk_complete_periods: ", _corona_utils.GetSetting("corona_sdk_complete_periods", True) )
 
@@ -142,14 +145,21 @@ class CoronaLabs:
     # ST completion files contain an array that is a mixture of strings and dicts
     comps = []
     for c in self._completions['completions']:
+      trigger = ""
+      contents = ""
       if isinstance(c, dict):
-        #if c['trigger'].startswith(completion_target):
         if self.fuzzyMatchString(c['trigger'], use_fuzzy_completion):
-          comps.append((c['trigger'], c['contents'] if not trim_result else c['contents'].partition('.')[2]))
+          trigger = c['trigger']
+          contents = c['contents'] if not trim_result else c['contents'].partition('.')[2]
       elif is_string_instance(c):
-        # if c.startswith(completion_target):
         if self.fuzzyMatchString(c, use_fuzzy_completion):
-          comps.append((c, c if not trim_result else c.partition('.')[2]))
+          trigger = c
+          contents = c
+
+      if trigger is not "":
+        if strip_white_space and contents is not "":
+           contents = self._findWhiteSpace.sub("\\1", contents)
+        comps.append((trigger, contents))
 
     # print("comps: ", comps)
     # print("extract_completions: ", view.extract_completions(completion_target))
@@ -172,7 +182,7 @@ class CoronaLabs:
     end = s.b
 
     view_size = view.size()
-    terminator = ['\t', ' ', '\"', '\'', ':']
+    terminator = ['\t', ' ', '\"', '\'', ':', '=', '-', '+', '*', '/', '^', ',']
 
     while (start > 0
             and not view.substr(start - 1) in terminator
@@ -189,38 +199,59 @@ class CoronaLabs:
 
 class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
 
+  def __init__(self):
+    self.periods_set = {}
+
+
   # Optionally trigger a "build" when a .lua file is saved.  This is best
   # done by setting the "Relaunch Simulator when project is modified" setting
   # in the Simulator itself but is provided here for cases where that option
   # doesn't work
   def on_post_save(self, view):
-    if is_lua_file(view.file_name()):
+    if is_lua_file(view):
       auto_build = _corona_utils.GetSetting("corona_sdk_auto_build", False)
       if auto_build:
         print("Corona Editor: auto build triggered")
         view.window().run_command("build")
 
-  def on_query_completions(self, view, prefix, locations):
-    comps = []
 
+  # When a Lua file is loaded and the "use_periods_in_completion" user preference is set,
+  # add period to "auto_complete_triggers" if it's not already there.
+  def on_load(self, view):
     use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", True)
+    if use_corona_sdk_completion and is_lua_file(view):
+      use_periods_in_completion = _corona_utils.GetSetting("corona_sdk_complete_periods", True)
 
-    use_periods_in_completion = _corona_utils.GetSetting("corona_sdk_complete_periods", True)
+      # Completion behavior is improved if periods are included in the completion process
+      if use_periods_in_completion:
+        # If "auto_complete_triggers" for periods is not set for this buffer, set it
+        auto_complete_triggers = view.settings().get("auto_complete_triggers")
+        self.periods_set[view.file_name()] = False
+        for act in auto_complete_triggers:
+          if "source.lua" in act["selector"] and "." in act["characters"]:
+            self.periods_set[view.file_name()] = True
+            break
+        if not self.periods_set.get(view.file_name(), False):
+          auto_complete_triggers.append({ "selector": "source.lua", "characters": "." })
+          view.settings().set("auto_complete_triggers", auto_complete_triggers)
+          self.periods_set[view.file_name()] = True
+    print("on_load view: ", view.file_name(), "periods_set" if self.periods_set.get(view.file_name(), False) else "not set")
 
-    # Completion behavior is improved if periods are included in the completion process but
-    # the only way to do this is to remove the period from the "word_separators" preference.
-    # Doing this breaks some intraline cursor movement (like Alt+Arrow) so we make it optional.
-    if use_periods_in_completion:
-      word_separators = view.settings().get("word_separators")
-      word_separators = word_separators.replace('.', '')
-      view.settings().set("word_separators", word_separators)
 
-    # We should do something "correct" like checking the selector
-    # to determine whether we should use Corona completions but
-    # the path of least surprise is just to check the file extension
-    # if is_lua_file(view.file_name()) and use_corona_sdk_completion:
-    # however, that makes too many things completable and is a usability issue
-    if use_corona_sdk_completion and view.match_selector(locations[0], "source.lua - entity"):
+  # When a Lua file is closed and we added a period to "auto_complete_triggers", remove it
+  def on_close(self, view):
+    print("on_close view: ", view.file_name(), "periods_set" if self.periods_set.get(view.file_name(), False) else "not set" )
+    if view.file_name() is not None and self.periods_set.get(view.file_name(), False):
+      auto_complete_triggers = view.settings().get("auto_complete_triggers")
+      if { "selector": "source.lua", "characters": "." } in auto_complete_triggers:
+        auto_complete_triggers.remove({ "selector": "source.lua", "characters": "." })
+        self.periods_set[view.file_name()] = False
+
+
+  def on_query_completions(self, view, prefix, locations):
+    use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", True)
+    print("on_query_completions: ",  use_corona_sdk_completion, view.match_selector(locations[0], "source.lua.corona - entity"))
+    if use_corona_sdk_completion and view.match_selector(locations[0], "source.lua.corona - entity"):
       comps = self.find_completions(view, prefix)
       flags = 0  # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
       return (comps, flags)
