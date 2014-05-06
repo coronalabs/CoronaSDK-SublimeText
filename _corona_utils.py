@@ -43,8 +43,11 @@ def Init():
   global ST_PACKAGE_PATH
 
   PLUGIN_PATH = os.path.dirname(os.path.realpath(__file__))
-  if PLUGIN_PATH.endswith('CoronaSDK-SublimeText'):
-    PLUGIN_PATH = os.path.expanduser('~/Library/Application Support/Sublime Text 2/Packages/Corona Editor')
+  if PLUGIN_PATH.lower().endswith('coronasdk-sublimetext'):
+    if SUBLIME_VERSION < 3000:
+      PLUGIN_PATH = os.path.expanduser('~/Library/Application Support/Sublime Text 2/Packages/Corona Editor')
+    else:
+      PLUGIN_PATH = os.path.expanduser('~/Library/Application Support/Sublime Text 3/Packages/Corona Editor')
   debug("PLUGIN_PATH: " + PLUGIN_PATH)
 
   PACKAGE_NAME = os.path.basename(PLUGIN_PATH) if SUBLIME_VERSION < 3000 else os.path.basename(PLUGIN_PATH).replace(".sublime-package", "")
@@ -89,7 +92,7 @@ def GetSimulatorCmd(mainlua=None, debug=False):
   if mainlua is not None:
     simulator_path = GetSimulatorPathFromBuildSettings(mainlua)
     if simulator_path is None:
-      simulator_path = view.settings().get("corona_sdk_simulator_path", None)
+      simulator_path = GetSetting("corona_sdk_simulator_path", None)
 
   if platform == "osx":
     if simulator_path is None:
@@ -148,7 +151,6 @@ def GetSimulatorPathFromBuildSettings(mainlua):
 
 # Given an existing file path or directory, find the likely "main.lua" for this project
 def ResolveMainLua(path):
-
   # debug("ResolveMainLua: path: "+str(path))
   path = os.path.abspath(path)
   if not os.path.isdir(path):
@@ -161,3 +163,10 @@ def ResolveMainLua(path):
     return mainlua
   else:
     return ResolveMainLua(os.path.join(path, ".."))
+
+def GetSetting(key,default=None):
+  # repeated calls to load_settings return same object without further disk reads
+  s = sublime.load_settings('Corona Editor.sublime-settings')
+  print("GetSetting: ", key, s.get(key, default))
+  return s.get(key, default)
+

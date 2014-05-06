@@ -13,6 +13,11 @@ import string
 import re
 import urllib
 
+try:
+  from . import _corona_utils  # P3
+except:
+  import _corona_utils  # P2
+
 SEARCH_URL = "http://www.google.com/cse?cx=009283852522218786394%3Ag40gqt2m6rq&ie=UTF-8&q={search_term}&sa=Search#gsc.tab=0&gsc.q={search_term}&gsc.page=1"
 
 # Note "lfs", "socket", "sqlite3" are omitted because we don't have complete docs for those
@@ -61,7 +66,7 @@ class CoronaDocsCommand(sublime_plugin.TextCommand):
     isLuaKeyword = self.view.match_selector(start,
                                             "keyword.control.lua, support.function.lua, support.function.library.lua")
 
-    use_docset = self.view.settings().get("corona_sdk_use_docset", "public")
+    use_docset = _corona_utils.GetSetting("corona_sdk_use_docset", "public")
     if use_docset in ['legacy', 'daily']:
       docset = use_docset + "/"
     else:

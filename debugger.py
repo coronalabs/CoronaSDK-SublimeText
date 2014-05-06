@@ -537,7 +537,7 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
       cmd = "start"
 
     if cmd == "start":
-      if self.view.settings().get("corona_sdk_debug", False):
+      if _corona_utils.GetSetting("corona_sdk_debug", False):
         # Show Sublime Console
         self.window.run_command("show_panel", {"panel": "console"})
         # sublime.log_commands(True)

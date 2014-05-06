@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>comment</key>
-	<string>Corona Lua Syntax: version 0.1 (after Lua Syntax: version 0.8)</string>
+	<string>Corona Lua Syntax: version 0.2 (after Lua Syntax: version 0.8)</string>
 	<key>fileTypes</key>
 	<array>
 		<string>lua</string>
@@ -29,12 +29,12 @@
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.function.scope.lua</string>
+					<string>keyword.control.lua</string>
 				</dict>
 				<key>3</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.function.lua</string>
+					<string>entity.name.function.scope.lua</string>
 				</dict>
 				<key>4</key>
 				<dict>
@@ -44,33 +44,25 @@
 				<key>5</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.function.scope.lua</string>
+					<string>punctuation.definition.parameters.begin.lua</string>
 				</dict>
 				<key>6</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.function.lua</string>
+					<string>variable</string>
 				</dict>
 				<key>7</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.parameters.begin.lua</string>
-				</dict>
-				<key>8</key>
-				<dict>
-					<key>name</key>
-					<string>variable.parameter.function.lua</string>
-				</dict>
-				<key>9</key>
 				<dict>
 					<key>name</key>
 					<string>punctuation.definition.parameters.end.lua</string>
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>\b(?:(function)\s+([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)|(function|)\s+([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*=\s*function)\s*(\()([^)]*)(\))</string>
+			<string>(?:(?=.*function.*))(local\s+)*(function\s+)*((?:[A-Za-z_]\w*[:.])*[A-Za-z_]\w*)(?:\s*=\s*)*(function)*\s*(\()([^)]*)(\))</string>
 			<key>name</key>
 			<string>meta.function.lua</string>
+			<key>comment</key>
+			<string>Find the various kinds of function definition in Lua: for any line containing "function", match option "local" and/or "function", match identifier with optional classname, discard optional "=", match optional "function", match "(", match everything until closing ")", match ")"</string>
 		</dict>
 		<dict>
 			<key>match</key>
@@ -230,7 +222,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>\b(ads\.[a-zA-Z]+|analytics\.[a-zA-Z]+|audio\.[a-zA-Z]+|credits\.[a-zA-Z]+|crypto\.[a-zA-Z0-9]+|display\.[a-zA-Z]+|easing\.[a-zA-Z]+|facebook\.[a-zA-Z]+|gameNetwork\.[a-zA-Z]+|global\.[a-zA-Z]+|graphics\.[a-zA-Z]+|io\.[a-zA-Z]+|json\.[a-zA-Z]+|lfs\.[a-zA-Z]+|licensing\.[a-zA-Z]+|math\.[a-zA-Z0-9]+|mime\.[a-zA-Z0-9]+|media\.[a-zA-Z]+|native\.[a-zA-Z]+|network\.[a-zA-Z]+|os\.[a-zA-Z]+|package\.[a-zA-Z]+|physics\.[a-zA-Z]+|socket\.[a-zA-Z]+|sprite\.[a-zA-Z]+|sqlite3\.[a-zA-Z]+|store\.[a-zA-Z]+|storyboard\.[a-zA-Z]+|string\.[a-zA-Z]+|syntax\.[a-zA-Z]+|system\.[a-zA-Z]+|table\.[a-zA-Z]+|timer\.[a-zA-Z]+|transition\.[a-zA-Z]+|widget\.[a-zA-Z]+)\b</string>
+			<string>\b(ads|analytics|audio|composer|credits|crypto|display|easing|facebook|gameNetwork|global|graphics|io|json|lfs|licensing|math|mime|media|native|network|os|package|physics|socket|sprite|sqlite3|store|storyboard|string|syntax|system|table|timer|transition|widget)\.[a-zA-Z0-9]+\b</string>
 			<key>name</key>
 			<string>support.function.library.corona</string>
 		</dict>
@@ -248,7 +240,7 @@
 		</dict>
 	</array>
 	<key>scopeName</key>
-	<string>source.lua</string>
+	<string>source.lua.corona</string>
 	<key>uuid</key>
 	<string>83E017CC-6F27-11D9-90EB-000D93589AF7</string>
 </dict>

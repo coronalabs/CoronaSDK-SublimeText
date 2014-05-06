@@ -68,6 +68,10 @@ Completion works for all API calls and constants (correctly handling periods in 
 
 	Choose which completion set you want to use.  Can be one of "public" (the default), "legacy" or "daily".
 
+ * **corona_completions_strip_white_space** (default: False)
+
+	Set to true if you want items to be completed with minimal whitespace included.
+
 ##### Current Gotchas
  * The order of items in the completions popup seems a little odd but is due to Sublime's "fuzzy" matching
 
