@@ -162,19 +162,17 @@ class CoronaLabs:
       contents = ""
       if isinstance(c, dict):
           trigger = c['trigger']
-          contents = c['contents'] if not trim_result else c['contents'].partition('.')[2]
+          # sublime seams to treat auto complete on strings like event.phase differently to display.newCircle()
+          contents=c['contents'] if not trim_result or '(' not in c['contents'] else c['contents'].partition('.')[2]
       elif is_string_instance(c):
         if self.fuzzyMatchString(c, use_fuzzy_completion):
           trigger = c
           contents = c
-        continue
-
+ 
       if trigger is not "":
-        contents=contents if not strip_white_space else CoronaLabs.findWhiteSpace.sub("\\1",contents)
         if strip_white_space and contents is not "":
            contents = self._findWhiteSpace.sub("\\1", contents)
         comps.append((trigger, contents))
-
     # print("comps: ", comps)
     # print("extract_completions: ", view.extract_completions(completion_target))
 
@@ -265,8 +263,8 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
     use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", True)
     print("on_query_completions: ",  use_corona_sdk_completion, view.match_selector(locations[0], "source.lua.corona - entity"))
     if use_corona_sdk_completion and view.match_selector(locations[0], "source.lua.corona - entity"):
-    comps = self.find_completions(view)
-    flags = 0  # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
-    return (comps, flags)
-  
+      comps = self.find_completions(view)
+      flags = 0  # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
+      return (comps, flags)
+    else:
       return []
