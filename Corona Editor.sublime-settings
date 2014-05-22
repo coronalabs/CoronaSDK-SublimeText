@@ -34,5 +34,5 @@
  	// display.capture( displayObject [, saveToPhotoLibrary ] )
  	// when set to true it will become
  	// display.capture(displayObject[, saveToPhotoLibrary])
- 	"completions_strip_white_space":false
+ 	"corona_completions_strip_white_space":false
 }
