@@ -140,7 +140,6 @@ class CoronaLabs:
     # print('completion_target: ', completion_target, "; trim_result: ", trim_result, "; corona_sdk_complete_periods: ", _corona_utils.GetSetting("corona_sdk_complete_periods", True) )
 
     self.setupFuzzyMatch(completion_target)
-
     # Sample:
     #   { "trigger": "audio.stopWithDelay()", "contents": "audio.stopWithDelay( ${1:duration}, ${2:[, options ]} )"},
     #   "audio.totalChannels ",
@@ -167,6 +166,7 @@ class CoronaLabs:
     # print("comps: ", comps)
     # print("extract_completions: ", view.extract_completions(completion_target))
 
+    completion_target=completion_target if not '.' in completion_target else completion_target.partition('.')[2]
     # Add textual completions from the document
     for c in view.extract_completions(completion_target):
       comps.append((c, c))
