@@ -35,11 +35,6 @@ def is_string_instance(obj):
     return isinstance(obj, basestring)
   except NameError:
     return isinstance(obj, str)
-
-def getEditorSetting(key,default=None):
-  # repeated calls to load_settings return same object without further disk reads
-  s = sublime.load_settings('Corona Editor.sublime-settings')
-  return s.get(key, default)
     
 class FuzzyMatcher():
 
