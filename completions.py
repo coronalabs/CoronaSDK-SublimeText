@@ -121,15 +121,11 @@ class CoronaLabs:
   #  * determine the "completion target" ourselves based on the view instead of using the provided prefix
   #  * if there's a period in the "completion target", return only the part following the period in the completions
 
-  def find_completions(self, view, prefix):
+  def find_completions(self, view):
     self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", "public"))
     use_fuzzy_completion = _corona_utils.GetSetting("corona_sdk_use_fuzzy_completion", True)
     strip_white_space = _corona_utils.GetSetting("corona_completions_strip_white_space", False)
 
-  def find_completions(self, view):
-    self.load_completions(getEditorSetting("corona_sdk_use_docset", "public"))
-    use_fuzzy_completion = getEditorSetting("corona_sdk_use_fuzzy_completion", True)
-    strip_white_space=getEditorSetting("completions_strip_white_space")
     completion_target = self.current_word(view)
 
     # Because we adjust the prefix to make completions with periods in them work better we may need to
