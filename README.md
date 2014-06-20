@@ -16,7 +16,18 @@ Although ***Sublime Text 3*** has been in active use for over a year, it is stil
 1. Find **Corona Editor** by typing in the search field, click on it to install it
 1. Restart ***Sublime Text*** or reopen any .lua files to see the new features
 
+If you want to help test the latest development version of ***Corona Editor*** you can configure **Package Control** to grab it instead of the official release version by following these steps:
+
+1. In ***Sublime Text*** choose: **Tools > Command Palette... > Package Control: Remove Package** and uninstall any installed version of ***Corona Editor***
+1. Choose: **Tools > Command Palette... > Package Control: Add Repository**
+1. Enter `https://github.com/coronalabs/CoronaSDK-SublimeText`
+1. Choose: **Tools > Command Palette... > Package Control: Install Package**
+1. Find **Corona Editor - Daily Build** (or, on some machines, **CoronaSDK-SublimeText**) by typing in the search field, click on it to install it
+1. Restart ***Sublime Text*** or reopen any .lua files to see the new features
+
 Alternatively, if you are comfortable doing manual installs of Sublime Text plugins and want to run the latest development version, you can download the plugin from [https://github.com/coronalabs/CoronaSDK-SublimeText/archive/master.zip](https://github.com/coronalabs/CoronaSDK-SublimeText/archive/master.zip)
+
+If you install the tip from Github please report any issues using the Issues page on Github: [https://github.com/coronalabs/CoronaSDK-SublimeText/issues](https://github.com/coronalabs/CoronaSDK-SublimeText/issues)
 
 ## Using the Plugin
 
