@@ -3,6 +3,12 @@ Corona Editor
 
 ***Corona Editor*** is the official ***Corona SDK*** plugin for ***Sublime Text***.  Designed to make building apps even easier by adding functionality to ***Sublime Text*** to improve developer productivity.
 
+## Sublime Text Version
+
+We recommend [***Sublime Text 3***](http://www.sublimetext.com/3) for use with Corona Editor.
+
+Although ***Sublime Text 3*** has been in active use for over a year, it is still labelled as a "beta" though it seems better in every way than ***Sublime Text 2***.  We will endeavor to support ***Sublime Text 2*** until the official release of ***Sublime Text 3*** but the latter gets most attention during development.
+
 ## Installation Instructions
 
 1. Install the ***Sublime Text*** **Package Control** plugin if you don't already have it: [https://sublime.wbond.net/installation](https://sublime.wbond.net/installation)
@@ -10,13 +16,13 @@ Corona Editor
 1. Find **Corona Editor** by typing in the search field, click on it to install it
 1. Restart ***Sublime Text*** or reopen any .lua files to see the new features
 
-Alternatively, if you are comfortable doing manual installs of Sublime Text plugins and want to run the latest development version, you can download the plugin from [https://github.com/coronalabs/CoronaSDK-SublimeText/archive/master.zip](here).
+Alternatively, if you are comfortable doing manual installs of Sublime Text plugins and want to run the latest development version, you can download the plugin from [https://github.com/coronalabs/CoronaSDK-SublimeText/archive/master.zip](https://github.com/coronalabs/CoronaSDK-SublimeText/archive/master.zip)
 
 ## Using the Plugin
 
 After restarting ***Sublime Text*** you'll have several new features  available in the **Corona Editor** menu and in the context menu when editing .lua files.
 
-There are several ***Sublime Text*** User Preferences that can be set to fine tune the behavior of the plugin.  You can find information on setting User Preferences [http://www.sublimetext.com/docs/3/settings.html](here).
+There are several ***Sublime Text*** User Preferences that can be set to fine tune the behavior of the plugin.  You can find information on setting User Preferences [http://www.sublimetext.com/docs/3/settings.html](http://www.sublimetext.com/docs/3/settings.html).
 
 ### Debugger
 The Corona Debugger allows code to be single stepped, variables to be examined and breakpoints to be set.  You can run the debugger using the **Corona Editor** menu from any file in the project and it will automatically find **main.lua**.  Right click on a code line in the editor and choose **Toggle Breakpoint** to turn breakpoints on and off.  Select the name of a variable and choose **Inspect Variable** from the context menu to see its value.
@@ -48,7 +54,7 @@ A simpler alternative to the **Build** command in ***Sublime Text*** is the **Ru
  * Using the **Run Project** command while in the Debugger can result in a confused state.
  * There's an implicit breakpoint set on the first line of main.lua so to hit your own first breakpoint you need to run once to start the debugger and stop on the first line then run again to continue until you hit your own breakpoint.
 
-### Completion 
+### Completion
 Completion works for all API calls and constants (correctly handling periods in the name).  Fuzzy matching is optionally done to increase the chances of finding the item you are looking for.  Completion relies on the current **Syntax** setting so when creating new files you should use **View / Syntax / Corona SDK Lua** command to set the correct syntax for the new file.  You will probably also want to change ***Sublime Text***'s default for .lua files by choosing **View > Syntax > Open all with current extension as... > Corona SDK Lua** when you have a .lua file open in the editor.
 
 ##### Preferences
@@ -109,16 +115,24 @@ Syntax highlighting of Lua with Corona SDK calls is done (choose **View > Syntax
 
 ## Reporting Issues
 
-You can find discussion about Corona Editor on our [http://forums.coronalabs.com/forum/630-corona-editor/](Forum).  Let us know if you'd like to try prerelease versions.
+You can find discussion about Corona Editor on our [http://forums.coronalabs.com/forum/630-corona-editor/](http://forums.coronalabs.com/forum/630-corona-editor/).  Let us know if you'd like to try prerelease versions.
 
 If some aspect of the plugin doesn't behave as expected be sure to include any console output when reporting the problem.  You can view the console using **View > Show Console** and copy and paste the information displayed there.
+
+## Known Issues
+
+ * Syntax highlighting for function definitions that look like:
+ `````
+ local back=simplebutton.create("Back",function() menumanager.openMenu("main") end)
+ `````
+    is incorrect.
 
 ## Platform Specific Advice
 
 ### Mac
 
-You may want to set the `Use all F1, F2, etc. keys as standard function keys` option in **System Preferences / Keyboard** to make using F10 and F11 easier for the debugger.  Alternatively you may want to reassign the keys used to drive the debugger; information on how to this can be found at http://www.sublimetext.com/docs/key-bindings
+You may want to set the `Use all F1, F2, etc. keys as standard function keys` option in **System Preferences / Keyboard** to make using F10 and F11 easier for the debugger.  Alternatively you may want to reassign the keys used to drive the debugger; information on how to this can be found at [http://www.sublimetext.com/docs/key-bindings](http://www.sublimetext.com/docs/key-bindings)
 
 ## Thanks
 
-Many thanks to the Corona users who have provided feedback and suggestions to make Corona Editor even better.  Particular thanks to _develephant_ and _givemeyourgits_ for their contributions and help.
+Many thanks to the Corona users who have provided feedback and suggestions to make Corona Editor even better.  Particular thanks to _personalnadir_, _develephant_ and _givemeyourgits_ for their contributions and help.
