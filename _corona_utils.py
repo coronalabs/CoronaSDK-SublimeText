@@ -20,6 +20,7 @@ PACKAGE_NAME = "not set"
 PACKAGE_DIR = "not set"
 PACKAGE_USER_DIR = "not set"
 ST_PACKAGE_PATH = "not set"
+_corona_sdk_debug = False
 
 # In Sublime Text 3 most APIs are unavailable until a module level function is called (fortunately
 # sublime.version() is available so we can correctly fake things in Sublime Text 2; see about.py)
@@ -27,8 +28,9 @@ SUBLIME_VERSION = 3000 if sublime.version() == '' else int(sublime.version())
 
 
 def debug(*args):
-  for arg in args:
-    print("Corona Editor: " + str(arg))
+  global _corona_sdk_debug
+  if _corona_sdk_debug:
+    print("Corona Editor: ", '\t'.join(map(str, args)))
 
 
 InitializedEvent = threading.Event()
@@ -41,6 +43,9 @@ def Init():
   global PACKAGE_DIR
   global PACKAGE_USER_DIR
   global ST_PACKAGE_PATH
+  global _corona_sdk_debug
+
+  _corona_sdk_debug = GetSetting("corona_sdk_debug", False)
 
   PLUGIN_PATH = os.path.dirname(os.path.realpath(__file__))
   if PLUGIN_PATH.lower().endswith('coronasdk-sublimetext'):
@@ -167,6 +172,5 @@ def ResolveMainLua(path):
 def GetSetting(key,default=None):
   # repeated calls to load_settings return same object without further disk reads
   s = sublime.load_settings('Corona Editor.sublime-settings')
-  print("GetSetting: ", key, s.get(key, default))
   return s.get(key, default)
 
