@@ -44,13 +44,16 @@ class RunProjectCommand(sublime_plugin.WindowCommand):
   # find a main.lua file to start the Simulator with or failing that, any open Lua
   # file we can use as a place to start looking for a main.lua
   def findLuaFile(self):
-    filename = self.window.active_view().file_name()
+    filename = None
+    if self.window.active_view():
+      filename = self.window.active_view().file_name()
     if filename is None or not filename.endswith(".lua"):
       filename = None
       # No current .lua file, see if we have one open
       for view in self.window.views():
         if view.file_name() and view.file_name().endswith(".lua"):
           filename = view.file_name()
+          break
     return filename
 
   def is_enabled(self):
