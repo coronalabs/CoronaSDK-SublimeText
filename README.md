@@ -16,7 +16,18 @@ Although ***Sublime Text 3*** has been in active use for over a year, it is stil
 1. Find **Corona Editor** by typing in the search field, click on it to install it
 1. Restart ***Sublime Text*** or reopen any .lua files to see the new features
 
+If you want to help test the latest development version of ***Corona Editor*** you can configure **Package Control** to grab it instead of the official release version by following these steps:
+
+1. In ***Sublime Text*** choose: **Tools > Command Palette... > Package Control: Remove Package** and uninstall any installed version of ***Corona Editor***
+1. Choose: **Tools > Command Palette... > Package Control: Add Repository**
+1. Enter `https://github.com/coronalabs/CoronaSDK-SublimeText`
+1. Choose: **Tools > Command Palette... > Package Control: Install Package**
+1. Find **Corona Editor - Daily Build** (or, on some machines, **CoronaSDK-SublimeText**) by typing in the search field, click on it to install it
+1. Restart ***Sublime Text*** or reopen any .lua files to see the new features
+
 Alternatively, if you are comfortable doing manual installs of Sublime Text plugins and want to run the latest development version, you can download the plugin from [https://github.com/coronalabs/CoronaSDK-SublimeText/archive/master.zip](https://github.com/coronalabs/CoronaSDK-SublimeText/archive/master.zip)
+
+If you install the tip from Github please report any issues using the Issues page on Github: [https://github.com/coronalabs/CoronaSDK-SublimeText/issues](https://github.com/coronalabs/CoronaSDK-SublimeText/issues)
 
 ## Using the Plugin
 
@@ -37,10 +48,10 @@ The following keys also control the Debugger:
 | F11       | Step over         |
 | Shift+F11 | Step into         |
 
-A simpler alternative to the **Build** command in ***Sublime Text*** is the **Run Project** command in the **Corona Editor** menu (or Super+F10).  It doesn't have all the bells and whistles of the build system but it is quick and easy.  It is also better at finding your project's **main.lua** if you aren't using ***Sublime Text***'s projects.
+A simpler alternative to the **Build** command in ***Sublime Text*** is the **Run Project** command in the **Corona Editor** menu (or Super+F10).  It doesn't have all the bells and whistles of the build system but it is quick and easy.  It is also better at finding your project's `main.lua` if you aren't using ***Sublime Text***'s projects.
 
 ##### Preferences
- * **corona_sdk_simulator_path** (default: system dependent)
+ * `corona_sdk_simulator_path` (default: system dependent)
 
 	Set this to the path of your Corona Simulator if it's not installed
 	in the default location for your operating system (remember to double
@@ -57,24 +68,28 @@ A simpler alternative to the **Build** command in ***Sublime Text*** is the **Ru
 ### Completion 
 Completion works for all API calls and constants (correctly handling periods in the name).  Fuzzy matching is optionally done to increase the chances of finding the item you are looking for.  Completion relies on the current **Syntax** setting so when creating new files you should use **View / Syntax / Corona SDK Lua** command to set the correct syntax for the new file.  You will probably also want to change ***Sublime Text***'s default for .lua files by choosing **View > Syntax > Open all with current extension as... > Corona SDK Lua** when you have a .lua file open in the editor.
 
+If the syntax option is set correctly you'll see it displayed in the bottom righthand corner of the ***Sublime Text*** window:
+
+![Corona SDK Lua](http://coronalabs.com/images/st-coronasdklua.png "Corona SDK Lua")
+
 ##### Preferences
- * **corona_sdk_completion** (default: True)
+ * `corona_sdk_completion` (default: True)
 
 	If you don't like Corona Editor's completion you can turn it off entirely using this preference.
 
- * **corona_sdk_use_fuzzy_completion** (default: True)
+ * `corona_sdk_use_fuzzy_completion` (default: True)
 
 	Turn off "fuzzy completion" and just complete based on the characters typed so far as a prefix.
 
- * **corona_sdk_complete_periods** (default: True)
+ * `corona_sdk_complete_periods` (default: True)
 
 	Corona Editor turns off the special meaning of periods as "word separators" in Sublime Text to make Corona completions work better.  If you like to use cursor movement keys like "Alt+Arrow" to move to the periods in function calls you might want to turn this off.  The most obvious effect of turning it off is that when you type a period all the completions disappear until you type another character.
 
- * **corona_sdk_use_docset** (default: "public")
+ * `corona_sdk_use_docset` (default: `public`)
 
-	Choose which completion set you want to use.  Can be one of "public" (the default), "legacy" or "daily".
+	Choose which completion set you want to use.  Can be one of `public` (the default), `legacy` or `daily`.
 
- * **corona_completions_strip_white_space** (default: False)
+ * `corona_completions_strip_white_space` (default: False)
 
 	Set to true if you want items to be completed with minimal whitespace included.
 
@@ -86,7 +101,7 @@ Documentation can be called up by placing the cursor on an API call (or selectin
 
 
 ##### Preferences
- * **corona_sdk_use_docset** (default: "public")
+ * `corona_sdk_use_docset` (default: "public")
 
  	Choose which documentation set you want to use.  Can be one of "public" (the default), "legacy" or "daily".
 
@@ -102,7 +117,7 @@ A default set of snippets is created in the ***Sublime Text*** support folder `P
 ### Build System
 The current app can be run in the Simulator by pressing Ctrl+B (Windows) or Cmd+B (MacOSX).  Debug output appears in the "build" window in ***Sublime Text***.  See also the **Run Project** command above.
 
- * **corona_sdk_auto_build** (default: False)
+ * `corona_sdk_auto_build` (default: False)
 
 	If you set this to "True" the Sublime Text "build" command will be issued any time you save a .lua file.
 
