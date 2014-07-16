@@ -58,11 +58,11 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:(?=.*function.*))(local\s+)*(function\s+)*((?:[A-Za-z_]\w*[:.])*[A-Za-z_]\w*)(?:\s*=\s*)*(function)*\s*(\()([^)]*)(\))</string>
+			<string>(?:(?=.*\bfunction\b.*))(local\s+)*(function\s+)*((?:[A-Za-z_]\w*[:.])*[A-Za-z_]\w*)(?:\s*=\s*)*(function)*\s*(\()([^)]*)(\))</string>
 			<key>name</key>
 			<string>meta.function.lua</string>
 			<key>comment</key>
-			<string>Find the various kinds of function definition in Lua: for any line containing "function", match option "local" and/or "function", match identifier with optional classname, discard optional "=", match optional "function", match "(", match everything until closing ")", match ")"</string>
+			<string>Find the various kinds of function definition in Lua: for any line containing "function", match optional "local" and/or "function", match identifier with optional classname, discard optional "=", match optional "function", match "(", match everything until closing ")", match ")"</string>
 		</dict>
 		<dict>
 			<key>match</key>
