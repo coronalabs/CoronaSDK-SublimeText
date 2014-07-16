@@ -1,6 +1,13 @@
+		facebook.logout( )	facebook
+		facebook.request( "me/friends" )	facebook
+		facebook.showDialog( "apprequests", { message="You should download this game!" } )	facebook
+		physics.pause()	physics
+		scrollView:takeFocus( event )	ScrollViewWidget
 	latitude:setText( latitudeText )	location
 	longitude:setText( longitudeText )	location
+	native.setKeyboardFocus( nil )	native
 	speed:setText( speedText )	location
+	timer.cancel( event.source ) -- after 3rd invocation, cancel timer	timer
 Array	type
 Body:applyAngularImpulse( appliedForce )	Body
 Body:applyForce( xForce, yForce, bodyX, bodyY )	Body
@@ -56,11 +63,16 @@ SpriteSheet:dispose()	SpriteSheet
 StageObject:setFocus( object [, touchId ] )	StageObject
 String	type
 Table	type
+VectorObject:setFillColor( gradient )	VectorObject
 VectorObject:setFillColor( gray )	VectorObject
+VectorObject:setFillColor( gray, alpha )	VectorObject
+VectorObject:setFillColor( red, green, blue )	VectorObject
+VectorObject:setFillColor( red, green, blue, alpha )	VectorObject
 VectorObject:setStrokeColor( red, green, blue [, alpha ] )	VectorObject
 accuracy	InputAxis
 addEventListener( eventName, listener )	EventListener
 addMarker( latitude, longitude )	Map
+addMarker( latitude, longitude, options )	Map
 ads.hide()	ads
 ads.init( providerName, appId [, listener] )	ads
 ads.show( adUnitType [, params] )	ads
@@ -69,6 +81,7 @@ align	TextField
 alpha	DisplayObject
 analytics.init( apiKey )	analytics
 analytics.logEvent( eventID )	analytics
+analytics.logEvent( eventID, params )	analytics
 androidDeviceId	InputDevice
 angularDamping	Body
 angularVelocity	Body
@@ -93,13 +106,20 @@ audio.play( audioHandle [, options ] )	audio
 audio.reserveChannels( channels )	audio
 audio.reservedChannels	audio
 audio.resume( [channel] )	audio
+audio.resume( backgroundMusicChannel )	audio
 audio.rewind( [, audioHandle ] [, options ] )	audio
+audio.rewind( [, audioHandle ] [, { channel=c } ] )	audio
 audio.seek( time [, audioHandle ] [, options ] )	audio
+audio.seek( time [, audioHandle ] [, { channel=c } ] )	audio
 audio.setMaxVolume( volume, options )	audio
+audio.setMaxVolume( volume, { channel=c } )	audio
 audio.setMinVolume( volume, options )	audio
+audio.setMinVolume( volume, { channel=c } )	audio
 audio.setVolume( volume [, options ] )	audio
+audio.setVolume( volume [, { [channel=c]  } ] )	audio
 audio.stop( [channel] )	audio
 audio.stopWithDelay( duration [, options ] )	audio
+audio.stopWithDelay( duration [, { [ channel = c ] } ] )	audio
 audio.totalChannels	audio
 audio.unreservedFreeChannels	audio
 audio.unreservedUsedChannels	audio
@@ -154,6 +174,7 @@ display.actualContentHeight	display
 display.actualContentWidth	display
 display.capture( displayObject [, saveToPhotoLibraryFlag ] )	display
 display.captureBounds( screenBounds [, saveToAlbum ] )	display
+display.captureScreen( [saveToAlbum] )	display
 display.captureScreen()	display
 display.contentCenterX	display
 display.contentCenterY	display
@@ -169,21 +190,32 @@ display.loadRemoteImage( url, method, listener [, params], destFilename [, baseD
 display.newCircle( [parentGroup,] xCenter, yCenter, radius )	display
 display.newEmbossedText( [parentGroup,] string, left, top, [width, height,] font, size)	display
 display.newGroup()	display
+display.newImage( [parentGroup,] filename [,baseDirectory] [,left,top] [,isFullResolution])	display
+display.newImage( [parentGroup,] imageSheet, frameIndex )	display
 display.newImage( filename [,baseDirectory] [, left, top ] )	display
 display.newImageGroup( imageSheet )	display
 display.newImageRect( [parentGroup,] filename, [baseDirectory] width, height )	display
+display.newImageRect( [parentGroup,] imageSheet, frameIndex, width, height )	display
 display.newLine( [parent,] x1,y1, x2,y2 )	display
 display.newRect( [parentGroup,] left, top, width, height )	display
 display.newRoundedRect( [parentGroup,] left, top, width, height, cornerRadius )	display
 display.newSprite( imageSheet, sequenceData )	display
+display.newSprite( parent, imageSheet, sequenceData )	display
+display.newText( [parentGroup,] string, left, top, [width, height,] font, size )	display
+display.newText( [parentGroup,] string, left, top, font, size )	display
 display.newText( options )	display
 display.pixelHeight	display
 display.pixelWidth	display
 display.remove( object )	display
+display.save( displayObject, filename [, baseDirectory] )	display
 display.save( group, "group.jpg" )	display
 display.screenOriginX	display
 display.screenOriginY	display
 display.setDefault( key, gray )	display
+display.setDefault( key, gray, alpha )	display
+display.setDefault( key, r, g, b )	display
+display.setDefault( key, r, g, b, alpha )	display
+display.setDefault( key, value )	display
 display.setStatusBar( mode )	display
 display.statusBarHeight	display
 display.topStatusBarContentHeight	display
@@ -412,17 +444,22 @@ event.zGravity	accelerometer
 event.zInstant	accelerometer
 event.zRotation	gyroscope
 facebook.login( appId, listener [, permissions ] )	facebook
+facebook.login( appId, listener, {"publish_stream"} )	facebook
 facebook.logout()	facebook
 facebook.publishInstall( appId )	facebook
 facebook.request( path [, httpMethod, params] )	facebook
 facebook.showDialog( action [, params ] )	facebook
+facebook.showDialog( action, onComplete )	facebook
+facebook.showDialog( action, options, onComplete )	facebook
 false	Keyword
 font	TextBox
 font	TextField
+formatstring:format( [...] )	string
 forward()	WebView
 frame	SpriteObject
 frequency	Joint
 friction	PhysicsContact
+gameNetwork.init( "gamecenter" [, initCallback] )	gameNetwork
 gameNetwork.init( providerName [, ...] )	gameNetwork
 gameNetwork.match	GameNetwork
 gameNetwork.outcome	GameNetwork
@@ -454,6 +491,10 @@ hasBackground	TextBox
 hasBackground	TextField
 hasBackground	WebView
 height	DisplayObject
+image:setFillColor( gray )	VectorObject
+image:setFillColor( gray, alpha  )	VectorObject
+image:setFillColor( red, green, blue  )	VectorObject
+image:setFillColor( red, green, blue, alpha  )	VectorObject
 initialize()	CoronaPrototype
 inputType	TextField
 insertRow( options )	TableViewWidget
@@ -509,6 +550,7 @@ licensing.verify( listener )	licensing
 limitState	Joint
 linearDamping	Body
 load( path )	Video
+load( path, baseSource )	Video
 localToContent( x, y )	DisplayObject
 mapType	Map
 maskRotation	DisplayObject
@@ -540,6 +582,8 @@ math.modf( x )	math
 math.pi	math
 math.pow( x, y )	math
 math.rad( x )	math
+math.random( m )	math
+math.random( m, n )	math
 math.random()	math
 math.randomseed( x )	math
 math.round( x )	math
@@ -565,11 +609,19 @@ media.newEventSound( filename [, baseDir] )	media
 media.newRecording( [path] )	media
 media.pauseSound()	media
 media.playEventSound( sound [, baseDir] [, completionListener] )	media
+media.playSound( soundfile [, baseDir] [, loop] )	media
 media.playSound( soundfile [, baseDir] [, onComplete] )	media
 media.playVideo( path [, baseSource ], showControls, listener )	media
 media.save( filename [, baseDir] )	media
 media.setSoundVolume( vol )	media
+media.show( media.PhotoLibrary,	media
+media.show( media.PhotoLibrary, { listener = sessionComplete, origin = myButton.contentBounds } )	media
+media.show( media.PhotoLibrary, { listener = sessionComplete, origin = myButton.contentBounds }, { baseDir =, filename = [, type =] } )	media
+media.show( media.PhotoLibrary, { listener = sessionComplete, origin = myButton.contentBounds, permittedArrowDirections = { "up", "down" } } )	media
+media.show( media.PhotoLibrary, { listener = sessionComplete, origin = myButton.contentBounds, permittedArrowDirections = { "up", "down" } }, { baseDir =, filename= [, type =] } )	media
+media.show( media.PhotoLibrary, { listener [, origin] [, permittedArrowDirections] } [, filetable] ) -- (iPad only)	media
 media.show( mediaSource, listener )	media
+media.show( mediaSource, listener [, filetable] )	media
 media.stopSound()	media
 minValue	InputAxis
 minimumValue	StepperWidget
@@ -591,13 +643,16 @@ native.newTextField( left, top, width, height [, listener] )	native
 native.newVideo( left, top, width, height )	native
 native.newWebView( left, top, width, height )	native
 native.requestExit()	native
+native.setActivityIndicator( false )	native
 native.setActivityIndicator( state )	native
 native.setKeyboardFocus( textField )	native
 native.setProperty( key, value )	native
 native.setSync( filename, params )	native
 native.showAlert( title, message [, { buttonLabels } [, listener] ] )	native
 native.showPopup( name )	native
+native.showPopup( name, options )	native
 native.showWebPopup( url [, options] )  	native
+native.showWebPopup( x, y, width, height, url [, options] )	native
 native.systemFont	native
 native.systemFontBold	native
 nearestAddress( latitude, longitude, resultHandler )	Map
@@ -607,6 +662,7 @@ network.download( url, method, listener [, params], filename [, baseDirectory] )
 network.request( url, method, listener [, params] )	network
 network.setStatusListener( hostURL, listener )	network
 network.upload( url, method, listener [, params], filename [, baseDirectory] [, contentType] )	network
+new( o )	CoronaPrototype
 new()	CoronaPrototype
 newClass( name )	CoronaPrototype
 next( array [, index] )	global
@@ -630,13 +686,26 @@ parent	DisplayObject
 pause()	Video
 pcall( f [, ...] )	global
 permanentId	InputDevice
+physics.addBody( object, [bodyType,]	physics
 physics.addBody( object, [bodyType,] {density=d, friction=f, bounce=b [,filter=f]} )	physics
+physics.addBody( object, [bodyType,] {density=d, friction=f, bounce=b, radius=r [,filter=f]} )	physics
+physics.addBody( object, [bodyType,] {density=d, friction=f, bounce=b, shape=s [,filter=f]} )	physics
 physics.fromMKS( unitName, value ) 	physics
 physics.getAverageCollisionPositions()	physics
 physics.getDebugErrorsEnabled()	physics
 physics.getGravity()	physics
 physics.getMKS( key )	physics
 physics.getReportCollisionsInContentCoordinates()	physics
+physics.newJoint( "distance", object1, object2, anchorX1, anchorY1, anchorX2, anchorY2 )	physics
+physics.newJoint( "friction", object1, object2, anchorX, anchorY )	physics
+physics.newJoint( "gear", object1, object2, joint1, joint2 )	physics
+physics.newJoint( "piston", object1, object2, anchorX1, anchorY1, axisDistanceX, axisDistanceY )	physics
+physics.newJoint( "pivot", object1, object2, anchorX, anchorY )	physics
+physics.newJoint( "pivot", object1, object2, anchorX1, anchorY1, anchorX2, anchorY2 )	physics
+physics.newJoint( "pulley", object1, object2, anchorX1, anchorY1, anchorX2, anchorY2, x1, y1, x2, y2, ratio )	physics
+physics.newJoint( "touch", object1, targetX, targetY )	physics
+physics.newJoint( "weld", object1, object2, anchorX, anchorY )	physics
+physics.newJoint( "wheel", object1, object2, anchorX, anchorY, axisDistanceX, axisDistanceY )	physics
 physics.newJoint( jointType, ... )	physics
 physics.pause()	physics
 physics.queryRegion()	physics
@@ -644,13 +713,19 @@ physics.rayCast()	physics
 physics.reflectRay()	physics
 physics.removeBody( object )	physics
 physics.setAverageCollisionPositions( enabled )	physics
+physics.setAverageCollisionPositions( false )	physics
+physics.setAverageCollisionPositions( true )	physics
 physics.setContinuous( enabled )	physics
 physics.setDebugErrorsEnabled( enabled )	physics
+physics.setDebugErrorsEnabled( false )	physics
+physics.setDebugErrorsEnabled( true )	physics
 physics.setDrawMode( mode )	physics
 physics.setGravity( gx, gy )	physics
 physics.setMKS( key, value )	physics
 physics.setPositionIterations( value )	physics
 physics.setReportCollisionsInContentCoordinates( enabled )	physics
+physics.setReportCollisionsInContentCoordinates( false )	physics
+physics.setReportCollisionsInContentCoordinates( true )	physics
 physics.setScale( value )	physics
 physics.setTimeStep( dt )	physics
 physics.setVelocityIterations( value )	physics
@@ -671,13 +746,25 @@ removeAllMarkers()	Map
 removeEventListener( eventName, listener )	EventListener
 removeSelf()	DisplayObject
 removeSelf()	Joint
+removeSelf()	display
 request( url )	WebView
+request( url, baseDir )	WebView
 requestLocation( location, resultHandler )	Map
 require()	package
 resizeView( newWidth )	ProgressViewWidget
 revision	CoronaLibrary
 rotate( deltaAngle )	DisplayObject
 rotation	DisplayObject
+s:byte( [, i [, j]] )	string
+s:gmatch( pattern )	string
+s:gsub( pattern, replace [,n] )	string
+s:len()	string
+s:lower()	string
+s:match( pattern [, init] )	string
+s:rep( n )	string
+s:reverse()	string
+s:sub( i[,j] )	string
+s:upper()	string
 scale( xScale, yScale )	DisplayObject
 scrollTo( position, options )	ScrollViewWidget
 scrollToIndex( index, time, onComplete )	TableViewWidget
@@ -701,12 +788,19 @@ setReturnKey(key)	TextField
 setScrollHeight( newHeight )	ScrollViewWidget
 setScrollWidth( newWidth )	ScrollViewWidget
 setSelected( buttonIndex )	TabBarWidget
+setSelected( buttonIndex, simulatePress )	TabBarWidget
 setSequence( [ sequenceName ] )	SpriteObject
 setState( options )	SwitchWidget
 setTarget( x, y )	Joint
+setTextColor( gradient )	TextObject
 setTextColor( gray )	TextObject
+setTextColor( gray, alpha )	TextObject
 setTextColor( r, g, b )	TextBox
 setTextColor( r, g, b )	TextField
+setTextColor( r, g, b, a )	TextBox
+setTextColor( r, g, b, a )	TextField
+setTextColor( red, green, blue )	TextObject
+setTextColor( red, green, blue, alpha )	TextObject
 setValue( percent )	SliderWidget
 setfenv( f, table )	global
 setmetatable( table, metatable )	global
@@ -771,6 +865,7 @@ system.DocumentsDirectory	system
 system.ResourceDirectory	system
 system.TemporaryDirectory	system
 system.activate( feature )	system
+system.cancelNotification( notificationId )	system
 system.cancelNotification()	system
 system.deactivate()	system
 system.getIdleTimer()	system
@@ -782,6 +877,7 @@ system.hasEventSource( eventName )	system
 system.openURL( url )	system
 system.orientation	system
 system.pathForFile( filename [, baseDirectory] )	system
+system.scheduleNotification( coordinatedUniversalTime [, options] )	system
 system.scheduleNotification( secondsFromNow [, options] )	system
 system.setAccelerometerInterval( frequency )	system
 system.setGyroscopeInterval( frequency )	system
@@ -791,12 +887,20 @@ system.setLocationThreshold( distance )	system
 system.setTapDelay( delayTime )	system
 system.vibrate()	system
 table.concat( t )	table
+table.concat( t, sep )	table
+table.concat( t, sep, i )	table
+table.concat( t, sep, i, j )	table
 table.copy( t )	table
+table.copy( t, ... )	table
 table.indexOf( t, element )	table
+table.insert( t, pos, value )	table
 table.insert( t, value )	table
 table.maxn( t )	table
 table.remove( t )	table
+table.remove( t, pos )	table
 table.sort( t )	table
+table.sort( t, comp )	table
+tableView:insertRow	TableViewWidget
 takeFocus( event )	ScrollViewWidget
 text	TextBox
 text	TextField
