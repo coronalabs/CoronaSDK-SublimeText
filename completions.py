@@ -229,7 +229,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
   # in the Simulator itself but is provided here for cases where that option
   # doesn't work
   def on_post_save(self, view):
-    if is_lua_file(view):
+    if self.is_lua_file(view):
       auto_build = _corona_utils.GetSetting("corona_sdk_auto_build", False)
       if auto_build:
         _corona_utils.debug("Corona Editor: auto build triggered")
@@ -240,7 +240,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
   # add period to "auto_complete_triggers" if it's not already there.
   def on_load(self, view):
     use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", True)
-    if use_corona_sdk_completion and is_lua_file(view):
+    if use_corona_sdk_completion and self.is_lua_file(view):
       use_periods_in_completion = _corona_utils.GetSetting("corona_sdk_complete_periods", True)
 
       # Completion behavior is improved if periods are included in the completion process
