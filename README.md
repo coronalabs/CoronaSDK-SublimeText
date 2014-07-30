@@ -65,7 +65,7 @@ A simpler alternative to the **Build** command in ***Sublime Text*** is the **Ru
  * Using the **Run Project** command while in the Debugger can result in a confused state.
  * There's an implicit breakpoint set on the first line of main.lua so to hit your own first breakpoint you need to run once to start the debugger and stop on the first line then run again to continue until you hit your own breakpoint.
 
-### Completion 
+### Completion
 Completion works for all API calls and constants (correctly handling periods in the name).  Fuzzy matching is optionally done to increase the chances of finding the item you are looking for.  Completion relies on the current **Syntax** setting so when creating new files you should use **View / Syntax / Corona SDK Lua** command to set the correct syntax for the new file.  You will probably also want to change ***Sublime Text***'s default for .lua files by choosing **View > Syntax > Open all with current extension as... > Corona SDK Lua** when you have a .lua file open in the editor.
 
 If the syntax option is set correctly you'll see it displayed in the bottom righthand corner of the ***Sublime Text*** window:
