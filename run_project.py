@@ -81,6 +81,8 @@ class RunProjectCommand(sublime_plugin.WindowCommand):
     print(_corona_utils.PACKAGE_NAME + ": Running: " + str(cmd))
 
     # Save our changes before we run
-    self.window.run_command("save")
+    self.window.run_command("save_all")
 
-    self.window.run_command('exec', {'cmd': cmd})
+    # Supplying the "file_regex" allows users to double-click errors and warnings in the
+    # build panel and go to that point in the code
+    self.window.run_command('exec', {'cmd': cmd, "file_regex": "^[^/]*(/[^:]*):([0-9]+):([0-9]*)(.*)$" })
