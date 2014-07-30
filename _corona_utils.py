@@ -13,6 +13,7 @@ import sublime
 import os
 import re
 import threading
+import io
 
 SUBLIME_VERSION = "not set"
 PLUGIN_PATH = "not set"
@@ -25,6 +26,12 @@ _corona_sdk_debug = False
 # In Sublime Text 3 most APIs are unavailable until a module level function is called (fortunately
 # sublime.version() is available so we can correctly fake things in Sublime Text 2; see about.py)
 SUBLIME_VERSION = 3000 if sublime.version() == '' else int(sublime.version())
+
+
+def GetSetting(key,default=None):
+  # repeated calls to load_settings return same object without further disk reads
+  s = sublime.load_settings('Corona Editor.sublime-settings')
+  return s.get(key, default)
 
 
 def debug(*args):
@@ -136,11 +143,16 @@ def GetSimulatorPathFromBuildSettings(mainlua):
   bs_contents = None
   if os.path.isfile(build_settings):
     try:
-      with open(build_settings, "r") as bs_fd:
-        bs_contents = bs_fd.read()
+      try: # see if we're in P3
+        with open(build_settings, "r", encoding="utf-8") as bs_fd:
+          bs_contents = bs_fd.read()
+      except: # nope, try a P2 idiom
+        with io.open(build_settings, "r", encoding="utf-8") as bs_fd:
+          bs_contents = bs_fd.read()
     except IOError:
       pass  # we don't care if the file doesn't exist
 
+  # print("bs_contents: ", bs_contents)
   if bs_contents is not None:
     # Remove comments
     bs_contents = re.sub(r'--.*', '', bs_contents)
@@ -149,7 +161,7 @@ def GetSimulatorPathFromBuildSettings(mainlua):
     if bs_matches is not None and len(bs_matches) > 0:
       # Last one wins
       simulator_path = bs_matches[-1]
-      debug("GetSimulatorPathFromBuildSettings: simulator_path '"+str(simulator_path)+"'")
+      print("Corona Editor: corona_sdk_simulator_path set from "+str(build_settings))
 
   return simulator_path
 
@@ -168,9 +180,4 @@ def ResolveMainLua(path):
     return mainlua
   else:
     return ResolveMainLua(os.path.join(path, ".."))
-
-def GetSetting(key,default=None):
-  # repeated calls to load_settings return same object without further disk reads
-  s = sublime.load_settings('Corona Editor.sublime-settings')
-  return s.get(key, default)
 
