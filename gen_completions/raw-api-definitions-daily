@@ -1,3 +1,10 @@
+	accuracy.text = accuracyText	location
+	altitude.text = altitudeText	location
+	direction.text = directionText	location
+	latitude.text = latitudeText	location
+	longitude.text = longitudeText	location
+	speed.text = speedText	location
+	time.text = timeText	location
 Array	type
 Boolean	type
 Constant	type
@@ -196,6 +203,8 @@ display.newSnapshot( parent, w, h )	display
 display.newSnapshot( w, h )	display
 display.newSprite( imageSheet, sequenceData )	display
 display.newSprite( parent, imageSheet, sequenceData )	display
+display.newText( [parentGroup,] text, x, y, [width, height,] font, fontSize )	display
+display.newText( [parentGroup,] text, x, y, font, fontSize )	display
 display.newText( options )	display
 display.pixelHeight	display
 display.pixelWidth	display
@@ -227,10 +236,8 @@ end	Keyword
 error( message [, level] )	global
 event.a	colorSample
 event.a	particleCollision
-event.accuracy	location
 event.action	completion
 event.address	networkStatus
-event.altitude	location
 event.applicationState	notification
 event.axis	axis
 event.b	colorSample
@@ -258,7 +265,6 @@ event.device	axis
 event.device	inputDeviceStatus
 event.device	key
 event.didComplete	fbconnect
-event.direction	location
 event.duration	completion
 event.element	particleCollision
 event.element1	collision
@@ -308,12 +314,10 @@ event.isShake	accelerometer
 event.isShiftDown	key
 event.isVerified	licensing
 event.keyName	key
-event.latitude	location
 event.latitude	mapLocation
 event.latitude	mapMarker
 event.latitude	mapTap
 event.localPlayerScore	gameNetwork
-event.longitude	location
 event.longitude	mapLocation
 event.longitude	mapMarker
 event.longitude	mapTap
@@ -425,7 +429,6 @@ event.responseType	networkRequest
 event.sceneName	overlayBegan
 event.sceneName	overlayEnded
 event.source	timer
-event.speed	location
 event.sprite	sprite
 event.stackTrace	unhandledError
 event.startPosition	userInput
@@ -439,7 +442,6 @@ event.target	touch
 event.target	userInput
 event.text	userInput
 event.time	enterFrame
-event.time	location
 event.time	mouse
 event.time	timer
 event.time	touch
@@ -549,9 +551,9 @@ insertRow( options )	TableViewWidget
 instanceOf( class )	CoronaPrototype
 io.close( [file] )	io
 io.flush()	io
-io.input( [file] )	io
-io.lines( filename )	io
-io.open( filename_path, [, mode] )	io
+io.input( file )	io
+io.lines( file )	io
+io.open( filename_path [, mode] )	io
 io.output( [file] )	io
 io.read( [fmt1] [, fmt2] [, ...] )	io
 io.tmpfile()	io
@@ -560,7 +562,6 @@ io.write( arg1 [, arg2] [, ...] )	io
 ipairs( t )	global
 isActive	Joint
 isAwake	Body
-isBodyActive	Body
 isBullet	Body
 isClass()	CoronaPrototype
 isCollideConnected	Joint
@@ -730,6 +731,7 @@ nil	Keyword
 numChildren	GroupObject
 numFrames	SpriteObject
 number	InputAxis
+obj.isBodyActive = false	Body
 os.clock()	os
 os.date( [format [, time] ] )	os
 os.difftime( t1, t2 )	os
@@ -743,20 +745,23 @@ package.loaders	package
 package.seeall	package
 pairs( t )	global
 parent	DisplayObject
+particleCount	ParticleSystem
+particleDamping	ParticleSystem
 particleDensity	ParticleSystem
+particleDestructionByAge	ParticleSystem
+particleGravityScale	ParticleSystem
 particleMass	ParticleSystem
+particleMaxCount	ParticleSystem
+particlePaused	ParticleSystem
 particleRadius	ParticleSystem
+particleStrictContactCheck	ParticleSystem
 particleSystem:applyForce( xForce, yForce )	ParticleSystem
 particleSystem:applyLinearImpulse( xForce, yForce )	ParticleSystem
 path	ShapeObject
 pause()	Video
 pcall( f [, ...] )	global
 permanentId	InputDevice
-physics.addBody( object, [bodyType,] { density=d, friction=f, bounce=b [,filter=f] } )	physics
-physics.addBody( object, [bodyType,] { density=d, friction=f, bounce=b, outline={} [,filter=f] } )	physics
-physics.addBody( object, [bodyType,] { density=d, friction=f, bounce=b, radius=r [,filter=f] } )	physics
-physics.addBody( object, [bodyType,] { density=d, friction=f, bounce=b, shape=s [,filter=f] } )	physics
-physics.addBody( object, [bodyType,] {density=d1, friction=f1, bounce=b1, shape=s1}, {density=d2, friction=f2, bounce=b2, shape=s2}, {density=d3, friction=f3, bounce=b3, shape=s3})	physics
+physics.addBody( object, [bodyType,] [params] )	physics
 physics.engineVersion	physics
 physics.fromMKS( unitName, value ) 	physics
 physics.getAverageCollisionPositions()	physics
@@ -846,7 +851,7 @@ setScrollHeight( newHeight )	ScrollViewWidget
 setScrollWidth( newWidth )	ScrollViewWidget
 setSelected( buttonIndex )	TabBarWidget
 setSelected( buttonIndex, simulatePress )	TabBarWidget
-setSelection(startPosition, endPosition)	TextBox
+setSelection( startPosition, endPosition )	TextBox
 setSelection(startPosition, endPosition)	TextField
 setSequence( [ sequenceName ] )	SpriteObject
 setState( options )	SwitchWidget
