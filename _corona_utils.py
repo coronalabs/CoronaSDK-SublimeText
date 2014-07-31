@@ -54,6 +54,8 @@ def Init():
 
   _corona_sdk_debug = GetSetting("corona_sdk_debug", False)
 
+  print("Corona Editor: Init")
+
   PLUGIN_PATH = os.path.dirname(os.path.realpath(__file__))
   if PLUGIN_PATH.lower().endswith('coronasdk-sublimetext'):
     if SUBLIME_VERSION < 3000:
