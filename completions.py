@@ -213,6 +213,8 @@ class CoronaLabs:
 
 class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
 
+  _first_time = True
+
   def __init__(self, *args, **kw):
     _corona_utils.debug("CoronaLabsCollector: __init__")
     super(CoronaLabsCollector, self).__init__(*args, **kw)
@@ -240,6 +242,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
   # add period to "auto_complete_triggers" if it's not already there.
   def on_load(self, view):
     use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", True)
+
     if use_corona_sdk_completion and self.is_lua_file(view):
       use_periods_in_completion = _corona_utils.GetSetting("corona_sdk_complete_periods", True)
 
@@ -271,6 +274,14 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
 
   def on_query_completions(self, view, prefix, locations):
     use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", True)
+
+    if self._first_time and use_corona_sdk_completion:
+      if not self.is_lua_file(view) and view.file_name().lower().endswith(".lua"):
+        msg = "Corona Editor: syntax is not set to 'Corona SDK Lua' so completion is inactive"
+        sublime.status_message(msg)
+        print(msg)
+        self._first_time = False
+
     _corona_utils.debug("on_query_completions: ",  "use_corona_sdk_completion: ", use_corona_sdk_completion, "source.lua.corona - entity: ", view.match_selector(locations[0], "source.lua.corona - entity"))
     if use_corona_sdk_completion and view.match_selector(locations[0], "source.lua.corona - entity"):
       comps = self.find_completions(view, prefix)
