@@ -85,4 +85,7 @@ class RunProjectCommand(sublime_plugin.WindowCommand):
 
     # Supplying the "file_regex" allows users to double-click errors and warnings in the
     # build panel and go to that point in the code
-    self.window.run_command('exec', {'cmd': cmd, "file_regex": "^[^/]*(/[^:]*):([0-9]+):([0-9]*)(.*)$" })
+    if sublime.platform() == 'osx':
+      self.window.run_command('exec', {'cmd': cmd, "file_regex": "^[^/]*(/[^:]*):([0-9]+):([0-9]*)(.*)$" })
+    else: # windows
+      self.window.run_command('exec', {'cmd': cmd, "file_regex": "(?i)^[^C-Z]*([C-Z]:[^:]*):([0-9]+):([0-9]*)(.*)$" })

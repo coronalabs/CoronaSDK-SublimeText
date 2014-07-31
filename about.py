@@ -37,7 +37,13 @@ class AboutCoronaEditorCommand(sublime_plugin.WindowCommand):
     self.load_json("package-metadata.json")
     sublime_info = "[Sublime Text " + sublime.version() + "/" + sublime.channel() + "/" + sublime.platform() + "/" + sublime.arch() + "]"
     canary_file = os.path.join(_corona_utils.PACKAGE_DIR, "about.py") if _corona_utils.SUBLIME_VERSION < 3000 else _corona_utils.PLUGIN_PATH
-    install_info = "Installed: " + str(datetime.datetime.fromtimestamp(os.path.getmtime(canary_file)))
+    try:
+      install_info = "Installed: " + str(datetime.datetime.fromtimestamp(os.path.getmtime(canary_file)))
+    except:
+      # Test installations can end up with a confused "PLUGIN_PATH" so try something else
+      canary_file = os.path.realpath(__file__)
+      install_info = "Installed: " + str(datetime.datetime.fromtimestamp(os.path.getmtime(canary_file)))
+
     about_mesg = "Corona Editor for Sublime Text\n\nVersion: " + self._about_info['version'] + "\n\n" + install_info + "\n\n" + self._about_info['description'] + "\n\n" + sublime_info
     print("about: " + about_mesg.replace("\n\n", " | "))
     sublime.message_dialog(about_mesg)
