@@ -31,7 +31,11 @@ If you install the tip from Github please report any issues using the Issues pag
 
 ## Using the Plugin
 
-After restarting ***Sublime Text*** you'll have several new features  available in the **Corona Editor** menu and in the context menu when editing .lua files.
+After restarting ***Sublime Text*** you'll have several new features  available in the **Corona Editor** menu and in the context menu when editing Corona SDK .lua files.  Most of the features of the plugin rely on the current **Syntax** setting so when editing files you should use **View > Syntax > Corona SDK Lua** command to set the correct syntax for the file.  You will probably also want to change ***Sublime Text***'s default for .lua files by choosing **View > Syntax > Open all with current extension as... > Corona SDK Lua** when you have a .lua file open in the editor.
+
+If the syntax option is set correctly you'll see it displayed in the bottom righthand corner of the ***Sublime Text*** window:
+
+![Corona SDK Lua](http://coronalabs.com/images/st-coronasdklua.png "Corona SDK Lua")
 
 There are several ***Sublime Text*** User Preferences that can be set to fine tune the behavior of the plugin.  You can find information on setting User Preferences [http://www.sublimetext.com/docs/3/settings.html](http://www.sublimetext.com/docs/3/settings.html).
 
@@ -66,11 +70,7 @@ A simpler alternative to the **Build** command in ***Sublime Text*** is the **Ru
  * There's an implicit breakpoint set on the first line of main.lua so to hit your own first breakpoint you need to run once to start the debugger and stop on the first line then run again to continue until you hit your own breakpoint.
 
 ### Completion
-Completion works for all API calls and constants (correctly handling periods in the name).  Fuzzy matching is optionally done to increase the chances of finding the item you are looking for.  Completion relies on the current **Syntax** setting so when creating new files you should use **View / Syntax / Corona SDK Lua** command to set the correct syntax for the new file.  You will probably also want to change ***Sublime Text***'s default for .lua files by choosing **View > Syntax > Open all with current extension as... > Corona SDK Lua** when you have a .lua file open in the editor.
-
-If the syntax option is set correctly you'll see it displayed in the bottom righthand corner of the ***Sublime Text*** window:
-
-![Corona SDK Lua](http://coronalabs.com/images/st-coronasdklua.png "Corona SDK Lua")
+Completion works for all API calls and constants (correctly handling periods in the name).  Fuzzy matching is optionally done to increase the chances of finding the item you are looking for.  Completion relies on the current **Syntax** setting so when creating new files you should use **View > Syntax > Corona SDK Lua** command to set the correct syntax for the new file.  You will probably also want to change ***Sublime Text***'s default for .lua files by choosing **View > Syntax > Open all with current extension as... > Corona SDK Lua** when you have a .lua file open in the editor.
 
 ##### Preferences
  * `corona_sdk_completion` (default: True)
@@ -146,7 +146,7 @@ If some aspect of the plugin doesn't behave as expected be sure to include any c
 
 ### Mac
 
-You may want to set the `Use all F1, F2, etc. keys as standard function keys` option in **System Preferences / Keyboard** to make using F10 and F11 easier for the debugger.  Alternatively you may want to reassign the keys used to drive the debugger; information on how to this can be found at [http://www.sublimetext.com/docs/key-bindings](http://www.sublimetext.com/docs/key-bindings)
+You may want to set the `Use all F1, F2, etc. keys as standard function keys` option in **System Preferences > Keyboard** to make using F10 and F11 easier for the debugger.  Alternatively you may want to reassign the keys used to drive the debugger; information on how to this can be found at [http://www.sublimetext.com/docs/key-bindings](http://www.sublimetext.com/docs/key-bindings)
 
 ## Thanks
 
