@@ -44,13 +44,16 @@ class RunProjectCommand(sublime_plugin.WindowCommand):
   # find a main.lua file to start the Simulator with or failing that, any open Lua
   # file we can use as a place to start looking for a main.lua
   def findLuaFile(self):
-    filename = self.window.active_view().file_name()
+    filename = None
+    if self.window.active_view():
+      filename = self.window.active_view().file_name()
     if filename is None or not filename.endswith(".lua"):
       filename = None
       # No current .lua file, see if we have one open
       for view in self.window.views():
         if view.file_name() and view.file_name().endswith(".lua"):
           filename = view.file_name()
+          break
     return filename
 
   def is_enabled(self):
@@ -78,6 +81,11 @@ class RunProjectCommand(sublime_plugin.WindowCommand):
     print(_corona_utils.PACKAGE_NAME + ": Running: " + str(cmd))
 
     # Save our changes before we run
-    self.window.run_command("save")
+    self.window.run_command("save_all")
 
-    self.window.run_command('exec', {'cmd': cmd})
+    # Supplying the "file_regex" allows users to double-click errors and warnings in the
+    # build panel and go to that point in the code
+    if sublime.platform() == 'osx':
+      self.window.run_command('exec', {'cmd': cmd, "file_regex": "^[^/]*(/[^:]*):([0-9]+):([0-9]*)(.*)$" })
+    else: # windows
+      self.window.run_command('exec', {'cmd': cmd, "file_regex": "(?i)^[^C-Z]*([C-Z]:[^:]*):([0-9]+):([0-9]*)(.*)$" })

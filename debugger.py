@@ -515,6 +515,9 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
 
   view = None
 
+  # def __init__(self, *args, **kw):
+  #  self.closeWindowPanes()
+
   def is_enabled(self):
     view = self.window.active_view()
     if view is not None:
@@ -601,10 +604,13 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
 
     elif cmd == "exit":
       StopSubprocess()
-      coronaDbg.doCommand(cmd)
-      coronaDbg.stop()
-      coronaDbg.join()
-      coronaDbg = None
+      if coronaDbg is None:
+        self.closeWindowPanes()
+      else:
+        coronaDbg.doCommand(cmd)
+        coronaDbg.stop()
+        coronaDbg.join()
+        coronaDbg = None
     elif cmd in ["run", "step", "over"]:
       coronaDbg.doCommand(cmd)
       coronaDbg.doCommand('backtrace')

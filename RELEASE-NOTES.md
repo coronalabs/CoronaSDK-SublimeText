@@ -2,6 +2,42 @@
 
 Always check [https://github.com/coronalabs/CoronaSDK-SublimeText/blob/master/README.md](the README) for the latest information.
 
+### 1.5.0 prerelease
+
+ * A message is shown on the status line if Corona SDK completion is not being done because a .lua file does not have `Corona SDK Lua` syntax set
+
+ * Fixed various Windows issues
+	 * About box misbehavior
+	 * Correct regex for finding errors
+	 * Fix snippets path
+
+ * Latest completions (up to date for release 2014.2381).
+
+ * Fixes for ***Sublime Text 2*** compatibility.
+
+ * Tweaks to build subsystem.
+
+ * You can now use **Corona Editor > Debugger > Stop** to close the additional panes even if the editor doesn't think the debugger is running.
+
+ * Allow errors to be double-clicked in build panel when **Corona Editor >Run Project** is used.
+
+ * Save all modified files before running project (but only if modified).
+
+ * Improved reliability of **Corona Editor > Run Project**.
+
+ * Tweaked syntax highlighting.
+
+ * Completion improvements
+	 * Added capability to strip whitespace from completions (thx personalnadir); set `corona_sdk_completions_strip_white_space` to activate
+	 * Fixed various issues with completion and periods.  Lots of testing needed
+	 * Files with `Corona SDK Lua` syntax type set are candidates for Corona Editor completion.  New, unsaved files are assumed to be Corona SDK Lua files unless `corona_sdk_default_new_file_to_corona_lua` is set to false
+	 * Handle invalid completion data files more gracefully
+	 * Latest completions from Corona SDK documentation
+
+ * Set user preference `corona_sdk_debug` to true to turn on debug output in the ***Sublime Text*** console (mostly works for completion right now; everywhere later).
+
+ * Add instructions in the README for using the development version.
+
 ### 1.0.0
 
  * **Debugger**

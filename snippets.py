@@ -98,14 +98,19 @@ class CoronaSnippetFolderIndexer(threading.Thread):
 
     # Put our menu into the Main.sublime-menu.template file
     menus = ""
-    if _corona_utils.SUBLIME_VERSION < 3000:
-      with open(os.path.join(_corona_utils.PACKAGE_DIR, "Main.sublime-menu.template"), "r") as fd:
+    templatePath = _corona_utils.ST_PACKAGE_PATH + "Main.sublime-menu.template"
+    try:
+      if _corona_utils.SUBLIME_VERSION < 3000:
+        with open(templatePath, "r") as fd:
           menus = fd.read()
-    else:
-      menus = sublime.load_resource(_corona_utils.ST_PACKAGE_PATH + "Main.sublime-menu.template")
+      else:
+        menus = sublime.load_resource(templatePath)
+    except Exception as e:
+      menus = ""
+      print("snippets exception: " + str(e))
 
     if menus == "":
-      print(_corona_utils.PACKAGE_NAME + ": Failed to create Snippets menu")
+      print(_corona_utils.PACKAGE_NAME + ": Failed to load Snippets menu: " + templatePath)
       return
 
     menus = menus.replace("$corona_snippets", snippetJSON)
@@ -187,7 +192,7 @@ class CoronaSnippetCommand(sublime_plugin.TextCommand):
       # (TODO: note that this wont work for a user called "Packages")
       trigger = re.sub(r'.*Packages', "Packages", trigger, 1)
       trigger = trigger.replace('\\', '/')
-      print("modified trigger: " + trigger)
+      _corona_utils.debug("modified trigger: " + trigger)
       self.view.run_command("insert_snippet", {"name": trigger})
     else:
       # Find a completion keyed by the contents of the snippet file

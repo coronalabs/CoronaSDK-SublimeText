@@ -11,28 +11,19 @@ import re
 import string
 import json
 import sys
+import pprint
 
-preamble = """
-{
+items = {
     "scope": "source.lua",
 
-      "completions":
-        [
-"""
-
-postamble = """
-    ]
+    "completions": [ ]
 }
-"""
 
 if len(sys.argv) != 2:
   print("Usage: "+ sys.argv[0] + " <raw-completions>")
   sys.exit(1)
 
 fh = open(sys.argv[1])
-
-print(preamble)
-output = ""
 
 for line in fh.readlines():
   typeDesc = "unknown"
@@ -48,13 +39,11 @@ for line in fh.readlines():
     typeDesc = line.partition("\t")[2]
     line = line.partition("\t")[0]
 
-  if output != "":
-    output += ",\n"
-
   argListMatch = re.search("\((.*)\)", line)
 
   if argListMatch != None:
     argsString = argListMatch.groups()[0]
+    typeDesc = argsString.strip() if typeDesc is "unknown" else typeDesc
     funcName = line.replace("("+argsString+")", "")
     funcName = funcName.strip()
     args = re.findall("(\[.*?\]|[^\[,]*)", argsString)
@@ -67,17 +56,18 @@ for line in fh.readlines():
       arg = arg.strip()
       if arg == "":
         continue
-      arg = json.dumps(arg)[1:-1] # escape JSON and remove surrounding quotes
       # if the arg is not optional and includes a comma, add a comma
       if not arg.startswith("[,"):
         stCompArgs += ","
       stCompArgs += " ${"+str(argCount)+":"+arg+"}"
       argCount += 1
     stCompArgs = stCompArgs.lstrip(",");
-    # print("stCompArgs: ", stCompArgs)
-    output += "{{ \"trigger\": \"{0}()\\t{2}\", \"contents\": \"{0}({1} )\"}}".format(funcName, stCompArgs, typeDesc)
+    # print({"trigger": "{0}()\t{1}".format(funcName, typeDesc), "contents": "{0}({1} )".format(funcName, stCompArgs)})
+    items['completions'].append({"trigger": "{0}()\t{1}".format(funcName, typeDesc), "contents": "{0}({1} )".format(funcName, stCompArgs)})
   else:
-    output += "{{ \"trigger\": \"{0}\\t{1}\", \"contents\": \"{0}\"}}".format(line, typeDesc)
+    items['completions'].append({"trigger": "{0}\t{1}".format(line, typeDesc), "contents": line})
 
-print(output)
-print(postamble)
+# pp = pprint.PrettyPrinter(indent = 2)
+# pp.pprint(items)
+# The string replacements reduce the indented JSON to one item per line
+print(json.dumps(items, indent = 2).replace('{\n', '{').replace('", \n', '", ').replace('"\n', '"').replace('  ', ' '))

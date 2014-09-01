@@ -16,6 +16,10 @@
 	// completions disappear until you type another character.
 	"corona_sdk_complete_periods": true,
 
+	// If this is true then any new file that has not yet been saved will be 
+	// assumed to be a Corona SDK Lua file
+	"corona_sdk_default_new_file_to_corona_lua": true,
+
 	// Set this to the path of your Corona Simulator if it's not installed
 	// in the default location for your operating system (remember to double
 	// backslashes in Windows' paths)

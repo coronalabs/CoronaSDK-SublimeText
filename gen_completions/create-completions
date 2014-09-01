@@ -1,4 +1,4 @@
-#!/bin/zsh 
+#!/bin/bash 
 #
 # Sublime Text plugin to support Corona SDK
 #
@@ -57,28 +57,29 @@ do
 			D=`basename $PWD`
 			N=`basename $F .markdown`
 
-			# This finds the first line of the "Syntax" section of most files
-			RES=`egrep -m 1 '	[A-Za-z]*?[.:]*'"$N" $F | sed -e 's/^	//'`
+			# Candidates for completion in the markdown docs start with a tab
+			COMP=`egrep '	[A-Za-z]*?[.:]*'"$N" $F | sed -e 's/^	//'`
 
-			if [ "$RES" = "" ]
+			if [ "$COMP" = "" ]
 			then
 				# didn't find a syntax string for the item,
 				# look for a header at the top of the file
-				RES=`head -2 "$F" | sed -n '/^#/s/^# \(.*\)/\1/p'`
+				COMP=`head -2 "$F" | sed -n '/^#/s/^# \(.*\)/\1/p'`
 			fi
 
-			if [ "$RES" = "" ]
+			if [ "$COMP" = "" ]
 			then
 				# didn't find a syntax string or a header for the item,
 				# just complete using its name
-				RES="$D.$N"
+				COMP="$D.$N"
 			fi
 
 			# Add an approximation of "type" separated by a tab
-			RES="$RES	$D"
+			# (on every line, there may be more than one)
+			COMP=$(echo "$COMP" | sed -e "1,\$s/\$/	$D/")
 
 			# Remove any "object" prefix as completion works better without it
-			echo "$RES" | sed -e 's/object[.:]//'
+			echo "$COMP" | sed -e 's/object[.:]//'
 
 			# Find any explicit completion items in the file
 			# (it's assumed they are formatted with backticks which 
