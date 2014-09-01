@@ -166,14 +166,17 @@ class CoronaLabs:
     # print("comps: ", comps)
     # print("extract_completions: ", view.extract_completions(completion_target))
 
+    # sort the library completions
+    comps.sort()
+    
     completion_target=completion_target if not '.' in completion_target else completion_target.partition('.')[2]
+    
     # Add textual completions from the document
     for c in view.extract_completions(completion_target):
       comps.append((c, c))
 
-    # Reorganize into a list
+    # Remove duplicates
     comps = list(set(comps))
-    comps.sort()
 
     return comps
 
