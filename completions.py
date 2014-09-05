@@ -139,7 +139,6 @@ class CoronaLabs:
     completion_adjustment = "" if "." not in completion_target else completion_target.partition('.')[0] + '.'
 
     # _corona_utils.debug('prefix: ', prefix, 'completion_target: ', completion_target, "; completion_adjustment: ", completion_adjustment, "; corona_sdk_complete_periods: ", _corona_utils.GetSetting("corona_sdk_complete_periods", True) )
-
     self.setupFuzzyMatch(completion_target)
 
     # Sample:
@@ -149,6 +148,11 @@ class CoronaLabs:
     # This is horrible on a variety of levels but is brought upon us by the fact that
     # ST completion files contain an array that is a mixture of strings and dicts
     comps = []
+    
+    # Add textual completions from the document
+    for c in view.extract_completions(completion_target):
+      comps.append((c, c))
+
     for c in self._completions['completions']:
       trigger = ""
       contents = ""
@@ -161,7 +165,6 @@ class CoronaLabs:
           _corona_utils.debug("String match: ", c)
           trigger = c
           contents = c
- 
       if trigger is not "":
         if self._strip_white_space and contents is not "":
            contents = self._findWhiteSpace.sub("\\1", contents)
@@ -175,10 +178,6 @@ class CoronaLabs:
           comps.append((trigger, contents))
 
     # _corona_utils.debug("extract_completions: ", view.extract_completions(completion_target))
-
-    # Add textual completions from the document
-    for c in view.extract_completions(completion_target):
-      comps.append((c, c))
 
     # Remove duplicates
     comps = list(set(comps))
