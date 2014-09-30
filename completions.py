@@ -59,6 +59,8 @@ class CoronaLabs:
   _fuzzyMatcher = None
   _fuzzyPrefix = None
   _findWhiteSpace = re.compile("([^,])\s")
+  _findRequire = re.compile("require\s?\(?\"$")
+  _findBackslash = re.compile("/")
   _use_fuzzy_completion = True
   _strip_white_space = False
 
@@ -149,6 +151,21 @@ class CoronaLabs:
     # ST completion files contain an array that is a mixture of strings and dicts
     comps = []
     
+    toCursor=view.substr(sublime.Region(0,view.sel()[0].begin()))
+    match=self._findRequire.search(toCursor)
+    if match:
+      folders=view.window().project_data()["folders"]
+      for f in folders:
+        for root, dirs, files in os.walk(f["path"]):
+          for name in files:
+            if ".lua" in name:
+              projectPath=os.path.relpath(os.path.join(root, name),start=f["path"])
+              luaPath=self._findBackslash.sub(".",os.path.splitext(projectPath)[0])
+              if self.fuzzyMatchString(luaPath, self._use_fuzzy_completion):
+                comps.append((luaPath,luaPath))
+
+      return list(set(comps))
+          
     # Add textual completions from the document
     for c in view.extract_completions(completion_target):
       comps.append((c, c))
