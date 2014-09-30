@@ -279,8 +279,8 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
         print(msg)
         self._first_time = False
 
-    _corona_utils.debug("on_query_completions: ",  "use_corona_sdk_completion: ", use_corona_sdk_completion, "source.lua.corona - entity: ", view.match_selector(locations[0], "source.lua.corona - entity"))
-    if use_corona_sdk_completion and view.match_selector(locations[0], "source.lua.corona - entity"):
+    # print(locations[0)
+    if use_corona_sdk_completion and view.settings().get('syntax')=="Packages/Corona Editor/CoronaSDKLua.tmLanguage":
       comps = self.find_completions(view,prefix)
       flags = 0  # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
       return (comps, flags)
