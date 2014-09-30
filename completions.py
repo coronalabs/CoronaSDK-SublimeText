@@ -59,7 +59,7 @@ class CoronaLabs:
   _fuzzyMatcher = None
   _fuzzyPrefix = None
   _findWhiteSpace = re.compile("([^,])\s")
-  _findRequire = re.compile("require\s?\(?\"$")
+  _findRequire = re.compile("require\s?\(?[\"\']")
   _findBackslash = re.compile("/")
   _use_fuzzy_completion = True
   _strip_white_space = False
