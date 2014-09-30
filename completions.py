@@ -162,9 +162,10 @@ class CoronaLabs:
             for root, dirs, files in os.walk(f["path"]):
               for name in files:
                 if ".lua" in name:
+                  name=os.path.splitext(name)[0]
                   projectPath=os.path.relpath(os.path.join(root, name),start=f["path"])
-                  luaPath=self._findBackslash.sub(".",os.path.splitext(projectPath)[0])
-                  if self.fuzzyMatchString(luaPath, self._use_fuzzy_completion):
+                  luaPath=self._findBackslash.sub(".",projectPath)
+                  if self.fuzzyMatchString(name, self._use_fuzzy_completion):
                     comps.append((luaPath,luaPath))
 
       return list(set(comps))
