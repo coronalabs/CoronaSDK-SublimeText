@@ -150,8 +150,10 @@ class CoronaLabs:
     # This is horrible on a variety of levels but is brought upon us by the fact that
     # ST completion files contain an array that is a mixture of strings and dicts
     comps = []
-    
-    toCursor=view.substr(sublime.Region(0,view.sel()[0].begin()))
+      
+    cursor=view.sel()[0].begin()
+    rowCol=view.rowcol(cursor)
+    toCursor=view.substr(sublime.Region(view.text_point(rowCol[0],0),cursor))
     match=self._findRequire.search(toCursor)
     if match:
       project_data=view.window().project_data()
