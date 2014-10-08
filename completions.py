@@ -305,7 +305,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
         self._first_time = False
 
     # print(locations[0)
-    if use_corona_sdk_completion and view.settings().get('syntax')=="Packages/Corona Editor/CoronaSDKLua.tmLanguage":
+    if use_corona_sdk_completion and "CoronaSDKLua.tmLanguage" in view.settings().get('syntax'):
       comps = self.find_completions(view,prefix)
       flags = 0  # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
       return (comps, flags)
