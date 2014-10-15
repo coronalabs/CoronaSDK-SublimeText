@@ -30,7 +30,11 @@ def is_string_instance(obj):
     return isinstance(obj, basestring)
   except NameError:
     return isinstance(obj, str)
-    
+
+# http://rosettacode.org/wiki/Find_common_directory_path#Python
+def commonprefix(*args, sep='/'):
+  return os.path.commonprefix(*args).rpartition(sep)[0]
+
 class FuzzyMatcher():
 
   def __init__(self):
@@ -160,12 +164,25 @@ class CoronaLabs:
       if "folders" in project_data:
         folders=project_data["folders"]
         for f in folders:
-          if "path" in f:
-            for root, dirs, files in os.walk(f["path"]):
+          path=None
+          if "path" in f and os.path.isabs(f["path"]):
+            path=f["path"]
+          else:
+            searchpath=commonprefix(view.window().folders())
+            for root, dirs, files in os.walk(searchpath):
+              for name in files:
+                if "main.lua"==name:
+                  path=root
+                  break
+              if path is not None: 
+                break
+          
+          if path is not None: 
+            for root, dirs, files in os.walk(path):
               for name in files:
                 if ".lua" in name:
                   name=os.path.splitext(name)[0]
-                  projectPath=os.path.relpath(os.path.join(root, name),start=f["path"])
+                  projectPath=os.path.relpath(os.path.join(root, name),start=path)
                   luaPath=self._findBackslash.sub(".",projectPath)
                   if self.fuzzyMatchString(name, self._use_fuzzy_completion):
                     comps.append((luaPath,luaPath))
