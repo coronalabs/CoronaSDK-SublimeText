@@ -113,7 +113,7 @@ def GetSimulatorCmd(mainlua=None, debug=False):
       simulator_path = "/Applications/CoronaSDK/Corona Simulator.app"
     if simulator_path.endswith(".app"):
       simulator_path += "/Contents/MacOS/Corona Simulator"
-    simulator_flags = ["-singleton", "1"]
+    simulator_flags = ["-singleton", "1", "-no-console", "1"]
     if debug:
       simulator_flags.append("-debug")
       simulator_flags.append("1")
