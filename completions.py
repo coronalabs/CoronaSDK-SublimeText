@@ -80,8 +80,8 @@ class CoronaLabs:
 
   # Called by the snippets module to make sure completions are loaded
   def initialize(self):
-    self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", "public"))
-
+    self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", default="public"))
+  
 
   # If we're running ST2, load completions from file
   # else, load completions from member of package
@@ -136,8 +136,7 @@ class CoronaLabs:
   #  * if there's a period in the "completion target", return only the part following the period in the completions
 
   def find_completions(self, view, prefix):
-    self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", "public"))
-
+    self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", default="public"))
     completion_target = self.current_word(view)
 
     # Because we adjust the prefix to make completions with periods in them work better we may need to
@@ -260,7 +259,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
   def is_lua_file(self, view):
     # Fairly rigorous test for being a Corona Lua file
     # If the file has not been saved optionally default to being a Corona Lua file
-    return view.match_selector(view.sel()[0].a, "source.lua.corona") if view.file_name() else _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", True)
+    return view.match_selector(view.sel()[0].a, "source.lua.corona") if view.file_name() else _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", default=True)
 
 
   # Optionally trigger a "build" when a .lua file is saved.  This is best
@@ -269,21 +268,21 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
   # doesn't work
   def on_post_save(self, view):
     if self.is_lua_file(view):
-      auto_build = _corona_utils.GetSetting("corona_sdk_auto_build", False)
+      auto_build = _corona_utils.GetSetting("corona_sdk_auto_build", default=False)
       if auto_build:
         _corona_utils.debug("Corona Editor: auto build triggered")
         view.window().run_command("build")
 
-    if view.file_name().lower().endswith(".lua") and _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", True): 
+    if view.file_name().lower().endswith(".lua") and _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", default=True): 
       view.set_syntax_file("Packages/Corona Editor/CoronaSDKLua.tmLanguage")
 
   # When a Lua file is loaded and the "use_periods_in_completion" user preference is set,
   # add period to "auto_complete_triggers" if it's not already there.
   def on_load(self, view):
-    use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", True)
+    use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", default=True)
 
     if use_corona_sdk_completion and self.is_lua_file(view):
-      use_periods_in_completion = _corona_utils.GetSetting("corona_sdk_complete_periods", True)
+      use_periods_in_completion = _corona_utils.GetSetting("corona_sdk_complete_periods", default=True)
 
       # Completion behavior is improved if periods are included in the completion process
       if use_periods_in_completion:
@@ -312,7 +311,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
 
 
   def on_query_completions(self, view, prefix, locations):
-    use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", True)
+    use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", default=True)
 
     if self._first_time and use_corona_sdk_completion:
       if not self.is_lua_file(view) and view.file_name().lower().endswith(".lua"):
