@@ -30,8 +30,21 @@ SUBLIME_VERSION = 3000 if sublime.version() == '' else int(sublime.version())
 
 def GetSetting(key,default=None):
   # repeated calls to load_settings return same object without further disk reads
-  s = sublime.load_settings('Corona Editor.sublime-settings')
-  return s.get(key, default)
+  debug("GetSetting: " + str(key) + " (default: " + str(default) + ")")
+  settings = sublime.load_settings('Corona Editor.sublime-settings')
+  debug("GetSetting: value from CE settings: " + str(settings.get(key, default)))
+  # If we don't have a value for this preference in the Corona Editor settings, look in the view for a value
+  # (this happens if the preference is set in the main Sublime Text preference file instead of the Corona Editor file)
+  if not settings.get(key, default) and sublime and sublime.active_window() and sublime.active_window().active_view():
+    debug("GetSetting: getting value from view: " + str(sublime.active_window().active_view()))
+    settings = sublime.active_window().active_view().settings()
+
+  value = settings.get(key, default)
+
+  if not value:
+    debug("GetSetting: no value for preference '" + str(key) + "' found (using default '"+ str(default) + "')")
+
+  return value
 
 
 def debug(*args):
@@ -52,7 +65,9 @@ def Init():
   global ST_PACKAGE_PATH
   global _corona_sdk_debug
 
-  _corona_sdk_debug = GetSetting("corona_sdk_debug", False)
+  # Always look for "corona_sdk_debug" in 'Corona Editor.sublime-settings'
+  settings = sublime.load_settings('Corona Editor.sublime-settings')
+  _corona_sdk_debug = settings.get("corona_sdk_debug", False)
 
   print("Corona Editor: Init")
 
@@ -154,7 +169,7 @@ def GetSimulatorPathFromBuildSettings(mainlua):
     except IOError:
       pass  # we don't care if the file doesn't exist
 
-  # print("bs_contents: ", bs_contents)
+  # debug("bs_contents: ", str(bs_contents))
   if bs_contents is not None:
     # Remove comments
     bs_contents = re.sub(r'--.*', '', bs_contents)
