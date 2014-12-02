@@ -179,7 +179,7 @@ class CoronaLabs:
                   name=os.path.splitext(name)[0]
                   projectPath=os.path.relpath(os.path.join(root, name),start=path)
                   luaPath=self._findBackslash.sub(".",projectPath)
-                  if self.fuzzyMatchString(name, use_fuzzy_completion):
+                  if self.fuzzyMatchString(name, use_fuzzy_completion) or self.fuzzyMatchString(luaPath, use_fuzzy_completion):
                     comps.append((luaPath,luaPath))
 
       return list(set(comps))
