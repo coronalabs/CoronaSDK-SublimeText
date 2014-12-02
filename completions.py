@@ -173,7 +173,7 @@ class CoronaLabs:
                 break
           
           if path is not None: 
-            for root, dirs, files in os.walk(path):
+            for root, dirs, files in os.walk(path,followlinks=True):
               for name in files:
                 if ".lua" in name:
                   name=os.path.splitext(name)[0]
