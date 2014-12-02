@@ -1,13 +1,3 @@
-		facebook.logout( )	facebook
-		facebook.request( "me/friends" )	facebook
-		facebook.showDialog( "apprequests", { message="You should download this game!" } )	facebook
-		physics.pause()	physics
-		scrollView:takeFocus( event )	ScrollViewWidget
-	latitude:setText( latitudeText )	location
-	longitude:setText( longitudeText )	location
-	native.setKeyboardFocus( nil )	native
-	speed:setText( speedText )	location
-	timer.cancel( event.source ) -- after 3rd invocation, cancel timer	timer
 Array	type
 Body:applyAngularImpulse( appliedForce )	Body
 Body:applyForce( xForce, yForce, bodyX, bodyY )	Body
@@ -106,7 +96,6 @@ audio.play( audioHandle [, options ] )	audio
 audio.reserveChannels( channels )	audio
 audio.reservedChannels	audio
 audio.resume( [channel] )	audio
-audio.resume( backgroundMusicChannel )	audio
 audio.rewind( [, audioHandle ] [, options ] )	audio
 audio.rewind( [, audioHandle ] [, { channel=c } ] )	audio
 audio.seek( time [, audioHandle ] [, options ] )	audio
@@ -305,8 +294,10 @@ event.isShake	accelerometer
 event.isShiftDown	key
 event.isVerified	licensing
 event.keyName	key
+event.latitude	location
 event.latitude	mapLocation
 event.localPlayerScore	gameNetwork
+event.longitude	location
 event.longitude	mapLocation
 event.magnetic	heading
 event.name	accelerometer
@@ -393,6 +384,7 @@ event.responseType	networkRequest
 event.sceneName	overlayBegan
 event.sceneName	overlayEnded
 event.source	timer
+event.speed	location
 event.sprite	sprite
 event.stackTrace	unhandledError
 event.startPosition	userInput
@@ -444,7 +436,6 @@ event.zGravity	accelerometer
 event.zInstant	accelerometer
 event.zRotation	gyroscope
 facebook.login( appId, listener [, permissions ] )	facebook
-facebook.login( appId, listener, {"publish_stream"} )	facebook
 facebook.logout()	facebook
 facebook.publishInstall( appId )	facebook
 facebook.request( path [, httpMethod, params] )	facebook
@@ -614,7 +605,6 @@ media.playSound( soundfile [, baseDir] [, onComplete] )	media
 media.playVideo( path [, baseSource ], showControls, listener )	media
 media.save( filename [, baseDir] )	media
 media.setSoundVolume( vol )	media
-media.show( media.PhotoLibrary,	media
 media.show( media.PhotoLibrary, { listener = sessionComplete, origin = myButton.contentBounds } )	media
 media.show( media.PhotoLibrary, { listener = sessionComplete, origin = myButton.contentBounds }, { baseDir =, filename = [, type =] } )	media
 media.show( media.PhotoLibrary, { listener = sessionComplete, origin = myButton.contentBounds, permittedArrowDirections = { "up", "down" } } )	media
@@ -643,7 +633,6 @@ native.newTextField( left, top, width, height [, listener] )	native
 native.newVideo( left, top, width, height )	native
 native.newWebView( left, top, width, height )	native
 native.requestExit()	native
-native.setActivityIndicator( false )	native
 native.setActivityIndicator( state )	native
 native.setKeyboardFocus( textField )	native
 native.setProperty( key, value )	native
@@ -713,19 +702,13 @@ physics.rayCast()	physics
 physics.reflectRay()	physics
 physics.removeBody( object )	physics
 physics.setAverageCollisionPositions( enabled )	physics
-physics.setAverageCollisionPositions( false )	physics
-physics.setAverageCollisionPositions( true )	physics
 physics.setContinuous( enabled )	physics
 physics.setDebugErrorsEnabled( enabled )	physics
-physics.setDebugErrorsEnabled( false )	physics
-physics.setDebugErrorsEnabled( true )	physics
 physics.setDrawMode( mode )	physics
 physics.setGravity( gx, gy )	physics
 physics.setMKS( key, value )	physics
 physics.setPositionIterations( value )	physics
 physics.setReportCollisionsInContentCoordinates( enabled )	physics
-physics.setReportCollisionsInContentCoordinates( false )	physics
-physics.setReportCollisionsInContentCoordinates( true )	physics
 physics.setScale( value )	physics
 physics.setTimeStep( dt )	physics
 physics.setVelocityIterations( value )	physics
@@ -746,7 +729,6 @@ removeAllMarkers()	Map
 removeEventListener( eventName, listener )	EventListener
 removeSelf()	DisplayObject
 removeSelf()	Joint
-removeSelf()	display
 request( url )	WebView
 request( url, baseDir )	WebView
 requestLocation( location, resultHandler )	Map
@@ -828,24 +810,6 @@ store.loadProducts( productIdentifiers, listener )	store
 store.purchase( productList )	store
 store.restore()	store
 store.target	store
-storyboard.disableAutoPurge	storyboard
-storyboard.getCurrentSceneName()	storyboard
-storyboard.getPrevious()	storyboard
-storyboard.getScene( sceneName )	storyboard
-storyboard.gotoScene( sceneName [, options] )	storyboard
-storyboard.hideOverlay( [ purgeOnly, effect, effectTime ] )	storyboard
-storyboard.isDebug	storyboard
-storyboard.loadScene( sceneName [, doNotLoadView, params ] )	storyboard
-storyboard.newScene( [ sceneName ] )	storyboard
-storyboard.printMemUsage()	storyboard
-storyboard.purgeAll()	storyboard
-storyboard.purgeOnSceneChange	storyboard
-storyboard.purgeScene( sceneName )	storyboard
-storyboard.reloadScene()	storyboard
-storyboard.removeAll()	storyboard
-storyboard.removeScene( sceneName )	storyboard
-storyboard.showOverlay( sceneName [, options ] )	storyboard
-storyboard.stage	storyboard
 string.byte( s [, i [, j]] )	string
 string.char ([arg1 [, ...])	string
 string.find (s, pattern [, init [, plain]])	string
@@ -900,7 +864,6 @@ table.remove( t )	table
 table.remove( t, pos )	table
 table.sort( t )	table
 table.sort( t, comp )	table
-tableView:insertRow	TableViewWidget
 takeFocus( event )	ScrollViewWidget
 text	TextBox
 text	TextField
