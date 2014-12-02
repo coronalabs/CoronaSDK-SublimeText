@@ -38,6 +38,8 @@ def UrlEncode(s):
 
 class CoronaDocsCommand(sublime_plugin.TextCommand):
   def is_visible(self):
+    if not len(self.view.sel()):
+      return False
     s = self.view.sel()[0]
     return self.view.match_selector(s.a, "source.lua - entity")
 
