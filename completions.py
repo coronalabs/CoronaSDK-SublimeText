@@ -65,19 +65,12 @@ class CoronaLabs:
   _findWhiteSpace = re.compile("([^,])\s")
   _findRequire = re.compile("require\s?\(?[\"\']")
   _findBackslash = re.compile("/")
-  _use_fuzzy_completion = True
-  _strip_white_space = False
-
+  
   def __init__(self):
     _corona_utils.debug("CoronaLabs: __init__")
     global CoronaCompletions
     CoronaCompletions = self
-    # Use fuzzy completions (essentially search for the characters in the target even if separated)
-    self._use_fuzzy_completion = _corona_utils.GetSetting("corona_sdk_use_fuzzy_completion", True)
-    # Remove whitespace in completions to match some coding styles
-    self._strip_white_space = _corona_utils.GetSetting("corona_sdk_completions_strip_white_space", False)
-
-
+   
   # Called by the snippets module to make sure completions are loaded
   def initialize(self):
     self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", default="public"))
@@ -137,6 +130,9 @@ class CoronaLabs:
 
   def find_completions(self, view, prefix):
     self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", default="public"))
+    strip_white_space=_corona_utils.GetSetting("corona_sdk_completions_strip_white_space", default=False)
+    use_fuzzy_completion = _corona_utils.GetSetting("corona_sdk_use_fuzzy_completion", default=True)
+  
     completion_target = self.current_word(view)
 
     # Because we adjust the prefix to make completions with periods in them work better we may need to
@@ -183,7 +179,7 @@ class CoronaLabs:
                   name=os.path.splitext(name)[0]
                   projectPath=os.path.relpath(os.path.join(root, name),start=path)
                   luaPath=self._findBackslash.sub(".",projectPath)
-                  if self.fuzzyMatchString(name, self._use_fuzzy_completion):
+                  if self.fuzzyMatchString(name, use_fuzzy_completion):
                     comps.append((luaPath,luaPath))
 
       return list(set(comps))
@@ -196,16 +192,16 @@ class CoronaLabs:
       trigger = ""
       contents = ""
       if isinstance(c, dict):
-        if self.fuzzyMatchString(c['trigger'], self._use_fuzzy_completion):
+        if self.fuzzyMatchString(c['trigger'], use_fuzzy_completion):
           trigger = c['trigger']
           contents = c['contents']
       elif is_string_instance(c):
-        if self.fuzzyMatchString(c, self._use_fuzzy_completion):
+        if self.fuzzyMatchString(c, use_fuzzy_completion):
           _corona_utils.debug("String match: ", c)
           trigger = c
           contents = c
       if trigger is not "":
-        if self._strip_white_space and contents is not "":
+        if strip_white_space and contents is not "":
            contents = self._findWhiteSpace.sub("\\1", contents)
         # If we do the completion adjustment on completions that aren't functions
         # ST somehow erases the text before the period from the document leaving
