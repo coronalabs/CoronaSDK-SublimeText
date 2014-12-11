@@ -40,15 +40,18 @@ def is_string_instance(obj):
     return isinstance(obj, str)
 
 
-debugFP = None
+# We change our behavior to avoid complications with certain CoronaSDK releases
+corona_sdk_version = None
 
+debugFP = None
 
 def debug(s):
   global debugFP
   try:
-    if not os.path.isdir(_corona_utils.PACKAGE_USER_DIR):
-      os.makedirs(_corona_utils.PACKAGE_USER_DIR)
-    debugFP = open(os.path.normpath(os.path.join(_corona_utils.PACKAGE_USER_DIR, "debug.log")), "w", 1)
+    if not debugFP and _corona_utils.GetSetting("corona_sdk_debug", False):
+      if not os.path.isdir(_corona_utils.PACKAGE_USER_DIR):
+        os.makedirs(_corona_utils.PACKAGE_USER_DIR)
+      debugFP = open(os.path.normpath(os.path.join(_corona_utils.PACKAGE_USER_DIR, "debug.log")), "w", 1)
   except:
     pass
 
@@ -57,7 +60,7 @@ def debug(s):
   log_line = str(datetime.datetime.now()) + " (" + str(thread_id) + "): " + str(s)
   if debugFP:
     debugFP.write(log_line + "\n")
-  print(log_line)
+  _corona_utils.debug(log_line)
 
 
 def debug_with_stacktrace(s):
@@ -189,7 +192,9 @@ class CoronaDebuggerThread(threading.Thread):
       filename = bpMatches.group(1)
       line = bpMatches.group(2)
 
-      if filename != "main.lua":  # we get a pause in "init.lua" if there's a syntax error in main.lua
+      debug("run: filename {0}, line {1}".format(filename, line))
+
+      if not filename.endswith("main.lua"):  # we get a pause in "init.lua" if there's a syntax error in main.lua
         debugger_status("Error running main.lua")
         on_main_thread(lambda: sublime.error_message("There was an error running main.lua.\n\nCheck Console for error messages."))
         # self.writeToPUT("RUN\n") # this leaves the Simulator is a deterministic state
@@ -211,7 +216,11 @@ class CoronaDebuggerThread(threading.Thread):
     on_main_thread(lambda: self.restore_breakpoints())
 
     self.doCommand('backtrace')
-    self.doCommand('locals')
+    # Skip displaying local variables on problematic releases (if we know what it is)
+    if corona_sdk_version and ( int(corona_sdk_version) >= 2489 and int(corona_sdk_version) < 2517 ):
+      variables_output("Local variable display disabled with this version of Corona SDK ("+corona_sdk_version+").  Try a build after 2515")
+    else:
+      self.doCommand('locals')
 
     while self.debugger_running:
       cmd = debuggerCmdQ.get()
@@ -315,7 +324,8 @@ class CoronaDebuggerThread(threading.Thread):
     debug("doDump: "+cmdtype+" "+variable_name)
     if variable_name:
       # Note the space after "return" matters
-      self.writeToPUT("EXEC return (" + variable_name + ")\n")
+      # self.writeToPUT("EXEC return (" + variable_name + ")\n")
+      self.writeToPUT("DUMP return (" + variable_name + ")\n")
       dmpResponse = self.readFromPUT().strip()
       debug("dmpResponse: " + dmpResponse)
       dataMatches = re.search(r'^(\d+)[^0-9]*(\d+)$', dmpResponse)
@@ -330,7 +340,7 @@ class CoronaDebuggerThread(threading.Thread):
             while len(dataStr) < length:
               dataStr += self.readFromPUT(int(length - len(dataStr)))
 
-            dataStr = variable_name + " = " + dataStr
+            dataStr = dataStr
             debug('dmpData: ' + dataStr)
             sublime.message_dialog(dataStr)
       else:
@@ -397,9 +407,10 @@ class CoronaDebuggerThread(threading.Thread):
               dataStr = re.sub(r' at \?:0', ' at <internal location>', dataStr)
             # Elide the project directory from any frames that contain it
             # debug("projectDir: " + self.projectDir + os.path.sep)
-            dataStr = re.sub("(?i)" + re.escape(self.projectDir + os.path.sep), '', dataStr)
+            dataStr = re.sub("(?i)" + re.escape('@' + self.projectDir + os.path.sep), '', dataStr)
             stack_output(cmd.title() + ":\n" + dataStr)
           else:
+            dataStr = re.sub("(?i)" + re.escape('@' + self.projectDir + os.path.sep), '', dataStr)
             variables_output(cmd.title() + ":\n" + dataStr)
       else:
         debugger_status("Error response from '" + cmd + "' (" + dataResponse + ")")
@@ -465,6 +476,7 @@ class CoronaDebuggerThread(threading.Thread):
         label = bpMatches.group(1)
         filename = bpMatches.group(2)
         line = bpMatches.group(3)
+        debug("doContinue: label: {0}, filename {1}, line {2} ({3})".format(label, filename, line, response))
         if label == "Error":
           label = "Runtime script error"
         if filename and line:
@@ -529,6 +541,7 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
   def run(self, cmd=None, arg_filename=None, arg_lineno=None, arg_toggle=True):
     debug("CoronaDebuggerCommand: " + cmd)
     global coronaDbg
+    global corona_sdk_version
     self.view = self.window.active_view()
 
     if self.view is None:
@@ -575,11 +588,16 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
         sublime.error_message("Cannot find 'main.lua' for '"+self.view.file_name()+"'.  This does not look like a Corona SDK app")
         return
 
-      dbg_path, dbg_flags = _corona_utils.GetSimulatorCmd(mainlua, True)
+      dbg_path, dbg_flags, dbg_version = _corona_utils.GetSimulatorCmd(mainlua, True)
       dbg_cmd = [dbg_path]
       dbg_cmd += dbg_flags
       dbg_cmd.append(mainlua)
       debug("debugger cmd: " + str(dbg_cmd))
+
+      debug("dbg_version: " + str(dbg_version))
+      if dbg_version:
+        corona_sdk_version = dbg_version.rpartition(".")[2]
+        debug("corona_sdk_version: " + str(corona_sdk_version))
 
       global subProcOutputQ, debuggerCmdQ
       subProcOutputQ = coronaQueue.Queue()
@@ -614,7 +632,8 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
     elif cmd in ["run", "step", "over"]:
       coronaDbg.doCommand(cmd)
       coronaDbg.doCommand('backtrace')
-      coronaDbg.doCommand('locals')
+      if not corona_sdk_version or ( int(corona_sdk_version) < 2489 or int(corona_sdk_version) > 2515 ):
+        coronaDbg.doCommand('locals')
     elif cmd == "dump":
       self.dumpVariable()
     elif cmd == "setb":
@@ -726,7 +745,11 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
       if len(views) is 0:
         view = self.window.new_file()
         view.set_name(w['title'])
-        view.settings().set('word_wrap', False)
+        view.settings().set('word_wrap', True)
+        if view.name() != 'Console':
+          # Set the syntax coloring for the Variables and Stack panes
+          # to CoronaSDKLua as that works well
+          view.set_syntax_file('Packages/Corona Editor/CoronaSDKLua.tmLanguage')
         view.set_read_only(True)
         view.set_scratch(True)
         view.run_command("toggle_setting", {"setting": "line_numbers"})
@@ -792,7 +815,8 @@ def outputToPane(name, text, erase=True):
   # debug("outputToPane: name: " + name + "text: " + text)
   window = sublime.active_window()
   for view in window.views():
-    if view.name() == name:
+    # only reload view if text has changed
+    if view.name() == name and view.substr(sublime.Region(0, view.size())) != text:
       view.set_read_only(False)
       if _corona_utils.SUBLIME_VERSION < 3000:
         edit = view.begin_edit()
