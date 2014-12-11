@@ -31,7 +31,7 @@ if "check_output" not in dir( subprocess ):
         cmd = popenargs[0]
       raise subprocess.CalledProcessError(retcode, cmd)
     return output
-subprocess.check_output = f
+  subprocess.check_output = f
 
 SUBLIME_VERSION = "not set"
 PLUGIN_PATH = "not set"
