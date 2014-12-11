@@ -1,0 +1,7 @@
+### Corona Editor 1.5.0
+
+ * Debugger
+ 	Various improvements to the Debugger including much improved support for tables in the variable display.
+
+ * Completions
+	Latest completions and fixes for some issues around completion with periods.
