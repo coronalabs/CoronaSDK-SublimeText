@@ -17,18 +17,18 @@
                         [
                             {
                                 "command": "open_file",
-                                "args": {"file": "${packages}/Corona Editor/README.md"},
+                                "args": {"file": "${packages}/$corona_package_name/README.md"},
                                 "caption": "README"
                             },
                             {
                                 "command": "open_file",
-                                "args": {"file": "${packages}/Corona Editor/RELEASE-NOTES.md"},
+                                "args": {"file": "${packages}/$corona_package_name/RELEASE-NOTES.md"},
                                 "caption": "Release Notes"
                             },
                             { "caption": "-" },
                             {
                                 "command": "open_file",
-                                "args": {"file": "${packages}/Corona Editor/Corona Editor.sublime-settings"},
+                                "args": {"file": "${packages}/$corona_package_name/Corona Editor.sublime-settings"},
                                 "caption": "Settings – Default"
                             },
                             {
@@ -39,7 +39,7 @@
                             { "caption": "-" },
                             {
                                 "command": "open_file",
-                                "args": {"file": "${packages}/Corona Editor/Default.sublime-keymap"},
+                                "args": {"file": "${packages}/$corona_package_name/Default.sublime-keymap"},
                                 "caption": "Key Bindings – Default"
                             },
                             {
