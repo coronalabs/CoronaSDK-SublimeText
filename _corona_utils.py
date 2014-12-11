@@ -14,6 +14,24 @@ import os
 import re
 import threading
 import io
+import subprocess
+import sys
+
+# Define "check_output" for Python <= 2.6 (ST2 uses this)
+if "check_output" not in dir( subprocess ):
+  def f(*popenargs, **kwargs):
+    if 'stdout' in kwargs:
+      raise ValueError('stdout argument not allowed, it will be overridden.')
+    process = subprocess.Popen(stdout=subprocess.PIPE, *popenargs, **kwargs)
+    output, unused_err = process.communicate()
+    retcode = process.poll()
+    if retcode:
+      cmd = kwargs.get("args")
+      if cmd is None:
+        cmd = popenargs[0]
+      raise subprocess.CalledProcessError(retcode, cmd)
+    return output
+subprocess.check_output = f
 
 SUBLIME_VERSION = "not set"
 PLUGIN_PATH = "not set"
@@ -70,6 +88,7 @@ def Init():
   _corona_sdk_debug = settings.get("corona_sdk_debug", False)
 
   print("Corona Editor: Init")
+  debug("Python: " + str(sys.version))
 
   PLUGIN_PATH = os.path.dirname(os.path.realpath(__file__))
   if PLUGIN_PATH.lower().endswith('coronasdk-sublimetext'):
@@ -117,6 +136,7 @@ def GetSimulatorCmd(mainlua=None, debug=False):
 
   simulator_path = ""
   simulator_flags = []
+  simulator_version = GetSetting("corona_sdk_version", None)
 
   if mainlua is not None:
     simulator_path = GetSimulatorPathFromBuildSettings(mainlua)
@@ -133,6 +153,8 @@ def GetSimulatorCmd(mainlua=None, debug=False):
       simulator_flags.append("-debug")
       simulator_flags.append("1")
       simulator_flags.append("-project")
+    if os.path.isfile(simulator_path) and os.access(simulator_path, os.X_OK):
+      simulator_version = str(subprocess.check_output(['defaults', 'read', os.path.join(os.path.dirname(simulator_path), '../Info.plist'), 'CFBundleVersion'], stderr=subprocess.STDOUT).decode('utf8').strip())
   elif platform == 'windows':
     if simulator_path is None:
       if arch == "x64":
@@ -146,9 +168,9 @@ def GetSimulatorCmd(mainlua=None, debug=False):
   # Can we find an executable file at the path
   if not os.path.isfile(simulator_path) or not os.access(simulator_path, os.X_OK):
     sublime.error_message("Cannot find executable Corona Simulator at path '{0}'\n\nYou can set the user preference 'corona_sdk_simulator_path' to the location of the Simulator.".format(simulator_path))
-    return None, None
+    return None, None, None
 
-  return simulator_path, simulator_flags
+  return simulator_path, simulator_flags, simulator_version
 
 
 # Given a path to a main.lua file, see if there's a "corona_sdk_simulator_path" setting in

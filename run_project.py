@@ -72,7 +72,7 @@ class RunProjectCommand(sublime_plugin.WindowCommand):
       sublime.error_message("Can't locate 'main.lua' for this project (try opening it in an editor tab)")
       return
 
-    simulator_path, simulator_flags = _corona_utils.GetSimulatorCmd(mainlua)
+    simulator_path, simulator_flags, simulator_version = _corona_utils.GetSimulatorCmd(mainlua)
 
     cmd = [simulator_path]
     cmd += simulator_flags
