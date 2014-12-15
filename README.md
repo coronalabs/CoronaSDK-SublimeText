@@ -37,10 +37,10 @@ If the syntax option is set correctly you'll see it displayed in the bottom righ
 
 ![Corona SDK Lua](http://coronalabs.com/images/st-coronasdklua.png "Corona SDK Lua")
 
-There are several ***Sublime Text*** User Preferences that can be set to fine tune the behavior of the plugin.  You can find information on setting User Preferences [http://www.sublimetext.com/docs/3/settings.html](http://www.sublimetext.com/docs/3/settings.html).
+There are several ***Sublime Text*** User Preferences that can be set to fine tune the behavior of the plugin.  You can find information on setting User Preferences here [http://www.sublimetext.com/docs/3/settings.html](http://www.sublimetext.com/docs/3/settings.html).
 
 ### Debugger
-The Corona Debugger allows code to be single stepped, variables to be examined and breakpoints to be set.  You can run the debugger using the **Corona Editor** menu from any file in the project and it will automatically find **main.lua**.  Right click on a code line in the editor and choose **Toggle Breakpoint** to turn breakpoints on and off.  Select the name of a variable and choose **Inspect Variable** from the context menu to see its value.
+The Corona Debugger allows code to be single stepped, variables to be examined and breakpoints to be set.  You can run the debugger using the **Corona Editor** menu from any file in the project and it will automatically find **main.lua**.  Right click on a code line in the editor and choose **Toggle Breakpoint** to turn a breakpoint on or off.  Select the name of a variable and choose **Inspect Variable** from the context menu to see its value.
 
 The following keys also control the Debugger:
 
@@ -61,7 +61,9 @@ A simpler alternative to the **Build** command in ***Sublime Text*** is the **Ru
 	in the default location for your operating system (remember to double
 	the backslashes in Windows paths).  You can also set this in the `build.settings`
 	file of individual projects to customize the version of the Corona Simulator that
-	is used for each project.
+	is used for each project (note that the Lua syntax for the `build.settings` file
+	is different to the JSON syntax of the ***Sublime Text*** preference files in that
+	the name of the preference is not quoted in Lua)
 
 ##### Current Gotchas
  * If you **Run** the project and it doesn't hit a breakpoint, you'll have to stop and restart to regain control (in particular, setting a breakpoint on a line of code you know is being executed wont stop the program).
@@ -101,9 +103,9 @@ Documentation can be called up by placing the cursor on an API call (or selectin
 
 
 ##### Preferences
- * `corona_sdk_use_docset` (default: "public")
+ * `corona_sdk_use_docset` (default: `public`)
 
- 	Choose which documentation set you want to use.  Can be one of "public" (the default), "legacy" or "daily".
+ 	Choose which documentation set you want to use.  Can be one of `public` (the default), `legacy` or `daily`.
 
 ##### Current Gotchas
  * Note that right clicking on an item wont move the cursor there so you can't right click on a term that's not at the insertion point and then pick **Corona SDK Docs** from the context menu as it's the position of the text cursor that determines what's looked up (left click on the item first)

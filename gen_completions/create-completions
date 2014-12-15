@@ -57,8 +57,8 @@ do
 			D=`basename $PWD`
 			N=`basename $F .markdown`
 
-			# Candidates for completion in the markdown docs start with a tab
-			COMP=`egrep '	[A-Za-z]*?[.:]*'"$N" $F | sed -e 's/^	//'`
+			# Candidates for completion in the markdown docs start with a tab (we delete "Examples" to avoid tabs in sample code)
+			COMP=$(sed -e '/^## *Example/,$d' "$F" | egrep '	[A-Za-z]*?[.:]*'"$N" | sed -e 's/^	//')
 
 			if [ "$COMP" = "" ]
 			then
@@ -84,7 +84,7 @@ do
 			# Find any explicit completion items in the file
 			# (it's assumed they are formatted with backticks which 
 			# might need adjustment)
-			fgrep '<!--- completion -->' "$F" | sed -e 's/.*`\([^`]*\)`.*/\1	'$D'/'
+			grep '<!-* completion -->' "$F" | sed -e 's/.*`\([^`]*\)`.*/\1	'$D'/'
 		done
 
 		cd $WD

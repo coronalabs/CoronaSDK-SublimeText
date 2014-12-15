@@ -1,2 +1,22 @@
 # Things that shouldn't be in the completions list
 V2.0 Migration guide
+Storyboard to Composer Migration
+storyboard.disableAutoPurge	storyboard
+storyboard.getCurrentSceneName()	storyboard
+storyboard.getPrevious()	storyboard
+storyboard.getScene( sceneName )	storyboard
+storyboard.gotoScene( sceneName [, options] )	storyboard
+storyboard.hideOverlay( [ purgeOnly, effect, effectTime ] )	storyboard
+storyboard.isDebug	storyboard
+storyboard.loadScene( sceneName [, doNotLoadView, params ] )	storyboard
+storyboard.newScene( [ sceneName ] )	storyboard
+storyboard.printMemUsage()	storyboard
+storyboard.purgeAll()	storyboard
+storyboard.purgeOnSceneChange	storyboard
+storyboard.purgeScene( sceneName )	storyboard
+storyboard.reloadScene()	storyboard
+storyboard.removeAll()	storyboard
+storyboard.removeScene( sceneName )	storyboard
+storyboard.showOverlay( sceneName [, options ] )	storyboard
+storyboard.stage	storyboard
+\_defined, object.\_lastChange, object.\_properties DisplayObject

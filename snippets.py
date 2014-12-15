@@ -113,6 +113,7 @@ class CoronaSnippetFolderIndexer(threading.Thread):
       print(_corona_utils.PACKAGE_NAME + ": Failed to load Snippets menu: " + templatePath)
       return
 
+    menus = menus.replace("$corona_package_name", _corona_utils.PACKAGE_NAME)
     menus = menus.replace("$corona_snippets", snippetJSON)
 
     if not os.path.exists(_corona_utils.PACKAGE_DIR):

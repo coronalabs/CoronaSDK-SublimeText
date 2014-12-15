@@ -1,10 +1,6 @@
-	accuracy.text = accuracyText	location
-	altitude.text = altitudeText	location
-	direction.text = directionText	location
-	latitude.text = latitudeText	location
-	longitude.text = longitudeText	location
-	speed.text = speedText	location
-	time.text = timeText	location
+"angularVelocity"	physics
+"length"	physics
+"velocity"	physics
 Array	type
 Boolean	type
 Constant	type
@@ -21,10 +17,8 @@ File:seek( [mode] [, offset] )	File
 File:setvbuf( mode [, size ] )	File
 File:write( arg1 [, arg2] [, ...] )	File
 Function	type
-ImageGroup	type
 Library	type
 LineObject:append( x, y [, ... ] )	LineObject
-LineObject:setColor( red, green, blue [, alpha ] )	LineObject
 Listener	type
 Number	type
 Object	type
@@ -33,7 +27,6 @@ ParticleSystem:createParticle( params )	ParticleSystem
 ParticleSystem:destroyParticles( params )	ParticleSystem
 ParticleSystem:queryRegion( upperLeftX, upperLeftY, lowerRightX, lowerRightY, hitProperties )	ParticleSystem
 ParticleSystem:rayCast( from_x, from_y, to_x, to_y, behavior )	ParticleSystem
-Recording:getSampleRate()	Recording
 Recording:isRecording()	Recording
 Recording:setSampleRate( r )	Recording
 Recording:startRecording()	Recording
@@ -44,10 +37,10 @@ SpriteObject:pause()	SpriteObject
 SpriteObject:play()	SpriteObject
 SpriteObject:setFrame( frameIndex )	SpriteObject
 StageObject:setFocus( object [, touchID ] )	StageObject
-Storyboard to Composer Migration	composer
 String	type
 Table	type
 Userdata	type
+\_defined, object.\_lastChange, object.\_properties	DisplayObject
 accuracy	InputAxis
 addEventListener( eventName, listener )	EventListener
 addMarker( latitude, longitude )	Map
@@ -55,9 +48,6 @@ addMarker( latitude, longitude, options )	Map
 align	TextBox
 align	TextField
 alpha	DisplayObject
-analytics.init( apiKey )	analytics
-analytics.logEvent( eventID )	analytics
-analytics.logEvent( eventID, params )	analytics
 anchorChildren	GroupObject
 anchorSegments	LineObject
 anchorX	DisplayObject
@@ -89,7 +79,6 @@ audio.play( audioHandle [, options ] )	audio
 audio.reserveChannels( channels )	audio
 audio.reservedChannels	audio
 audio.resume( [channel] )	audio
-audio.resume( backgroundMusicChannel )	audio
 audio.rewind( [audioHandle | options] )	audio
 audio.seek( time [, audioHandle ] [, options ] )	audio
 audio.setMaxVolume( volume, options )	audio
@@ -102,7 +91,7 @@ audio.unreservedFreeChannels	audio
 audio.unreservedUsedChannels	audio
 audio.usedChannels	audio
 back()	WebView
-blendMode	ShapeObject
+blendMode	DisplayObject
 bodyType	Body
 bounce	PhysicsContact
 canGoBack	WebView
@@ -131,9 +120,6 @@ contentBounds	DisplayObject
 contentHeight	DisplayObject
 contentToLocal( xContent, yContent )	DisplayObject
 contentWidth	DisplayObject
-credits.init( ARG1 [, ARG2] )	credits
-credits.requestUpdate( ARG1 [, ARG2] )	credits
-credits.showOffers( ARG1 [, ARG2] )	credits
 crypto.digest( algorithm, data [, raw] )	crypto
 crypto.hmac( algorithm, data, key [, raw] )	crypto
 crypto.md4	crypto
@@ -146,22 +132,14 @@ crypto.sha512	crypto
 currentTime	Video
 dampingRatio	Joint
 deleteAllRows()	TableViewWidget
+deleteCookies()	WebView
 deleteRow( rowIndex )	TableViewWidget
 descriptor	InputAxis
 descriptor	InputDevice
 dispatchEvent( event )	EventListener
-display.BottomCenterReferencePoint	DisplayObject
-display.BottomLeftReferencePoint	DisplayObject
-display.BottomRightReferencePoint	DisplayObject
-display.CenterLeftReferencePoint	DisplayObject
-display.CenterReferencePoint	DisplayObject
-display.CenterRightReferencePoint	DisplayObject
 display.DarkStatusBar	display
 display.DefaultStatusBar	display
 display.HiddenStatusBar	display
-display.TopCenterReferencePoint	DisplayObject
-display.TopLeftReferencePoint	DisplayObject
-display.TopRightReferencePoint	DisplayObject
 display.TranslucentStatusBar	display
 display.actualContentHeight	display
 display.actualContentWidth	display
@@ -189,7 +167,6 @@ display.newEmitter( emitterParams )	display
 display.newGroup()	display
 display.newImage( [parent,] filename [,baseDir] [,x,y] [,isFullResolution])	display
 display.newImage( [parent,] imageSheet, frameIndex )	display
-display.newImageGroup()	display
 display.newImageRect( [parentGroup,] filename, [baseDir,] width, height )	display
 display.newImageRect( [parentGroup,] imageSheet, frameIndex, width, height )	display
 display.newLine( [parentGroup,] x1, y1, x2, y2 [, x3, y3, ... ] )	display
@@ -236,8 +213,10 @@ end	Keyword
 error( message [, level] )	global
 event.a	colorSample
 event.a	particleCollision
+event.accuracy	location
 event.action	completion
 event.address	networkStatus
+event.altitude	location
 event.applicationState	notification
 event.axis	axis
 event.b	colorSample
@@ -265,6 +244,7 @@ event.device	axis
 event.device	inputDeviceStatus
 event.device	key
 event.didComplete	fbconnect
+event.direction	location
 event.duration	completion
 event.element	particleCollision
 event.element1	collision
@@ -314,10 +294,12 @@ event.isShake	accelerometer
 event.isShiftDown	key
 event.isVerified	licensing
 event.keyName	key
+event.latitude	location
 event.latitude	mapLocation
 event.latitude	mapMarker
 event.latitude	mapTap
 event.localPlayerScore	gameNetwork
+event.longitude	location
 event.longitude	mapLocation
 event.longitude	mapMarker
 event.longitude	mapTap
@@ -330,14 +312,8 @@ event.name	collision
 event.name	colorSample
 event.name	completion
 event.name	create
-event.name	createScene
-event.name	creditsRequest
 event.name	destroy
-event.name	destroyScene
-event.name	didExitScene
 event.name	enterFrame
-event.name	enterScene
-event.name	exitScene
 event.name	fbconnect
 event.name	finalize
 event.name	gameNetwork
@@ -356,8 +332,6 @@ event.name	networkRequest
 event.name	networkStatus
 event.name	notification
 event.name	orientation
-event.name	overlayBegan
-event.name	overlayEnded
 event.name	particleCollision
 event.name	popup
 event.name	postCollision
@@ -372,10 +346,8 @@ event.name	tap
 event.name	timer
 event.name	touch
 event.name	urlRequest
-event.name	willEnterScene
 event.nativeKeyCode	key
 event.newCharacters	userInput
-event.newCredits	creditsRequest
 event.normalX	particleCollision
 event.normalY	particleCollision
 event.normalizedValue	axis
@@ -391,10 +363,7 @@ event.oldText	userInput
 event.other	postCollision
 event.other	preCollision
 event.params	create
-event.params	createScene
-event.params	enterScene
 event.params	show
-event.params	willEnterScene
 event.parent	hide
 event.parent	show
 event.particleSystem	particleCollision
@@ -426,9 +395,8 @@ event.response	licensing
 event.response	networkRequest
 event.responseHeaders	networkRequest
 event.responseType	networkRequest
-event.sceneName	overlayBegan
-event.sceneName	overlayEnded
 event.source	timer
+event.speed	location
 event.sprite	sprite
 event.stackTrace	unhandledError
 event.startPosition	userInput
@@ -442,11 +410,11 @@ event.target	touch
 event.target	userInput
 event.text	userInput
 event.time	enterFrame
+event.time	location
 event.time	mouse
 event.time	timer
 event.time	touch
 event.token	fbconnect
-event.totalCredits	creditsRequest
 event.transaction	storeTransaction
 event.type	fbconnect
 event.type	gameNetwork
@@ -509,12 +477,9 @@ forward()	WebView
 frame	SpriteObject
 frequency	Joint
 friction	PhysicsContact
-gameNetwork.init( providerName [, ...] )	gameNetwork
 gameNetwork.match	GameNetwork
 gameNetwork.outcome	GameNetwork
 gameNetwork.participant	GameNetwork
-gameNetwork.request()	gameNetwork
-gameNetwork.show( name [, data ] )	gameNetwork
 gameNetwork.status	GameNetwork
 getAddressLocation()	Map
 getAxes()	InputDevice
@@ -530,11 +495,11 @@ getProgress()	ProgressViewWidget
 getRowAtIndex( rowIndex )	TableViewWidget
 getTarget()	Joint
 getUserLocation()	Map
+getValue()	StepperWidget
 getValues()	PickerWidget
 getView()	ScrollViewWidget
 getfenv( [f] )	global
 getmetatable( object )	global
-graphics.newGradient( color1, color2 [, direction] )	graphics
 graphics.newImageSheet( filename, [baseDir, ] options )	graphics
 graphics.newMask( filename [, baseDir] )	graphics
 graphics.newOutline( coarsenessInTexels, imageFileName [, baseDir] )	graphics
@@ -545,6 +510,7 @@ hasBackground	TextBox
 hasBackground	TextField
 hasBackground	WebView
 height	DisplayObject
+imageRadius	ParticleSystem
 initialize()	CoronaPrototype
 inputType	TextField
 insertRow( options )	TableViewWidget
@@ -553,7 +519,7 @@ io.close( [file] )	io
 io.flush()	io
 io.input( file )	io
 io.lines( file )	io
-io.open( filename_path [, mode] )	io
+io.open( file [, mode] )	io
 io.output( [file] )	io
 io.read( [fmt1] [, fmt2] [, ...] )	io
 io.tmpfile()	io
@@ -562,6 +528,7 @@ io.write( arg1 [, arg2] [, ...] )	io
 ipairs( t )	global
 isActive	Joint
 isAwake	Body
+isBodyActive	Body
 isBullet	Body
 isClass()	CoronaPrototype
 isCollideConnected	Joint
@@ -604,6 +571,7 @@ jointSpeed	Joint
 jointTranslation	Joint
 json.decode( data [, position [, nullval]] )	json
 json.encode( t [, options] )	json
+json.prettify( obj )	json
 length	Joint
 length1	Joint
 length2	Joint
@@ -666,7 +634,7 @@ media.Camera	media
 media.PhotoLibrary	media
 media.RemoteSource	media
 media.SavedPhotosAlbum	media
-media.capturePhoto({ listener = myListener, [, destination] })	media
+media.capturePhoto( { listener = myListener, [, destination] } )	media
 media.captureVideo ({ listener = myListener, preferredQuality = myQuality, preferredMaxDuration = myMaxDuration, })	media
 media.getSoundVolume()	media
 media.hasSource( mediaSource )	media
@@ -689,19 +657,19 @@ minValue	InputAxis
 minimumValue	StepperWidget
 module()	package
 motorForce	Joint
+motorSpeed	Joint
 motorTorque	Joint
-myJoint.motorSpeed = 100	Joint
 name	CoronaLibrary
 native.canShowPopup( name )	native
 native.cancelAlert( alert )	native
 native.cancelWebPopup()	native
 native.getFontNames()	native
 native.getProperty( key )	native
-native.getSync( filename, parms )	native
+native.getSync( filename, params )	native
 native.newFont( name [, size] )	native
 native.newMapView( centerX, centerY, width, height )	native
-native.newTextBox( centerX, centerY, width, height [, listener ] )	native
-native.newTextField( centerX, centerY, width, height [, listener] )	native
+native.newTextBox( centerX, centerY, width, height )	native
+native.newTextField( centerX, centerY, width, height )	native
 native.newVideo( centerX, centerY, width, height )	native
 native.newWebView( centerX, centerY, width, height )	native
 native.requestExit()	native
@@ -723,7 +691,7 @@ network.download( url, method, listener [, params], filename [, baseDirectory] )
 network.request( url, method, listener [, params] )	network
 network.setStatusListener( hostURL, listener )	network
 network.upload( url, method, listener [, params], filename [, baseDirectory] [, contentType] )	network
-new( o )	CoronaPrototype
+new( params )	CoronaPrototype
 new()	CoronaPrototype
 newClass( name )	CoronaPrototype
 next( array [, index] )	global
@@ -731,7 +699,6 @@ nil	Keyword
 numChildren	GroupObject
 numFrames	SpriteObject
 number	InputAxis
-obj.isBodyActive = false	Body
 os.clock()	os
 os.date( [format [, time] ] )	os
 os.difftime( t1, t2 )	os
@@ -790,6 +757,7 @@ physics.setVelocityIterations( value )	physics
 physics.start()	physics
 physics.stop()	physics
 physics.toMKS( unitName, value )	physics
+placeholder	TextBox
 placeholder	TextField
 play()	Video
 print( ... )	global
@@ -799,6 +767,7 @@ rawequal( value1, value2 )	global
 rawget( table, index )	global
 rawset( table, index, value )	global
 reactionTorque	Joint
+recording:getSampleRate()	Recording
 referenceAngle	Joint
 reload()	WebView
 reloadData()	TableViewWidget
@@ -817,12 +786,19 @@ resizeView( newWidth )	ProgressViewWidget
 revision	CoronaLibrary
 rotate( deltaAngle )	DisplayObject
 rotation	DisplayObject
+s:byte( [, i [, j]] )	string
+s:gmatch( pattern )	string
+s:lower()	string
+s:match( pattern [, init] )	string
+s:rep( n )	string
+s:reverse()	string
+s:sub( i[,j] )	string
+s:upper()	string
 scale( xScale, yScale )	DisplayObject
 scrollTo( position, options )	ScrollViewWidget
 scrollToIndex( rowIndex, time, onComplete )	TableViewWidget
 scrollToPosition( options )	ScrollViewWidget
 scrollToY( options )	TableViewWidget
-scrollView:setIsLocked( isLocked )	ScrollViewWidget
 seek( timeInSeconds )	Video
 segmentLabel	SegmentedControlWidget
 segmentNumber	SegmentedControlWidget
@@ -839,20 +815,20 @@ setFillColor( gray )	ShapeObject
 setFillColor( gray, alpha )	ShapeObject
 setFillColor( red, green, blue )	ShapeObject
 setFillColor( red, green, blue, alpha )	ShapeObject
+setIsLocked( isLocked [, axis] )	ScrollViewWidget
 setLabel( label )	ButtonWidget
 setLinearVelocity( xVelocity, yVelocity )	Body
 setMask( mask )	DisplayObject
 setProgress( progress )	ProgressViewWidget
-setReferencePoint( referencePoint )	DisplayObject
 setRegion( latitude, longitude, latitudeSpan, longitudeSpan [, isAnimated] )	Map
-setReturnKey(key)	TextBox
-setReturnKey(key)	TextField
+setReturnKey( key )	TextBox
+setReturnKey( key )	TextField
 setScrollHeight( newHeight )	ScrollViewWidget
 setScrollWidth( newWidth )	ScrollViewWidget
 setSelected( buttonIndex )	TabBarWidget
 setSelected( buttonIndex, simulatePress )	TabBarWidget
 setSelection( startPosition, endPosition )	TextBox
-setSelection(startPosition, endPosition)	TextField
+setSelection( startPosition, endPosition )	TextField
 setSequence( [ sequenceName ] )	SpriteObject
 setState( options )	SwitchWidget
 setStrokeColor( gray )	ShapeObject
@@ -860,16 +836,12 @@ setStrokeColor( gray, alpha )	ShapeObject
 setStrokeColor( red, green, blue )	ShapeObject
 setStrokeColor( red, green, blue, alpha )	ShapeObject
 setTarget( targetX, targetY )	Joint
-setTextColor( gradient )	TextObject
-setTextColor( gray )	TextObject
-setTextColor( gray, alpha )	TextObject
 setTextColor( r, g, b )	TextBox
 setTextColor( r, g, b )	TextField
 setTextColor( r, g, b, a )	TextBox
 setTextColor( r, g, b, a )	TextField
-setTextColor( red, green, blue )	TextObject
-setTextColor( red, green, blue, alpha )	TextObject
 setValue( percent )	SliderWidget
+setValue( value )	StepperWidget
 setfenv( f, table )	global
 setmetatable( table, metatable )	global
 size	TextBox
@@ -899,24 +871,6 @@ store.loadProducts( productIdentifiers, listener )	store
 store.purchase( productList )	store
 store.restore()	store
 store.target	store
-storyboard.disableAutoPurge	storyboard
-storyboard.getCurrentSceneName()	storyboard
-storyboard.getPrevious()	storyboard
-storyboard.getScene( sceneName )	storyboard
-storyboard.gotoScene( sceneName [, options] )	storyboard
-storyboard.hideOverlay( [ purgeOnly, effect, effectTime ] )	storyboard
-storyboard.isDebug	storyboard
-storyboard.loadScene( sceneName [, doNotLoadView, params ] )	storyboard
-storyboard.newScene( [ sceneName ] )	storyboard
-storyboard.printMemUsage()	storyboard
-storyboard.purgeAll()	storyboard
-storyboard.purgeOnSceneChange	storyboard
-storyboard.purgeScene( sceneName )	storyboard
-storyboard.reloadScene()	storyboard
-storyboard.removeAll()	storyboard
-storyboard.removeScene( sceneName )	storyboard
-storyboard.showOverlay( sceneName [, options ] )	storyboard
-storyboard.stage	storyboard
 string.byte( s [, i [, j]] )	string
 string.char( [arg1 [, ...] )	string
 string.find( s, pattern [, init [, plain]] )	string
@@ -972,6 +926,7 @@ table.remove( t )	table
 table.remove( t, pos )	table
 table.sort( t )	table
 table.sort( t, compare )	table
+tableView:setIsLocked( isLocked )	TableViewWidget
 takeFocus( event )	ScrollViewWidget
 text	TextBox
 text	TextField
