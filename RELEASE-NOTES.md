@@ -1,8 +1,27 @@
 ## Corona Editor Release Notes
 
-Always check [https://github.com/coronalabs/CoronaSDK-SublimeText/blob/master/README.md](the README) for the latest information.
+Always check the [README](https://github.com/coronalabs/CoronaSDK-SublimeText/blob/master/README.md) for the latest information.
 
-### 1.5.0 prerelease
+### 1.5.0
+
+ * Various debugger improvements including:
+	 * syntax coloring of debugger panes
+	 * avoiding problematic debugger commands in certain versions of Corona Simulator
+	 * better display of file paths
+	 * table variable contents are shown correctly
+	 * formatting of variable contents when inspecting
+
+ * Fix error in `class` snippet (fixes issue #17)
+
+ * Update snippets
+
+ * Add support for Simulator version detection
+
+ * Improved completion generation and latest completions (for build 2014.2511)
+
+ * Also look for settings in the main Sublime Text prefs. This means Corona Editor settings can be set in either the Corona Editor settings file (`~/Library/Application Support/Sublime Text 3/Packages/User/Corona Editor.sublime-settings`) or the main Sublime Text settings file (`~/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings`)
+
+ * Add `-no-console` option to Mac Simulator invocation
 
  * A message is shown on the status line if Corona SDK completion is not being done because a .lua file does not have `Corona SDK Lua` syntax set
 
@@ -11,7 +30,7 @@ Always check [https://github.com/coronalabs/CoronaSDK-SublimeText/blob/master/RE
 	 * Correct regex for finding errors
 	 * Fix snippets path
 
- * Latest completions (up to date for release 2014.2381).
+ * Latest completions (up to date for release 2014.2511).
 
  * Fixes for ***Sublime Text 2*** compatibility.
 
@@ -34,7 +53,7 @@ Always check [https://github.com/coronalabs/CoronaSDK-SublimeText/blob/master/RE
 	 * Handle invalid completion data files more gracefully
 	 * Latest completions from Corona SDK documentation
 
- * Set user preference `corona_sdk_debug` to true to turn on debug output in the ***Sublime Text*** console (mostly works for completion right now; everywhere later).
+ * Set user preference `corona_sdk_debug` to true to turn on debug output in the ***Sublime Text*** console (works for certain modules).
 
  * Add instructions in the README for using the development version.
 
