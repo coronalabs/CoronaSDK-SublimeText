@@ -13,8 +13,12 @@ import json
 
 try:
   from . import _corona_utils  # P3
+  from . import _lua_paths  # P3
+  from . import _sublime_utils  # P3
 except:
   import _corona_utils  # P2
+  import _lua_paths  # P2
+  import _sublime_utils  # P2
 
 # We expose the completions to the snippets code
 CoronaCompletions = None
@@ -30,10 +34,6 @@ def is_string_instance(obj):
     return isinstance(obj, basestring)
   except NameError:
     return isinstance(obj, str)
-
-# http://rosettacode.org/wiki/Find_common_directory_path#Python
-def commonprefix(*args, sep='/'):
-  return os.path.commonprefix(*args).rpartition(sep)[0]
 
 class FuzzyMatcher():
 
@@ -64,7 +64,6 @@ class CoronaLabs:
   _fuzzyPrefix = None
   _findWhiteSpace = re.compile("([^,])\s")
   _findRequire = re.compile("require\s?\(?[\"\']")
-  _findBackslash = re.compile("/")
   
   def __init__(self):
     _corona_utils.debug("CoronaLabs: __init__")
@@ -149,40 +148,19 @@ class CoronaLabs:
     # This is horrible on a variety of levels but is brought upon us by the fact that
     # ST completion files contain an array that is a mixture of strings and dicts
     comps = []
-      
-    cursor=view.sel()[0].begin()
-    rowCol=view.rowcol(cursor)
-    toCursor=view.substr(sublime.Region(view.text_point(rowCol[0],0),cursor))
-    match=self._findRequire.search(toCursor)
-    if match:
-      project_data=view.window().project_data()
-      if "folders" in project_data:
-        folders=project_data["folders"]
-        for f in folders:
-          path=None
-          if "path" in f and os.path.isabs(f["path"]):
-            path=f["path"]
-          else:
-            searchpath=commonprefix(view.window().folders())
-            for root, dirs, files in os.walk(searchpath):
-              for name in files:
-                if "main.lua"==name:
-                  path=root
-                  break
-              if path is not None: 
-                break
-          
-          if path is not None: 
-            for root, dirs, files in os.walk(path,followlinks=True):
-              for name in files:
-                if ".lua" in name:
-                  name=os.path.splitext(name)[0]
-                  projectPath=os.path.relpath(os.path.join(root, name),start=path)
-                  luaPath=self._findBackslash.sub(".",projectPath)
-                  if self.fuzzyMatchString(name, use_fuzzy_completion) or self.fuzzyMatchString(luaPath, use_fuzzy_completion):
-                    comps.append((luaPath,luaPath))
 
-      return list(set(comps))
+    # check if text in current line to cursor contains require statement
+    # if so attempt to fill compeltions with lua formatted file paths
+    if self._findRequire.search(_sublime_utils.getTextToCursor(view)):
+      pathSuggestions=_lua_paths.getLuaFilesAndPaths(view,_corona_utils.GetSetting("corona_sdk_follow_symlinks",default=False))
+      for namePath in pathSuggestions:
+        name=namePath[0]
+        luaPath=namePath[1]
+        if self.fuzzyMatchString(name, use_fuzzy_completion) or self.fuzzyMatchString(luaPath, use_fuzzy_completion):
+          comps.append((luaPath,luaPath))
+
+      if len(comps)>0:
+        return list(set(comps))
           
     # Add textual completions from the document
     for c in view.extract_completions(completion_target):
