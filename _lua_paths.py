@@ -21,8 +21,19 @@ def __getProjectPaths(view):
   
   return paths   
 
+def __getOpenFiles(view):
+  allViews=view.window().views()
+  openFiles=[]
+  for v in allViews:
+    if v.file_name() is not None:
+      openFiles.append(v.file_name())
+
+  return openFiles
+
 def __getViewPath(view):
-  searchpath=__commonprefix(view.window().folders())
+  folders=view.window().folders()
+  files=__getOpenFiles(view)
+  searchpath=__commonprefix(folders+files)
   for root, dirs, files in os.walk(searchpath):
     for name in files:
       if "main.lua"==name:
