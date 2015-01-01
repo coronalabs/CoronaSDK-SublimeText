@@ -9,6 +9,9 @@ def __commonprefix(*args, sep='/'):
 
 def __getProjectPaths(view):
   project_data=view.window().project_data()
+  if project_data is None:
+    return []
+  
   paths=[]
   if "folders" in project_data:
     folders=project_data["folders"]
