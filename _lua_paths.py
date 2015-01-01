@@ -31,8 +31,10 @@ def __getViewPath(view):
 def getLuaFilesAndPaths(view,followlinks): 
   luaPaths=[]
   paths=__getProjectPaths(view)
-  paths.append(__getViewPath(view)) 
-
+  viewPath=__getViewPath(view)
+  if viewPath is not None:
+    paths.append(viewPath)
+    
   for path in paths:
     for root, dirs, files in os.walk(path,followlinks=followlinks):
       for name in files:
