@@ -101,6 +101,7 @@ class CoronaSnippetFolderIndexer(threading.Thread):
     templatePath = _corona_utils.ST_PACKAGE_PATH + "Main.sublime-menu.template"
     try:
       if _corona_utils.SUBLIME_VERSION < 3000:
+        templatePath = os.path.join(_corona_utils.PACKAGE_DIR, "Main.sublime-menu.template")
         with open(templatePath, "r") as fd:
           menus = fd.read()
       else:
