@@ -150,22 +150,23 @@ class CoronaLabs:
     comps = []
 
     # check if text in current line to cursor contains require statement
-    # if so attempt to fill compeltions with lua formatted file paths
-    if self._findRequire.search(_sublime_utils.getTextToCursor(view)):
+    # if so attempt to fill completions with lua formatted file paths
+    completingRequireStatement=self._findRequire.search(_sublime_utils.getTextToCursor(view))
+    if completingRequireStatement:
       pathSuggestions=_lua_paths.getLuaFilesAndPaths(view,_corona_utils.GetSetting("corona_sdk_follow_symlinks",default=False))
       for namePath in pathSuggestions:
         name=namePath[0]
         luaPath=namePath[1]
         if self.fuzzyMatchString(name, use_fuzzy_completion) or self.fuzzyMatchString(luaPath, use_fuzzy_completion):
           comps.append((luaPath,luaPath))
-
-      if len(comps)>0:
-        return list(set(comps))
-          
+      
     # Add textual completions from the document
     for c in view.extract_completions(completion_target):
       comps.append((c, c))
 
+    if completingRequireStatement:
+      return list(set(comps))
+    
     for c in self._completions['completions']:
       trigger = ""
       contents = ""
