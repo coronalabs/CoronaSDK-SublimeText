@@ -64,6 +64,7 @@ class CoronaLabs:
   _fuzzyPrefix = None
   _findWhiteSpace = re.compile("([^,])\s")
   _findRequire = re.compile("require\s?\(?[\"\']")
+  _findString = re.compile("[\"\'][A-Za-z0-9\._]+$")
   
   def __init__(self):
     _corona_utils.debug("CoronaLabs: __init__")
@@ -151,7 +152,8 @@ class CoronaLabs:
 
     # check if text in current line to cursor contains require statement
     # if so attempt to fill completions with lua formatted file paths
-    completingRequireStatement=self._findRequire.search(_sublime_utils.getTextToCursor(view))
+    textToCursor=_sublime_utils.getTextToCursor(view)
+    completingRequireStatement=self._findRequire.search(textToCursor)
     if completingRequireStatement:
       pathSuggestions=_lua_paths.getLuaFilesAndPaths(view,_corona_utils.GetSetting("corona_sdk_follow_symlinks",default=False))
       for namePath in pathSuggestions:
@@ -164,7 +166,8 @@ class CoronaLabs:
     for c in view.extract_completions(completion_target):
       comps.append((c, c))
 
-    if completingRequireStatement:
+    # don't add Corona API completions if editing a require statement or more generally a string
+    if completingRequireStatement or self._findString.search(textToCursor):
       return list(set(comps))
     
     for c in self._completions['completions']:
