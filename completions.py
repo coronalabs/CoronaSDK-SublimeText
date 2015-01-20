@@ -64,7 +64,7 @@ class CoronaLabs:
   _fuzzyPrefix = None
   _findWhiteSpace = re.compile("([^,])\s")
   _findRequire = re.compile("require\s?\(?[\"\']")
-  _findString = re.compile("[\"\'][A-Za-z0-9\._]+$")
+  _findString = re.compile(r'[^\w]([\"\']|\[{2})(?!.*(\1|\]{2})).+?\Z')
   
   def __init__(self):
     _corona_utils.debug("CoronaLabs: __init__")
