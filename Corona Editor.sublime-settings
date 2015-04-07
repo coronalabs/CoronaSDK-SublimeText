@@ -45,5 +45,9 @@
  	// softlinks in your project structure. Set this to true to follow links, but beware
  	// it is possible to set up infinite cycles if a link to a root directory in your project
  	// appears in a subdirectory.
- 	"corona_sdk_follow_symlinks":false
+ 	"corona_sdk_follow_symlinks":false,
+
+ 	// When typing out a string Corona Editor can autosuggest files and paths. The list below filters the suggestions.
+ 	// Extend it with any other useful formats. The list is case insensitive.
+ 	"corona_sdk_autocomplete_extensions":[".png",".jpeg",".jpg",".wav",".mp3"]
 }

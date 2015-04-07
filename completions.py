@@ -64,7 +64,7 @@ class CoronaLabs:
   _fuzzyPrefix = None
   _findWhiteSpace = re.compile("([^,])\s")
   _findRequire = re.compile("require\s?\(?[\"\']")
-  _findString = re.compile(r'[^\w]([\"\']|\[{2})(?!.*(\1|\]{2})).+?\Z')
+  _findStringOpen = re.compile(r'\"|\'')
   
   def __init__(self):
     _corona_utils.debug("CoronaLabs: __init__")
@@ -120,6 +120,10 @@ class CoronaLabs:
       else:
         return False
 
+  def inString(self,textToCursor):
+    match=self._findStringOpen.findall(textToCursor)
+    return len(match)>0 and len(match)%2==1
+
   # extract completions which match prefix
   # Completions are problematic because Sublime uses the "word_separators" preference to decide where tokens
   # begin and end which, by default, means that periods are not completed properly.  One options is to remove
@@ -154,8 +158,13 @@ class CoronaLabs:
     # if so attempt to fill completions with lua formatted file paths
     textToCursor=_sublime_utils.getTextToCursor(view)
     completingRequireStatement=self._findRequire.search(textToCursor)
-    if completingRequireStatement:
-      pathSuggestions=_lua_paths.getLuaFilesAndPaths(view,_corona_utils.GetSetting("corona_sdk_follow_symlinks",default=False))
+    inString=self.inString(textToCursor)
+    if completingRequireStatement or inString:
+      extensions=[".lua"]
+      if not completingRequireStatement:
+        extensions=_corona_utils.GetSetting("corona_sdk_autocomplete_extensions",default=[])
+      followSymlinks=_corona_utils.GetSetting("corona_sdk_follow_symlinks",default=False)
+      pathSuggestions=_lua_paths.getFilesAndPaths(view,extensions=extensions,followlinks=followSymlinks,converttoluapaths=completingRequireStatement)
       for namePath in pathSuggestions:
         name=namePath[0]
         luaPath=namePath[1]
@@ -167,7 +176,8 @@ class CoronaLabs:
       comps.append((c, c))
 
     # don't add Corona API completions if editing a require statement or more generally a string
-    if completingRequireStatement or self._findString.search(textToCursor):
+    # the regex will correctly match multiline strings, but to detect them we need to search more of the document
+    if completingRequireStatement or inString:
       return list(set(comps))
     
     for c in self._completions['completions']:

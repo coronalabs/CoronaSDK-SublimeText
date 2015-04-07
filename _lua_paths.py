@@ -39,7 +39,7 @@ def __getViewPath(view):
       if "main.lua"==name:
         return root
     
-def getLuaFilesAndPaths(view,followlinks): 
+def getFilesAndPaths(view,extensions=[".lua"],followlinks=False,converttoluapaths=True): 
   luaPaths=[]
   paths=__getProjectPaths(view)
   viewPath=__getViewPath(view)
@@ -49,9 +49,12 @@ def getLuaFilesAndPaths(view,followlinks):
   for path in paths:
     for root, dirs, files in os.walk(path,followlinks=followlinks):
       for name in files:
-        if ".lua" in name:
-          name=os.path.splitext(name)[0]
+        if any(ext in name.lower() for ext in extensions):
+          if converttoluapaths:
+            name=os.path.splitext(name)[0]
           relpath=os.path.relpath(os.path.join(root, name),start=path)
-          luaPaths.append((name,_findBackslash.sub(".",relpath)))
+          if converttoluapaths:
+            relpath=_findBackslash.sub(".",relpath)
+          luaPaths.append((name,relpath))
             
     return luaPaths
