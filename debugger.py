@@ -23,7 +23,9 @@ except:
   import Queue  # P2
   coronaQueue = Queue
 
-subProcOutputQ = None
+consoleOutputQ = None
+variablesOutputQ = None
+luaStackOutputQ = None
 debuggerCmdQ = None
 
 try:
@@ -40,15 +42,20 @@ def is_string_instance(obj):
     return isinstance(obj, str)
 
 
+statusRegion = None
+
 # We change our behavior to avoid complications with certain CoronaSDK releases
 corona_sdk_version = None
+# Getting settings in certain threads locks up Sublime Text so do it just once
+corona_sdk_debug = _corona_utils.GetSetting("corona_sdk_debug", False)
 
 debugFP = None
 
 def debug(s):
   global debugFP
+  global corona_sdk_debug
   try:
-    if not debugFP and _corona_utils.GetSetting("corona_sdk_debug", False):
+    if not debugFP and corona_sdk_debug:
       if not os.path.isdir(_corona_utils.PACKAGE_USER_DIR):
         os.makedirs(_corona_utils.PACKAGE_USER_DIR)
       debugFP = open(os.path.normpath(os.path.join(_corona_utils.PACKAGE_USER_DIR, "debug.log")), "w", 1)
@@ -182,10 +189,10 @@ class CoronaDebuggerThread(threading.Thread):
     data = self.readFromPUT()  # response like '200 OK'
     debug('data: ' + str(data))
 
-    bpResponse = self.readFromPUT()  # response like '202 Paused main.lua 3\n'
+    bpResponse = self.readFromPUT()  # response like '202 Paused /path/to/project/main.lua 3\n'
     debug('bpResponse: ' + bpResponse)
 
-    bpMatches = re.search(r'^202 Paused\s+([^\s]+)\s+(\d+)$', bpResponse.strip())
+    bpMatches = re.search(r'^202 Paused\s+(.+?)\s+(\d+)$', bpResponse.strip())
 
     # Handle the response to the STEP command we just issued to start the PUT
     if bpMatches is not None:
@@ -200,7 +207,7 @@ class CoronaDebuggerThread(threading.Thread):
         # self.writeToPUT("RUN\n") # this leaves the Simulator is a deterministic state
       else:
         debugger_status("Paused at line {0} of {1}".format(line, filename))
-        on_main_thread(lambda: self.showSublimeContext(os.path.join(self.projectDir, filename), int(line)))
+        on_main_thread(lambda: self.showSublimeContext(filename, int(line)))
     else:
       errMatches = re.search(r'^401 Error in Execution (\d+)$', bpResponse.strip())
       if errMatches is not None:
@@ -208,6 +215,7 @@ class CoronaDebuggerThread(threading.Thread):
         console_output("Error in remote application: ")
         console_output(self.readFromPUT(size))
       else:
+        print("Corona Editor Error: ", bpResponse)
         on_main_thread(lambda: sublime.error_message("Unexpected response from Simulator:\n\n" + str(bpResponse) + "\n\nCheck Console for error messages."))
 
     # Restore any breakpoint we have saved (breakpoints can only be set when
@@ -433,6 +441,7 @@ class CoronaDebuggerThread(threading.Thread):
 
   def showSublimeContext(self, filename, line):
     debug("showSublimeContext: "+str(filename) + " : " + str(line))
+    console_output("☉☉☉ Stopped at "+str(filename.replace(self.projectDir+"/", "")) + ":" + str(line) +" ☉☉☉")
     window = sublime.active_window()
     if window:
       window.focus_group(0)
@@ -440,6 +449,7 @@ class CoronaDebuggerThread(threading.Thread):
       # debug("showSublimeContext: view: " + str(view) + "; size: " + str(view.size()))
       # testing that "view" is not None is insufficient here
       if view is not None and view.size() >= 0:
+        filename = os.path.join(self.projectDir, filename)
         if view.file_name() != filename:
           self.activateViewWithFile(filename, line)
 
@@ -459,6 +469,7 @@ class CoronaDebuggerThread(threading.Thread):
       variables_output("Running ...")
       debugger_status("Running ...")
       on_main_thread(lambda: sublime.active_window().active_view().erase_regions("current_line"))  # we wont be back to erase the current line marker so do it here
+      on_main_thread(lambda: console_output("☉☉☉ Running - ⇧F10 to stop ☉☉☉"))
 
     self.getAck(cmd)
     response = self.readFromPUT()
@@ -471,7 +482,7 @@ class CoronaDebuggerThread(threading.Thread):
     status = statusMatches.group(0)
     debug("Status: " + status)
     if status == "202":
-      bpMatches = re.search(r'^202 (\w+)\s+([^\s]+)\s+(\d+)$', response)
+      bpMatches = re.search(r'^202 (\w+)\s+(.+)\s+(\d+)$', response)
       if bpMatches is not None:
         label = bpMatches.group(1)
         filename = bpMatches.group(2)
@@ -484,13 +495,13 @@ class CoronaDebuggerThread(threading.Thread):
             debugger_status(label + " at internal location")
           else:
             debugger_status(label + " at line " + line + " of " + filename)
-            on_main_thread(lambda: self.showSublimeContext(os.path.join(self.projectDir, filename), int(line)))
+            on_main_thread(lambda: self.showSublimeContext(filename, int(line)))
         else:
           debugger_status(label + " response: " + response)
       else:
         debugger_status("Unexpected 202 response: " + response)
     elif status == "203":
-      bpwMatches = re.search(r'^203 Paused\s+([^\s]+)\s+(\d+)\s+(\d+)$', response)
+      bpwMatches = re.search(r'^203 Paused\s+(.+)\s+(\d+)\s+(\d+)$', response)
       if bpwMatches is not None:
         file = bpwMatches.group(1)
         line = bpwMatches.group(2)
@@ -542,6 +553,7 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
     debug("CoronaDebuggerCommand: " + cmd)
     global coronaDbg
     global corona_sdk_version
+    global corona_sdk_debug
     self.view = self.window.active_view()
 
     if self.view is None:
@@ -553,10 +565,13 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
       cmd = "start"
 
     if cmd == "start":
-      if _corona_utils.GetSetting("corona_sdk_debug", False):
+      if corona_sdk_debug:
         # Show Sublime Console
         self.window.run_command("show_panel", {"panel": "console"})
         # sublime.log_commands(True)
+
+      # Hide the build panel (since the "Console" pane duplicates it)
+      self.window.run_command("hide_panel", {"panel": "output.exec"})
 
       if coronaDbg is not None:
         debug("Cleaning up debugger thread")
@@ -599,8 +614,10 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
         corona_sdk_version = dbg_version.rpartition(".")[2]
         debug("corona_sdk_version: " + str(corona_sdk_version))
 
-      global subProcOutputQ, debuggerCmdQ
-      subProcOutputQ = coronaQueue.Queue()
+      global consoleOutputQ, variablesOutputQ, luaStackOutputQ, debuggerCmdQ
+      consoleOutputQ = coronaQueue.Queue()
+      variablesOutputQ = coronaQueue.Queue()
+      luaStackOutputQ = coronaQueue.Queue()
       debuggerCmdQ = coronaQueue.Queue()
 
       coronaDbg = CoronaDebuggerThread(projectDir, self.debuggerFinished)
@@ -621,6 +638,7 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
       sublime.set_timeout(lambda: self.window.run_command("corona_debugger", {"cmd": "start"}), 0)
 
     elif cmd == "exit":
+      debugger_status("exiting debugger...")
       StopSubprocess()
       if coronaDbg is None:
         self.closeWindowPanes()
@@ -703,7 +721,7 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
         view.erase_regions(bpId)
       result = False
     else:
-      debug("toggle_breakpoint: setting breakpoint")
+      debug("toggle_breakpoint: setting breakpoint in '"+filename+"' at "+str(lineno) )
       if lineno not in coronaBreakpoints[filename]:
         coronaBreakpoints[filename].append(int(lineno))
       view = self.view_for_file(filename)
@@ -779,45 +797,59 @@ def on_main_thread(callee):
 
 
 def console_output(text):
-  if subProcOutputQ is not None:
+  if consoleOutputQ is not None:
     # if the line doesn't end with a newline, add one
     if text[-1] != "\n":
       text += "\n"
-    # Remove cruft from Simulator output
-    text = re.sub(r'Corona Simulator\[\d+:\d+\] ', '', text, 1)
-    subProcOutputQ.put(text, 1)
+    # Remove cruft from Simulator output (also CRs which are coming from somewhere)
+    text = re.sub(r'Corona Simulator\[\d+:\d+\] ', '', text.replace("\r", ""), 1)
+    consoleOutputQ.put(text, 1)
     sublime.set_timeout(lambda: outputToPane('Console', None, False), 0)
 
 
 def variables_output(text):
-  if subProcOutputQ is not None:
+  if variablesOutputQ is not None:
     # if the line doesn't end with a newline, add one
     if text[-1] != "\n":
       text += "\n"
-    subProcOutputQ.put(text, 1)
+    variablesOutputQ.put(text, 1)
     sublime.set_timeout(lambda: outputToPane('Variables', None, True), 0)
 
 
 def stack_output(text):
-  if subProcOutputQ is not None:
+  if luaStackOutputQ is not None:
     # if the line doesn't end with a newline, add one
     if text[-1] != "\n":
       text += "\n"
-    subProcOutputQ.put(text, 1)
+    luaStackOutputQ.put(text, 1)
     sublime.set_timeout(lambda: outputToPane('Lua Stack', None, True), 0)
 
 
 def outputToPane(name, text, erase=True):
+  print("outputToPane: name: '" + name + "' text: " + str(text))
+  global statusRegion
   queueing = False
   if text is None:
+    if name == "Variables":
+      subProcOutputQ = variablesOutputQ
+    elif name == "Lua Stack":
+      subProcOutputQ = luaStackOutputQ
+    else:
+      subProcOutputQ = consoleOutputQ
     text = subProcOutputQ.get()
     queueing = True
-  # debug("outputToPane: name: " + name + "text: " + text)
+  debug("outputToPane: name: '" + name + "' text: " + text)
   window = sublime.active_window()
   for view in window.views():
     # only reload view if text has changed
     if view.name() == name and view.substr(sublime.Region(0, view.size())) != text:
       view.set_read_only(False)
+      # Remove the last status we output
+      if statusRegion and "☉☉☉ " in text:
+          view.sel().clear()
+          view.sel().add(view.full_line(statusRegion))
+          view.run_command("right_delete")
+          statusRegion = None
       if _corona_utils.SUBLIME_VERSION < 3000:
         edit = view.begin_edit()
         # print("name: ", name, "size: ", view.size())
@@ -836,6 +868,20 @@ def outputToPane(name, text, erase=True):
       view.set_read_only(True)
       # view.set_viewport_position((0, view.size())) # scroll to the end
       view.show(view.size(), True)  # scroll to the end, works better on Windows
+
+      # Highlight status line and remember where it is so it can be removed later
+      if "☉☉☉ " in text:
+        line = view.rowcol(view.size())[0]
+        pt = view.text_point(line-1, 0)
+        statusRegion = view.line(sublime.Region(pt))
+        view.sel().clear()
+        view.sel().add(view.line(statusRegion))
+        mark = [sublime.Region(view.size() - 1, view.size())]
+        if _corona_utils.SUBLIME_VERSION < 3000:
+          # Path for icons is "Packages/Theme - Default/"
+          view.add_regions('dbg', mark, "debugger", "../"+_corona_utils.PACKAGE_NAME+"/CoronaBP", sublime.HIDDEN)
+        else:
+          view.add_regions('dbg', mark, "debugger", "Packages/"+_corona_utils.PACKAGE_NAME+"/CoronaBP.png", sublime.HIDDEN)
   if queueing:
     subProcOutputQ.task_done()
 
@@ -882,7 +928,7 @@ class CoronaSubprocessThread(threading.Thread):
 def CompleteSubprocess(threadID, window):
   debug("CompleteSubprocess: called (" + str(threadID) + ")")
   # debug("CompleteSubprocess: window " + str(window))
-  # window.run_command("corona_debugger", {"cmd": "stop"})
+  window.run_command("corona_debugger", {"cmd": "stop"})
 
 
 def RunSubprocess(cmd, window):
