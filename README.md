@@ -52,7 +52,7 @@ The following keys also control the Debugger:
 | F11       | Step over         |
 | Shift+F11 | Step into         |
 
-A simpler alternative to the **Build** command in ***Sublime Text*** is the **Run Project** command in the **Corona Editor** menu (or Super+F10).  It doesn't have all the bells and whistles of the build system but it is quick and easy.  It is also better at finding your project's `main.lua` if you aren't using ***Sublime Text***'s projects.
+A simpler alternative to the **Build** command in ***Sublime Text*** is the **Run Project** command in the **Corona Editor** menu (or Super+F10).  It doesn't have all the bells and whistles of the build system but it is quick and easy.  It is also better at finding your project's `main.lua` if you aren't using ***Sublime Text***'s projects.  On OS X, if you install Daily Builds of CoronaSDK in **/Applications** without changing the default name, it will use the highest numbered (most recent) Daily Build to run the project (to change this behavior, see `corona_sdk_simulator_path` below).
 
 ##### Preferences
  * `corona_sdk_simulator_path` (default: system dependent)
@@ -63,12 +63,11 @@ A simpler alternative to the **Build** command in ***Sublime Text*** is the **Ru
 	file of individual projects to customize the version of the Corona Simulator that
 	is used for each project (note that the Lua syntax for the `build.settings` file
 	is different to the JSON syntax of the ***Sublime Text*** preference files in that
-	the name of the preference is not quoted in Lua)
+	the name of the preference is not quoted in Lua).
 
 ##### Current Gotchas
  * If you **Run** the project and it doesn't hit a breakpoint, you'll have to stop and restart to regain control (in particular, setting a breakpoint on a line of code you know is being executed wont stop the program).
  * Single stepping through "internal locations" is tedious.
- * Using the **Run Project** command while in the Debugger can result in a confused state.
  * There's an implicit breakpoint set on the first line of main.lua so to hit your own first breakpoint you need to run once to start the debugger and stop on the first line then run again to continue until you hit your own breakpoint.
 
 ### Completion
@@ -117,11 +116,7 @@ A selection of commonly used code fragments and templates is available via the *
 A default set of snippets is created in the ***Sublime Text*** support folder `Packages/User/Corona Editor/Snippets`.  You can create your own folders and files to add to the default set.  Files should either be ***Sublime Text*** `.sublime-snippet` files or plain text files.  The contents of plain text files are just inserted when chosen unless they exactly match a completion entry in which case the completion is looked up and they work like a normal completion (you can tab between the arguments) which provides a way to make menus of hard to remember API calls.
 
 ### Build System
-The current app can be run in the Simulator by pressing Ctrl+B (Windows) or Cmd+B (MacOSX).  Debug output appears in the "build" window in ***Sublime Text***.  See also the **Run Project** command above.
-
- * `corona_sdk_auto_build` (default: False)
-
-	If you set this to "True" the Sublime Text "build" command will be issued any time you save a .lua file.
+The **Run Project** command in the **Corona Editor** menu (or Super+F10) is a simpler alternative to the **Build** command in ***Sublime Text***.
 
 ### Syntax Highlighting
 Syntax highlighting of Lua with Corona SDK calls is done (choose **View > Syntax > Corona SDK Lua** to enable this).  You will probably also want to change ***Sublime Text***'s default for .lua files by choosing **View > Syntax > Open all with current extension as... > Corona SDK Lua** when you have a .lua file open in the editor.

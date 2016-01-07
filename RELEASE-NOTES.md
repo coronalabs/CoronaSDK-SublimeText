@@ -2,6 +2,25 @@
 
 Always check the [README](https://github.com/coronalabs/CoronaSDK-SublimeText/blob/master/README.md) for the latest information.
 
+### 1.6.0
+
+ * Debugger improvements
+	 * fixed issue with a hang after pressing Shift+F10
+	 * fixed bug with spaces in project pathname
+	 * current status is now displayed in the "Console" pane
+	 * "Console" output is now cleaner
+	 * Generally improved reliability
+
+ * On OS X, **Corona Editor > Run Project** now uses the most recent Daily Build in the /Applications folder by default
+
+ * Removed "build system" for Corona projects (**Corona Editor > Run Project** / **Super+F10** is much more reliable)
+
+ * Added "Clear Build Panel" command to main menu and context menu
+
+ * Fixed indentation of elseif blocks
+
+ * Latest completions (up to date for build 2016.2803).
+
 ### 1.5.0
 
  * Various debugger improvements including:
