@@ -3,5 +3,6 @@
   { "caption": "Corona SDK Docs", "command": "corona_docs" },
   { "caption": "Function Navigator...", "command": "show_overlay", "args": {"overlay": "goto", "text": "@"} },
   { "caption": "Toggle Breakpoint", "command": "corona_debugger", "args": {"cmd": "setb"} },
-  { "caption": "Inspect Variable", "command": "corona_debugger", "args": {"cmd": "dump"} }
+  { "caption": "Inspect Variable", "command": "corona_debugger", "args": {"cmd": "dump"} },
+  { "caption": "Clear Output Panel", "command": "clear_output_panel" }
 ]

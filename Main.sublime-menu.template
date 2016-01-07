@@ -74,6 +74,7 @@
 		},
 		{ "caption": "Run Project", "command": "run_project" },
 		{ "command": "toggle_build_panel" },
+		{ "caption": "Clear Build Panel", "command": "clear_output_panel" },
 		{ "caption": "-" },
 		{ "caption": "About Corona Editor...", "command": "about_corona_editor" }
 		]
