@@ -27,20 +27,21 @@ ParticleSystem:createParticle( params )	ParticleSystem
 ParticleSystem:destroyParticles( params )	ParticleSystem
 ParticleSystem:queryRegion( upperLeftX, upperLeftY, lowerRightX, lowerRightY, hitProperties )	ParticleSystem
 ParticleSystem:rayCast( from_x, from_y, to_x, to_y, behavior )	ParticleSystem
+PhysicsContact.bounce	PhysicsContact
+PhysicsContact.friction	PhysicsContact
+PhysicsContact.isEnabled	PhysicsContact
+PhysicsContact.isTouching	PhysicsContact
 Recording:isRecording()	Recording
 Recording:setSampleRate( r )	Recording
-Recording:startRecording()	Recording
-Recording:stopRecording()	Recording
 Runtime:hasEventSource( eventSourceName )	Runtime
-Runtime:hideErrorAlerts( )	Runtime
-SpriteObject:pause()	SpriteObject
-SpriteObject:play()	SpriteObject
-SpriteObject:setFrame( frameIndex )	SpriteObject
+Runtime:hideErrorAlerts()	Runtime
 StageObject:setFocus( object [, touchID ] )	StageObject
 String	type
 Table	type
 Userdata	type
-\_defined, object.\_lastChange, object.\_properties	DisplayObject
+\_defined	DisplayObject
+\_lastChange	DisplayObject
+\_properties	DisplayObject
 accuracy	InputAxis
 addEventListener( eventName, listener )	EventListener
 addMarker( latitude, longitude )	Map
@@ -90,10 +91,10 @@ audio.totalChannels	audio
 audio.unreservedFreeChannels	audio
 audio.unreservedUsedChannels	audio
 audio.usedChannels	audio
+autocorrectionType	TextField
 back()	WebView
 blendMode	DisplayObject
 bodyType	Body
-bounce	PhysicsContact
 canGoBack	WebView
 canGoForward	WebView
 canVibrate	InputDevice
@@ -105,8 +106,7 @@ composer.gotoScene( sceneName [, options] )	composer
 composer.hideOverlay( [recycleOnly] [, effect] [, time] )	composer
 composer.isDebug	composer
 composer.loadScene( sceneName [, doNotLoadView] [, params] )	composer
-composer.newScene( [ sceneName ] )	composer
-composer.newScene()	composer
+composer.newScene( ccscene )	composer
 composer.recycleAutomatically	composer
 composer.recycleOnLowMemory	composer
 composer.recycleOnSceneChange	composer
@@ -134,13 +134,10 @@ dampingRatio	Joint
 deleteAllRows()	TableViewWidget
 deleteCookies()	WebView
 deleteRow( rowIndex )	TableViewWidget
+deleteRows( rowArray [, animationOptions] )	TableViewWidget
 descriptor	InputAxis
 descriptor	InputDevice
 dispatchEvent( event )	EventListener
-display.DarkStatusBar	display
-display.DefaultStatusBar	display
-display.HiddenStatusBar	display
-display.TranslucentStatusBar	display
 display.actualContentHeight	display
 display.actualContentWidth	display
 display.capture( displayObject, options )	display
@@ -166,9 +163,9 @@ display.newEmbossedText( { options } )	display
 display.newEmitter( emitterParams )	display
 display.newGroup()	display
 display.newImage( [parent,] filename [,baseDir] [,x,y] [,isFullResolution])	display
-display.newImage( [parent,] imageSheet, frameIndex )	display
-display.newImageRect( [parentGroup,] filename, [baseDir,] width, height )	display
-display.newImageRect( [parentGroup,] imageSheet, frameIndex, width, height )	display
+display.newImage( [parent,] imageSheet, frameIndex [,x,y] )	display
+display.newImageRect( [parent,] filename, [baseDir,] width, height )	display
+display.newImageRect( [parent,] imageSheet, frameIndex, width, height )	display
 display.newLine( [parentGroup,] x1, y1, x2, y2 [, x3, y3, ... ] )	display
 display.newPolygon( parent, x, y, vertices )	display
 display.newPolygon( x, y, vertices )	display
@@ -180,8 +177,8 @@ display.newSnapshot( parent, w, h )	display
 display.newSnapshot( w, h )	display
 display.newSprite( imageSheet, sequenceData )	display
 display.newSprite( parent, imageSheet, sequenceData )	display
-display.newText( [parentGroup,] text, x, y, [width, height,] font, fontSize )	display
-display.newText( [parentGroup,] text, x, y, font, fontSize )	display
+display.newText( [parentGroup,] text, x, y [, width, height], font [, fontSize] )	display
+display.newText( [parentGroup,] text, x, y, font [, fontSize] )	display
 display.newText( options )	display
 display.pixelHeight	display
 display.pixelWidth	display
@@ -202,13 +199,6 @@ display.viewableContentHeight	display
 display.viewableContentWidth	display
 displayName	InputDevice
 do	Keyword
-easing.inExpo()	easing
-easing.inOutExpo()	easing
-easing.inOutQuad()	easing
-easing.inQuad()	easing
-easing.linear()	easing
-easing.outExpo()	easing
-easing.outQuad()	easing
 end	Keyword
 error( message [, level] )	global
 event.a	colorSample
@@ -216,17 +206,20 @@ event.a	particleCollision
 event.accuracy	location
 event.action	completion
 event.address	networkStatus
+event.alert	notification
 event.altitude	location
 event.applicationState	notification
 event.axis	axis
 event.b	colorSample
 event.b	particleCollision
+event.badge	notification
 event.bytesEstimated	networkRequest
 event.bytesTransferred	networkRequest
 event.channel	audio
 event.city	mapAddress
 event.cityDetail	mapAddress
 event.completed	audio
+event.completed	completion
 event.connectionStateChanged	inputDeviceStatus
 event.contact	collision
 event.contact	postCollision
@@ -248,18 +241,22 @@ event.direction	location
 event.duration	completion
 event.element	particleCollision
 event.element1	collision
+event.element1	postCollision
 event.element1	preCollision
 event.element2	collision
+event.element2	postCollision
 event.element2	preCollision
 event.errorCode	gameNetwork
 event.errorCode	location
 event.errorCode	urlRequest
+event.errorCode	video
 event.errorMessage	gameNetwork
 event.errorMessage	location
 event.errorMessage	mapAddress
 event.errorMessage	mapLocation
 event.errorMessage	unhandledError
 event.errorMessage	urlRequest
+event.errorMessage	video
 event.errorType	licensing
 event.expiration	fbconnect
 event.expiration	licensing
@@ -270,7 +267,6 @@ event.g	colorSample
 event.g	particleCollision
 event.geographic	heading
 event.handle	audio
-event.header	networkRequest
 event.id	touch
 event.invalidProducts	productList
 event.isAltDown	key
@@ -297,12 +293,10 @@ event.keyName	key
 event.latitude	location
 event.latitude	mapLocation
 event.latitude	mapMarker
-event.latitude	mapTap
 event.localPlayerScore	gameNetwork
 event.longitude	location
 event.longitude	mapLocation
 event.longitude	mapMarker
-event.longitude	mapTap
 event.magnetic	heading
 event.markerId	mapMarker
 event.name	accelerometer
@@ -346,11 +340,13 @@ event.name	tap
 event.name	timer
 event.name	touch
 event.name	urlRequest
+event.name	video
 event.nativeKeyCode	key
 event.newCharacters	userInput
 event.normalX	particleCollision
 event.normalY	particleCollision
 event.normalizedValue	axis
+event.numDeleted	userInput
 event.numTaps	tap
 event.object	particleCollision
 event.object1	collision
@@ -360,8 +356,12 @@ event.object2	collision
 event.object2	postCollision
 event.object2	preCollision
 event.oldText	userInput
+event.other	collision
 event.other	postCollision
 event.other	preCollision
+event.otherElement	collision
+event.otherElement	postCollision
+event.otherElement	preCollision
 event.params	create
 event.params	show
 event.parent	hide
@@ -378,6 +378,7 @@ event.phase	show
 event.phase	sprite
 event.phase	touch
 event.phase	userInput
+event.phase	video
 event.postalCode	mapAddress
 event.products	productList
 event.provider	gameNetwork
@@ -395,6 +396,10 @@ event.response	licensing
 event.response	networkRequest
 event.responseHeaders	networkRequest
 event.responseType	networkRequest
+event.selfElement	collision
+event.selfElement	postCollision
+event.selfElement	preCollision
+event.sound	notification
 event.source	timer
 event.speed	location
 event.sprite	sprite
@@ -403,8 +408,11 @@ event.startPosition	userInput
 event.status	networkRequest
 event.street	mapAddress
 event.streetDetail	mapAddress
+event.target	collision
 event.target	completion
 event.target	finalize
+event.target	postCollision
+event.target	preCollision
 event.target	sprite
 event.target	touch
 event.target	userInput
@@ -432,6 +440,7 @@ event.x	collision
 event.x	colorSample
 event.x	mouse
 event.x	particleCollision
+event.x	postCollision
 event.x	preCollision
 event.x	tap
 event.x	touch
@@ -444,6 +453,7 @@ event.y	collision
 event.y	colorSample
 event.y	mouse
 event.y	particleCollision
+event.y	postCollision
 event.y	preCollision
 event.y	tap
 event.y	touch
@@ -456,16 +466,16 @@ event.zGravity	accelerometer
 event.zInstant	accelerometer
 event.zRaw	accelerometer
 event.zRotation	gyroscope
-facebook.accessDenied	facebook
-facebook.login( appId, listener [, permissions ] )	facebook
-facebook.logout()	facebook
-facebook.publishInstall( appId )	facebook
-facebook.request( path [, httpMethod, params] )	facebook
-facebook.showDialog( action [, params ] )	facebook
-facebook.showDialog( action, onComplete )	facebook
-facebook.showDialog( action, options, onComplete )	facebook
 false	Keyword
 fill	ShapeObject
+fill.a	Paint
+fill.b	Paint
+fill.blendEquation	Paint
+fill.blendMode	Paint
+fill.effect	Paint
+fill.frame	ImageSheetPaint
+fill.g	Paint
+fill.r	Paint
 fill.rotation	BitmapPaint
 fill.scaleX	BitmapPaint
 fill.scaleY	BitmapPaint
@@ -476,7 +486,6 @@ font	TextField
 forward()	WebView
 frame	SpriteObject
 frequency	Joint
-friction	PhysicsContact
 gameNetwork.match	GameNetwork
 gameNetwork.outcome	GameNetwork
 gameNetwork.participant	GameNetwork
@@ -490,6 +499,7 @@ getLabel()	ButtonWidget
 getLinearVelocity()	Body
 getMassLocalCenter()	Body
 getMassWorldCenter()	Body
+getNativeProperty( property )	NativeDisplayObject
 getNumRows()	TableViewWidget
 getProgress()	ProgressViewWidget
 getRowAtIndex( rowIndex )	TableViewWidget
@@ -500,10 +510,13 @@ getValues()	PickerWidget
 getView()	ScrollViewWidget
 getfenv( [f] )	global
 getmetatable( object )	global
+graphics.defineEffect( effect )	graphics
 graphics.newImageSheet( filename, [baseDir, ] options )	graphics
 graphics.newMask( filename [, baseDir] )	graphics
 graphics.newOutline( coarsenessInTexels, imageFileName [, baseDir] )	graphics
 graphics.newOutline( coarsenessInTexels, imageSheet, frameIndex )	graphics
+graphics.newTexture( params )	graphics
+graphics.releaseTextures( params )	graphics
 gravityScale	Body
 group:insert( [index,] child, [, resetTransform] )	GroupObject
 hasBackground	TextBox
@@ -534,8 +547,9 @@ isClass()	CoronaPrototype
 isCollideConnected	Joint
 isConnected	InputDevice
 isEditable	TextBox
-isEnabled	PhysicsContact
 isFixedRotation	Body
+isFontSizeScaled	TextBox
+isFontSizeScaled	TextField
 isHitTestMasked	DisplayObject
 isHitTestable	DisplayObject
 isLimitEnabled	Joint
@@ -549,7 +563,6 @@ isScrollEnabled	Map
 isSecure	TextField
 isSensor	Body
 isSleepingAllowed	Body
-isTouching	PhysicsContact
 isVisible	DisplayObject
 isZoomEnabled	Map
 joint1	Joint
@@ -616,7 +629,7 @@ math.rad( x )	math
 math.random( m )	math
 math.random( m, n )	math
 math.random()	math
-math.randomseed( x )	math
+math.randomseed( seed )	math
 math.round( x )	math
 math.sin( x )	math
 math.sinh( x )	math
@@ -631,8 +644,8 @@ maxTorque	Joint
 maxValue	InputAxis
 maximumValue	StepperWidget
 media.RemoteSource	media
-media.capturePhoto( { listener = myListener, [, destination] } )	media
-media.captureVideo ({ listener = myListener, preferredQuality = myQuality, preferredMaxDuration = myMaxDuration, })	media
+media.capturePhoto( { listener, [, destination] } )	media
+media.captureVideo ( { listener [, preferredQuality] [, preferredMaxDuration] } )	media
 media.getSoundVolume()	media
 media.hasSource( mediaSource )	media
 media.newEventSound( filename [, baseDir] )	media
@@ -643,12 +656,11 @@ media.playSound( soundfile [, baseDir] [, loop] )	media
 media.playSound( soundfile [, baseDir] [, onComplete] )	media
 media.playVideo( path [, baseSource ], showControls, listener )	media
 media.save( filename [, baseDir] )	media
-media.selectPhoto ({ listener = myListener [, mediaSource] [, destination] [, origin] [, permittedArrowDirections] })	media
-media.selectVideo ({ listener = myListener [, mediaSource] [, origin] [, permittedArrowDirections] })	media
-media.setSoundVolume( vol )	media
-media.show( media.PhotoLibrary, { listener [, origin] [, permittedArrowDirections] } [, filetable] ) -- (iPad only)	media
-media.show( mediaSource, listener )	media
-media.show( mediaSource, listener [, filetable] )	media
+media.selectPhoto ( { listener [, mediaSource] [, destination] [, origin] [, permittedArrowDirections] } )	media
+media.selectPhoto( { listener=sessionComplete } )	media
+media.selectVideo ( { listener [, mediaSource] [, origin] [, permittedArrowDirections] } )	media
+media.setSoundVolume( volume )	media
+media.show()	media
 media.stopSound()	media
 minValue	InputAxis
 minimumValue	StepperWidget
@@ -677,8 +689,7 @@ native.setSync( filename, params )	native
 native.showAlert( title, message [, { buttonLabels } [, listener] ] )	native
 native.showPopup( name )	native
 native.showPopup( name, options )	native
-native.showWebPopup( url [, options] )  	native
-native.showWebPopup( x, y, width, height, url [, options] )	native
+native.showWebPopup( [x, y, width, height,] url, [options] )	native
 native.systemFont	native
 native.systemFontBold	native
 nearestAddress( latitude, longitude, resultHandler )	Map
@@ -722,6 +733,7 @@ particleStrictContactCheck	ParticleSystem
 particleSystem:applyForce( xForce, yForce )	ParticleSystem
 particleSystem:applyLinearImpulse( xForce, yForce )	ParticleSystem
 path	ShapeObject
+pause()	SpriteObject
 pause()	Video
 pcall( f [, ...] )	global
 permanentId	InputDevice
@@ -737,8 +749,8 @@ physics.newJoint( jointType, ... )	physics
 physics.newParticleSystem( params )	physics
 physics.pause()	physics
 physics.queryRegion( upperLeftX, upperLeftY, lowerRightX, lowerRightY )	physics
-physics.rayCast( from_x, from_y, to_x, to_y, behavior )	physics
-physics.reflectRay( from_x, from_y, hit )	physics
+physics.rayCast( fromX, fromY, toX, toY, behavior )	physics
+physics.reflectRay( fromX, fromY, hit )	physics
 physics.removeBody( object )	physics
 physics.setAverageCollisionPositions( enabled )	physics
 physics.setContinuous( enabled )	physics
@@ -756,6 +768,7 @@ physics.stop()	physics
 physics.toMKS( unitName, value )	physics
 placeholder	TextBox
 placeholder	TextField
+play()	SpriteObject
 play()	Video
 print( ... )	global
 publisherId	CoronaLibrary
@@ -779,6 +792,8 @@ request( url, baseDir )	WebView
 requestLocation( location, resultHandler )	Map
 require()	package
 resetMassData()	Body
+resizeFontToFitHeight()	TextField
+resizeHeightToFitFont()	TextField
 resizeView( newWidth )	ProgressViewWidget
 revision	CoronaLibrary
 rotate( deltaAngle )	DisplayObject
@@ -789,7 +804,7 @@ s:lower()	string
 s:match( pattern [, init] )	string
 s:rep( n )	string
 s:reverse()	string
-s:sub( i[,j] )	string
+s:sub( i [,j] )	string
 s:upper()	string
 scale( xScale, yScale )	DisplayObject
 scrollTo( position, options )	ScrollViewWidget
@@ -812,10 +827,12 @@ setFillColor( gray )	ShapeObject
 setFillColor( gray, alpha )	ShapeObject
 setFillColor( red, green, blue )	ShapeObject
 setFillColor( red, green, blue, alpha )	ShapeObject
+setFrame( frameIndex )	SpriteObject
 setIsLocked( isLocked [, axis] )	ScrollViewWidget
 setLabel( label )	ButtonWidget
 setLinearVelocity( xVelocity, yVelocity )	Body
 setMask( mask )	DisplayObject
+setNativeProperty( property, value )	NativeDisplayObject
 setProgress( progress )	ProgressViewWidget
 setRegion( latitude, longitude, latitudeSpan, longitudeSpan [, isAnimated] )	Map
 setReturnKey( key )	TextBox
@@ -853,11 +870,14 @@ snapshot.textureWrapX	SnapshotObject
 snapshot.textureWrapY	SnapshotObject
 snapshot:invalidate( "canvas" )	SnapshotObject
 snapshot:invalidate()	SnapshotObject
+spellCheckingType	TextField
 springDampingRatio	Joint
 springFrequency	Joint
 start()	SpinnerWidget
+startRecording()	Recording
 stop()	SpinnerWidget
 stop()	WebView
+stopRecording()	Recording
 store.availableStores	store
 store.canLoadProducts	store
 store.canMakePurchases	store
@@ -865,7 +885,8 @@ store.finishTransaction( transaction )	store
 store.init( [storeName,] listener )	store
 store.isActive	store
 store.loadProducts( productIdentifiers, listener )	store
-store.purchase( productList )	store
+store.purchase( "productIdentifier" )	store
+store.purchase( arrayOfProducts )	store
 store.restore()	store
 store.target	store
 string.byte( s [, i [, j]] )	string
@@ -888,9 +909,8 @@ system.DocumentsDirectory	system
 system.ResourceDirectory	system
 system.TemporaryDirectory	system
 system.activate( feature )	system
-system.cancelNotification( notificationId )	system
 system.cancelNotification()	system
-system.deactivate()	system
+system.deactivate( feature )	system
 system.getIdleTimer()	system
 system.getInfo( property )	system
 system.getInputDevices()	system
@@ -900,8 +920,7 @@ system.hasEventSource( eventName )	system
 system.openURL( url )	system
 system.orientation	system
 system.pathForFile( filename [, baseDirectory] )	system
-system.scheduleNotification( coordinatedUniversalTime [, options] )	system
-system.scheduleNotification( secondsFromNow [, options] )	system
+system.scheduleNotification()	system
 system.setAccelerometerInterval( frequency )	system
 system.setGyroscopeInterval( frequency )	system
 system.setIdleTimer( enabled )	system
@@ -928,6 +947,13 @@ takeFocus( event )	ScrollViewWidget
 text	TextBox
 text	TextField
 text	TextObject
+texture.baseDir	TextureResource
+texture.filename	TextureResource
+texture.type	TextureResource
+texture.wrapX	TextureResourceBitmap
+texture.wrapY	TextureResourceBitmap
+texture:preload()	TextureResourceBitmap
+texture:releaseSelf()	TextureResource
 then	Keyword
 timeScale	SpriteObject
 timer.cancel( timerID )	timer
@@ -944,7 +970,7 @@ transition.cancel( displayObject )	transition
 transition.cancel( tagName )	transition
 transition.cancel( transitionReference )	transition
 transition.cancel()	transition
-transition.dissolve()	transition
+transition.dissolve( object1, object2, time, delay )	transition
 transition.fadeIn( target, params )	transition
 transition.fadeOut( target, params )	transition
 transition.from( target, params )	transition
