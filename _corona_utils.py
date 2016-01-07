@@ -145,6 +145,8 @@ def GetSimulatorCmd(mainlua=None, debug=False):
 
   if platform == "osx":
     if simulator_path is None:
+      simulator_path = GetLatestDailyBuildSimulatorPath()
+    if simulator_path is None:
       simulator_path = "/Applications/CoronaSDK/Corona Simulator.app"
     if simulator_path.endswith(".app"):
       simulator_path += "/Contents/MacOS/Corona Simulator"
@@ -171,6 +173,29 @@ def GetSimulatorCmd(mainlua=None, debug=False):
     return None, None, None
 
   return simulator_path, simulator_flags, simulator_version
+
+
+# Find the highest numbered CoronaSDK directory in /Applications
+def GetLatestDailyBuildSimulatorPath():
+  dirs = os.listdir("/Applications")
+
+  # Find the highest numbered Daily Build
+  maxBuildNum = 0
+  buildNum = 0
+  for entry in dirs:
+    if entry.startswith("CoronaSDK-"):
+      result = re.findall(r'\d+', entry)
+      if len(result) > 0:
+        buildNum = int(re.findall(r'\d+', entry)[0])
+      if buildNum > maxBuildNum:
+        maxBuildNum = buildNum
+        latestSDK = "/Applications/" + entry
+
+  if len(latestSDK) > 0:
+    latestSim = latestSDK + "/Corona Simulator.app"
+    return latestSim
+  else:
+    return None
 
 
 # Given a path to a main.lua file, see if there's a "corona_sdk_simulator_path" setting in
