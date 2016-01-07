@@ -11,42 +11,43 @@
 
 if [ $# != 3 ]
 then
-	echo "Usage: `basename $0` <api-daily-repo-dir> <api-public-repo-dir> <api-legacy-repo-dir>"
+	echo "Usage: $(basename "$0") <api-daily-repo-dir> <api-public-repo-dir> <api-legacy-repo-dir>"
 	exit 1
 fi
 
-CWD=`pwd`
+CWD=$(pwd)
 INVALID_COMPLETIONS=${CWD}/invalid-completions-list
 ADDITIONAL_COMPLETIONS=${CWD}/additional-completions-list
 
-for DOC_DIR in $*
+for DOC_DIR in "$@"
 do
 	DOC_DIR="$DOC_DIR"
 
-	LEVEL=`echo "$DOC_DIR" | sed -e 's/.*-//'`
-	if [ "$LEVEL" != "daily" -a "$LEVEL" != "public" -a "$LEVEL" != "legacy" ]
+	LEVEL=${DOC_DIR//*-/}
+	echo "$LEVEL"
+	if [ "$LEVEL" != "daily" ] && [ "$LEVEL" != "public" ] && [ "$LEVEL" != "legacy" ]
 	then
-		echo "`basename $0`: docs repo directory must end in '-daily', '-public' or '-legacy'"
+		echo "$(basename "$0"): docs repo directory must end in '-daily', '-public' or '-legacy'"
 		exit 1
 	fi
 
-	cd ${DOC_DIR}/markdown/api || exit 1
+	cd "${DOC_DIR}/markdown/api" || exit 1
 
-	echo "Generating completions for `pwd` ($LEVEL) ..."
+	echo "Generating completions for $(pwd) ($LEVEL) ..."
 	RAW_COMPS=${CWD}/raw-api-definitions-$LEVEL
 	SUBLIME_COMPS=${CWD}/corona.completions-$LEVEL
 
-	for DIR in `find . -type d \! -name '.*'`
+	for DIR in $(find . -type d \! -name '.*')
 	do
-		WD=`pwd`
+		WD=$(pwd)
 
-		if [ "`echo $DIR/*.markdown`" = "" ]
+		if [ "$(echo "$DIR"/*.markdown)" = "" ]
 		then
-			echo "`basename $0`: no markdown files in '$DIR'" >&2
+			echo "$(basename "$0"): no markdown files in '$DIR'" >&2
 			continue
 		fi
 
-		cd $DIR
+		cd "$DIR" || exit 1
 
 		for F in *.markdown
 		do
@@ -54,8 +55,8 @@ do
 			then
 				continue
 			fi
-			D=`basename $PWD`
-			N=`basename $F .markdown`
+			D=$(basename "$PWD")
+			N=$(basename "$F" .markdown)
 
 			# Candidates for completion in the markdown docs start with a tab (we delete "Examples" to avoid tabs in sample code)
 			COMP=$(sed -e '/^## *Example/,$d' "$F" | egrep '	[A-Za-z]*?[.:]*'"$N" | sed -e 's/^	//')
@@ -64,7 +65,7 @@ do
 			then
 				# didn't find a syntax string for the item,
 				# look for a header at the top of the file
-				COMP=`head -2 "$F" | sed -n '/^#/s/^# \(.*\)/\1/p'`
+				COMP=$(head -2 "$F" | sed -n '/^#/s/^# \(.*\)/\1/p')
 			fi
 
 			if [ "$COMP" = "" ]
@@ -84,18 +85,18 @@ do
 			# Find any explicit completion items in the file
 			# (it's assumed they are formatted with backticks which 
 			# might need adjustment)
-			grep '<!-* completion -->' "$F" | sed -e 's/.*`\([^`]*\)`.*/\1	'$D'/'
+			grep '<!-* completion -->' "$F" | sed -e 's/.*`\([^`]*\)`.*/\1	'"$D"'/'
 		done
 
-		cd $WD
+		cd "$WD" || exit 1
 
-	done | fgrep -v -f $INVALID_COMPLETIONS | cat - $ADDITIONAL_COMPLETIONS | sort -u > $RAW_COMPS
+	done | fgrep -v -f "$INVALID_COMPLETIONS" | cat - "$ADDITIONAL_COMPLETIONS" | sort -u > "$RAW_COMPS"
 
-	python ${CWD}/mk_sublime_completions.py $RAW_COMPS >$SUBLIME_COMPS
-	wc -l $SUBLIME_COMPS
+	python "${CWD}"/mk_sublime_completions.py "$RAW_COMPS" >"$SUBLIME_COMPS"
+	wc -l "$SUBLIME_COMPS"
 
-	mv -v $SUBLIME_COMPS $CWD/../
+	mv -v "$SUBLIME_COMPS" "$CWD"/../
 done
 
-cd $CWD
+cd "$CWD" || exit 1
 
