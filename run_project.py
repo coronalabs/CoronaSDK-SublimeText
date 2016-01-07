@@ -38,6 +38,21 @@ class ToggleBuildPanelCommand(sublime_plugin.WindowCommand):
     else:
       return "Show Build Panel"
 
+class ClearOutputPanelCommand(sublime_plugin.WindowCommand):
+
+  def __init__(self, window):
+    self.window = window
+    self.output_panel = None
+
+  def is_enabled(self):
+    if self.output_panel is None:
+      self.output_panel = self.window.get_output_panel("exec")
+    return self.output_panel.window() is not None
+
+  def run(self):
+    # The output panel content is cleared anytime "get_output_panel()" is called
+    self.window.get_output_panel("exec")
+
 
 class RunProjectCommand(sublime_plugin.WindowCommand):
 
@@ -80,12 +95,15 @@ class RunProjectCommand(sublime_plugin.WindowCommand):
 
     print(_corona_utils.PACKAGE_NAME + ": Running: " + str(cmd))
 
+    # Exit the debugger if it's running
+    self.window.run_command("corona_debugger", {"cmd": "exit"})
+
     # Save our changes before we run
     self.window.run_command("save_all")
 
     # Supplying the "file_regex" allows users to double-click errors and warnings in the
     # build panel and go to that point in the code
     if sublime.platform() == 'osx':
-      self.window.run_command('exec', {'cmd': cmd, "file_regex": "^[^/]*(/[^:]*):([0-9]+):([0-9]*)(.*)$" })
+      self.window.run_command('exec', {'cmd': cmd, "file_regex": "^(/[^:]*):([0-9]+):([0-9]?)(.*)$" })
     else: # windows
       self.window.run_command('exec', {'cmd': cmd, "file_regex": "(?i)^[^C-Z]*([C-Z]:[^:]*):([0-9]+):([0-9]*)(.*)$" })
