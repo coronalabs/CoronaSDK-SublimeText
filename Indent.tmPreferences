@@ -1,0 +1,20 @@
+<!-- this fixes indentation of elseif blocks (thanks to landoncope) -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Indent</string>
+	<key>scope</key>
+	<string>source.lua.corona</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>^\s*(else|else\s*--.*|end|end\s*--.*|\}\s*,|\})\s*$|^\s*elseif\b((?!end).)*$</string>
+		<key>increaseIndentPattern</key>
+		<string>^\s*(else|elseif|for|(local\s+)?function|if|repeat|until|while)\b((?!end).)*$|.*=\s*function\s*\([^)]*\)\s*$|.*\{\s*$</string>
+	</dict>
+	<key>uuid</key>
+	<string>83E017CC-6F27-11D9-90EB-000D93589AF7</string>
+</dict>
+</plist>
