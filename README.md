@@ -147,4 +147,4 @@ You may want to set the `Use all F1, F2, etc. keys as standard function keys` op
 
 ## Thanks
 
-Many thanks to the Corona users who have provided feedback and suggestions to make Corona Editor even better.  Particular thanks to _personalnadir_, _develephant_ and _givemeyourgits_ for their contributions and help.
+Many thanks to the Corona users who have provided feedback and suggestions to make Corona Editor even better.  Particular thanks to _personalnadir_, _develephant_, _givemeyourgits_ and _landoncope_ for their contributions and help.
