@@ -19,7 +19,7 @@ Always check the [README](https://github.com/coronalabs/CoronaSDK-SublimeText/bl
 
  * Fixed indentation of elseif blocks
 
- * Latest completions (up to date for build 2016.2803).
+ * Latest completions (up to date for build 2016.2803)
 
 ### 1.5.0
 

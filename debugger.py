@@ -441,7 +441,7 @@ class CoronaDebuggerThread(threading.Thread):
 
   def showSublimeContext(self, filename, line):
     debug("showSublimeContext: "+str(filename) + " : " + str(line))
-    console_output("☉☉☉ Stopped at "+str(filename.replace(self.projectDir+"/", "")) + ":" + str(line) +" ☉☉☉")
+    console_output("@@@ Stopped at "+str(filename.replace(self.projectDir+"/", "")) + ":" + str(line) +" @@@")
     window = sublime.active_window()
     if window:
       window.focus_group(0)
@@ -469,7 +469,7 @@ class CoronaDebuggerThread(threading.Thread):
       variables_output("Running ...")
       debugger_status("Running ...")
       on_main_thread(lambda: sublime.active_window().active_view().erase_regions("current_line"))  # we wont be back to erase the current line marker so do it here
-      on_main_thread(lambda: console_output("☉☉☉ Running - ⇧F10 to stop ☉☉☉"))
+      on_main_thread(lambda: console_output("@@@ Running - Shift+F10 to stop @@@"))
 
     self.getAck(cmd)
     response = self.readFromPUT()
@@ -845,7 +845,7 @@ def outputToPane(name, text, erase=True):
     if view.name() == name and view.substr(sublime.Region(0, view.size())) != text:
       view.set_read_only(False)
       # Remove the last status we output
-      if statusRegion and "☉☉☉ " in text:
+      if statusRegion and "@@@ " in text:
           view.sel().clear()
           view.sel().add(view.full_line(statusRegion))
           view.run_command("right_delete")
@@ -870,7 +870,7 @@ def outputToPane(name, text, erase=True):
       view.show(view.size(), True)  # scroll to the end, works better on Windows
 
       # Highlight status line and remember where it is so it can be removed later
-      if "☉☉☉ " in text:
+      if "@@@ " in text:
         line = view.rowcol(view.size())[0]
         pt = view.text_point(line-1, 0)
         statusRegion = view.line(sublime.Region(pt))

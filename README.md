@@ -14,7 +14,7 @@ Although ***Sublime Text 3*** has been in active use for over a year, it is stil
 1. Install the ***Sublime Text*** **Package Control** plugin if you don't already have it: [https://sublime.wbond.net/installation](https://sublime.wbond.net/installation)
 1. In ***Sublime Text*** choose: **Tools > Command Palette... > Package Control: Install Package**
 1. Find **Corona Editor** by typing in the search field, click on it to install it
-1. Restart ***Sublime Text*** or reopen any .lua files to see the new features
+1. Restart ***Sublime Text*** to see the new features
 
 If you want to help test the latest development version of ***Corona Editor*** you can configure **Package Control** to grab it instead of the official release version by following these steps:
 
