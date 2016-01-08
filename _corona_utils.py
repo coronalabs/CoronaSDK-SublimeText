@@ -182,6 +182,7 @@ def GetLatestDailyBuildSimulatorPath():
   # Find the highest numbered Daily Build
   maxBuildNum = 0
   buildNum = 0
+  latestSDK = ""
   for entry in dirs:
     if entry.startswith("CoronaSDK-"):
       result = re.findall(r'\d+', entry)
@@ -192,8 +193,7 @@ def GetLatestDailyBuildSimulatorPath():
         latestSDK = "/Applications/" + entry
 
   if len(latestSDK) > 0:
-    latestSim = latestSDK + "/Corona Simulator.app"
-    return latestSim
+    return  latestSDK + "/Corona Simulator.app"
   else:
     return None
 
