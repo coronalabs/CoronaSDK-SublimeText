@@ -764,6 +764,7 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
         view = self.window.new_file()
         view.set_name(w['title'])
         view.settings().set('word_wrap', True)
+        view.settings().set('_corona_debugger_pane', True)
         if view.name() != 'Console':
           # Set the syntax coloring for the Variables and Stack panes
           # to CoronaSDKLua as that works well
@@ -775,15 +776,21 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
         # outputToPane(w['title'], "this is " + w['title'])
 
   def closeWindowPanes(self):
+    closed_panes = False # try to only close panes we created
     if self.window.num_groups() > 1:
       for view in self.window.views():
+        if not view.settings().get('_corona_debugger_pane'):
+          continue
+        closed_panes = True
         group, index = self.window.get_view_index(view)
         if group > 0:
           debug("Closing: " + view.name())
           self.window.focus_view(view)
           self.window.run_command("close_file")
-      # print("saved_layout: " + str(self.saved_layout))
-      self.window.run_command("set_layout", {"cells": [[0, 0, 1, 1]], "cols": [0.0, 1.0], "rows": [0.0, 1.0]})
+      if closed_panes:
+        # print("saved_layout: " + str(self.saved_layout))
+        self.window.run_command("set_layout", {"cells": [[0, 0, 1, 1]], "cols": [0.0, 1.0], "rows": [0.0, 1.0]})
+      # Always do this, debugger may have been running in one pane
       self.view.erase_regions("current_line")
 
 
@@ -826,7 +833,7 @@ def stack_output(text):
 
 
 def outputToPane(name, text, erase=True):
-  print("outputToPane: name: '" + name + "' text: " + str(text))
+  debug("outputToPane: name: '" + name + "' text: " + str(text))
   global statusRegion
   queueing = False
   if text is None:
@@ -928,7 +935,7 @@ class CoronaSubprocessThread(threading.Thread):
 def CompleteSubprocess(threadID, window):
   debug("CompleteSubprocess: called (" + str(threadID) + ")")
   # debug("CompleteSubprocess: window " + str(window))
-  window.run_command("corona_debugger", {"cmd": "stop"})
+  # window.run_command("corona_debugger", {"cmd": "exit"})
 
 
 def RunSubprocess(cmd, window):
