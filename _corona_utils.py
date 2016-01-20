@@ -150,7 +150,9 @@ def GetSimulatorCmd(mainlua=None, debug=False):
       simulator_path = "/Applications/CoronaSDK/Corona Simulator.app"
     if simulator_path.endswith(".app"):
       simulator_path += "/Contents/MacOS/Corona Simulator"
-    simulator_flags = ["-singleton", "1", "-no-console", "1"]
+    simulator_flags = ["-singleton", "1"]
+    if not GetSetting("corona_sdk_simulator_show_console", False):
+      simulator_flags += ["-no-console", "1"]
     if debug:
       simulator_flags.append("-debug")
       simulator_flags.append("1")
@@ -163,7 +165,9 @@ def GetSimulatorCmd(mainlua=None, debug=False):
         simulator_path = "C:\\Program Files (x86)\\Corona Labs\\Corona SDK\\Corona Simulator.exe"
       else:
         simulator_path = "C:\\Program Files\\Corona Labs\\Corona SDK\\Corona Simulator.exe"
-    simulator_flags = ["/singleton", "/no-console"]
+    simulator_flags = ["/singleton"]
+    if not GetSetting("corona_sdk_simulator_show_console", False):
+      simulator_flags += ["/no-console"]
     if debug:
       simulator_flags.append("/debug")
 
