@@ -2,6 +2,14 @@
 
 Always check the [README](https://github.com/coronalabs/CoronaSDK-SublimeText/blob/master/README.md) for the latest information.
 
+### 1.6.1
+
+ * Rows and columns in the current tab are no longer reset when using **Super+F10** unless they were created by the Corona Editor Debugger (a corollary of this is if you create your own rows and columns the Debugger can't create its own and its functionality will be reduced)
+
+ * All errors in the build panel should once more be clickable to go to that location in the source code
+
+ * A new setting `corona_sdk_simulator_show_console` has been added, which, if set to true, will cause the Corona Simulator Console to be shown when running a project with **Super+F10**
+
 ### 1.6.0
 
  * Debugger improvements
