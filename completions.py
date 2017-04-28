@@ -300,15 +300,6 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
 
   def on_query_completions(self, view, prefix, locations):
     use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", default=True)
-
-    if self._first_time and use_corona_sdk_completion:
-      if not self.is_lua_file(view) and view.file_name().lower().endswith(".lua"):
-        msg = "Corona Editor: syntax is not set to 'Corona SDK Lua' so completion is inactive"
-        sublime.status_message(msg)
-        print(msg)
-        self._first_time = False
-
-    # print(locations[0)
     if use_corona_sdk_completion and "CoronaSDKLua.tmLanguage" in view.settings().get('syntax'):
       comps = self.find_completions(view,prefix)
       flags = 0  # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
