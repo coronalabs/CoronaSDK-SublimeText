@@ -58,7 +58,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:(?=.*\bfunction\b.*))(local\s+)*(function\s+)*((?:[A-Za-z_]\w*[:.])*[A-Za-z_]\w*)(?:\s*=\s*)*(function)*\s*(\()([^)]*)(\))</string>
+			<string>(?:.*(?=\bfunction\b.*))(local\s+)*(function\s+)*((?:[A-Za-z_]\w*[:.])*[A-Za-z_]\w*)(?:\s*=\s*)*(function)*\s*(\()([^)]*)(\))</string>
 			<key>name</key>
 			<string>meta.function.lua</string>
 			<key>comment</key>
