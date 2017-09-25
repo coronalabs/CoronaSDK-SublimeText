@@ -2,6 +2,18 @@
 
 Always check the [README](https://github.com/coronalabs/CoronaSDK-SublimeText/blob/master/README.md) for the latest information.
 
+### 1.6.2
+
+ * Fixed issue with inline function definition syntax coloring (fixes #20)
+
+ * Look for the Simulator in the new "Corona" location (rather than "CoronaSDK") (fixes #23)
+
+ * Make **Super+B** run the project in the Simulator (synonym for **Super+F10**)
+
+ * Improve clickability of errors and warnings which contain file and line number information
+
+ * Update completions to latest version of Corona
+
 ### 1.6.1
 
  * Rows and columns in the current tab are no longer reset when using **Super+F10** unless they were created by the Corona Editor Debugger (a corollary of this is if you create your own rows and columns the Debugger can't create its own and its functionality will be reduced)
