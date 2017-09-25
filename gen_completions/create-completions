@@ -9,9 +9,9 @@
 # create-completions - generate a Sublime completions file from a Corona docs directory
 #
 
-if [ $# != 3 ]
+if [ $# != 1 ]
 then
-	echo "Usage: $(basename "$0") <api-daily-repo-dir> <api-public-repo-dir> <api-legacy-repo-dir>"
+	echo "Usage: $(basename "$0") <api-repo-dir>"
 	exit 1
 fi
 
@@ -25,9 +25,10 @@ do
 
 	LEVEL=${DOC_DIR//*-/}
 	echo "$LEVEL"
-	if [ "$LEVEL" != "daily" ] && [ "$LEVEL" != "public" ] && [ "$LEVEL" != "legacy" ]
+	# there used to be more levels
+	if [ "$LEVEL" != "public" ]
 	then
-		echo "$(basename "$0"): docs repo directory must end in '-daily', '-public' or '-legacy'"
+		echo "$(basename "$0"): docs repo directory must end in '-public'"
 		exit 1
 	fi
 
@@ -41,7 +42,7 @@ do
 	do
 		WD=$(pwd)
 
-		if [ "$(echo "$DIR"/*.markdown)" = "" ]
+		if [ "$(echo "$DIR"/*.markdown)" = "$DIR"/'*.markdown' ]
 		then
 			echo "$(basename "$0"): no markdown files in '$DIR'" >&2
 			continue
