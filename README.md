@@ -5,14 +5,12 @@ Corona Editor
 
 ## Sublime Text Version
 
-We recommend [***Sublime Text 3***](http://www.sublimetext.com/3) for use with Corona Editor.
-
-Although ***Sublime Text 3*** has been in active use for over a year, it is still labelled as a "beta" though it seems better in every way than ***Sublime Text 2***.  We will endeavor to support ***Sublime Text 2*** until the official release of ***Sublime Text 3*** but the latter gets most attention during development.
+[***Sublime Text 3***](https://www.sublimetext.com/) is required to use Corona Editor.  The latest stable release is recommended.
  
 ## Installation Instructions
 
-1. Install the ***Sublime Text*** **Package Control** plugin if you don't already have it: [https://sublime.wbond.net/installation](https://sublime.wbond.net/installation)
-1. In ***Sublime Text*** choose: **Tools > Command Palette... > Package Control: Install Package**
+1. Install the ***Sublime Text*** **Package Control** plugin if you don't already have it using **Tools > Command Palette... > Install Package Control**
+1. When that's installed, in ***Sublime Text*** choose: **Tools > Command Palette... > Package Control: Install Package**
 1. Find **Corona Editor** by typing in the search field, click on it to install it
 1. Restart ***Sublime Text*** to see the new features
 
@@ -135,11 +133,10 @@ If some aspect of the plugin doesn't behave as expected be sure to include any c
 
 ## Known Issues
 
- * Syntax highlighting for function definitions that look like:
+ * Syntax highlighting is incorrect for function definitions that look like:
  `````
  local back=simplebutton.create("Back",function() menumanager.openMenu("main") end)
  `````
-    is incorrect.
 
 ## Platform Specific Advice
 
