@@ -89,9 +89,15 @@ class RunProjectCommand(sublime_plugin.WindowCommand):
 
     simulator_path, simulator_flags, simulator_version = _corona_utils.GetSimulatorCmd(mainlua)
 
-    cmd = [simulator_path]
+    cmd = ["'" + simulator_path + "'"]
     cmd += simulator_flags
     cmd.append(mainlua)
+
+    # On OS X, running the command as a string argument to the shell allows
+    # the "corona_sdk_simulator_show_console" option to work (otherwise
+    # stdout gets screwed up and hangs)
+    cmdStr = " ";
+    cmdStr = cmdStr.join(cmd)
 
     print(_corona_utils.PACKAGE_NAME + ": Running: " + str(cmd))
 
@@ -104,6 +110,6 @@ class RunProjectCommand(sublime_plugin.WindowCommand):
     # Supplying the "file_regex" allows users to double-click errors and warnings in the
     # build panel and go to that point in the code
     if sublime.platform() == 'osx':
-      self.window.run_command('exec', {'cmd': cmd, "file_regex": "^(?:ERROR: |WARNING: )*(/[^:]*):([0-9]+):([0-9]?)(.*)$"})
+      self.window.run_command('exec', {'cmd': cmdStr, "file_regex": "^(?:ERROR: |WARNING: )*(/[^:]*):([0-9]+):([0-9]?)(.*)$", "shell": "/bin/sh"})
     else: # windows
       self.window.run_command('exec', {'cmd': cmd, "file_regex": "(?i)^(?:ERROR: |WARNING: )[^C-Z]*([C-Z]:[^:]*):([0-9]+):([0-9]*)(.*)$" })
