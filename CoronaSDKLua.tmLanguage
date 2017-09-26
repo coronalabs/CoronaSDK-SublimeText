@@ -15,7 +15,7 @@
 	<key>keyEquivalent</key>
 	<string>^~L</string>
 	<key>name</key>
-	<string>Corona SDK Lua</string>
+	<string>Corona Lua</string>
 	<key>patterns</key>
 	<array>
 		<dict>

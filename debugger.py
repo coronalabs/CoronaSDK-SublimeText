@@ -226,7 +226,7 @@ class CoronaDebuggerThread(threading.Thread):
     self.doCommand('backtrace')
     # Skip displaying local variables on problematic releases (if we know what it is)
     if corona_sdk_version and ( int(corona_sdk_version) >= 2489 and int(corona_sdk_version) < 2517 ):
-      variables_output("Local variable display disabled with this version of Corona SDK ("+corona_sdk_version+").  Try a build after 2515")
+      variables_output("Local variable display disabled with this version of Corona ("+corona_sdk_version+").  Try a build after 2515")
     else:
       self.doCommand('locals')
 
@@ -600,7 +600,7 @@ class CoronaDebuggerCommand(sublime_plugin.WindowCommand):
       self.window.open_file(mainlua)  # make sure main.lua is open as that's the first place we'll stop
       projectDir = os.path.dirname(mainlua)
       if not projectDir:
-        sublime.error_message("Cannot find 'main.lua' for '"+self.view.file_name()+"'.  This does not look like a Corona SDK app")
+        sublime.error_message("Cannot find 'main.lua' for '"+self.view.file_name()+"'.  This does not look like a Corona app")
         return
 
       dbg_path, dbg_flags, dbg_version = _corona_utils.GetSimulatorCmd(mainlua, True)

@@ -58,7 +58,7 @@
 	{ "id":"corona", "caption": "Corona Editor", "children":
 		[
 		{ "caption": "-" },
-		{ "caption": "Corona SDK Docs", "command": "corona_docs" },
+		{ "caption": "Corona Docs", "command": "corona_docs" },
 		{ "caption": "Function Navigator...",   "command": "show_overlay", "args": {"overlay": "goto", "text": "@"} },
 		{ "caption": "-" },
 		{ "caption": "Snippets", "children": $corona_snippets },

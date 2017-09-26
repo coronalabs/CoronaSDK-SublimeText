@@ -277,7 +277,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
 
     if self._first_time and use_corona_sdk_completion:
       if not self.is_lua_file(view) and view.file_name().lower().endswith(".lua"):
-        msg = "Corona Editor: syntax is not set to 'Corona SDK Lua' so completion is inactive"
+        msg = "Corona Editor: syntax is not set to 'Corona Lua' so completion is inactive"
         sublime.status_message(msg)
         print(msg)
         self._first_time = False

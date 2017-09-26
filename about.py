@@ -31,7 +31,7 @@ if corona_utils.SUBLIME_VERSION < 3000:
 
 class AboutCoronaEditorCommand(sublime_plugin.WindowCommand):
   _about_info = None
-  _dev_about_info = '{"url": "https://www.coronalabs.com/", "version": "<development>", "description": "Corona Editor is the official Corona SDK plugin for Sublime Text"}'
+  _dev_about_info = '{"url": "https://coronalabs.com/", "version": "<development>", "description": "Corona Editor is the official Corona plugin for Sublime Text"}'
 
   def run(self):
     self.load_json("package-metadata.json")
