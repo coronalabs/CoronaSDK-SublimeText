@@ -2,9 +2,17 @@
 
 Always check the [README](https://github.com/coronalabs/CoronaSDK-SublimeText/blob/master/README.md) for the latest information.
 
-### 1.6.2
+### 1.7.2
 
- * Fixed issue with inline function definition syntax coloring (fixes #20)
+ * Fix issue with spaces and special characters in pathnames on macOS
+
+### 1.7.1
+
+ * Fix issue where 'Run Project' didn't work on Windows
+
+### 1.7.0
+
+ * Fix issue with inline function definition syntax coloring (fixes #20)
 
  * Look for the Simulator in the new "Corona" location (rather than "CoronaSDK") (fixes #23)
 

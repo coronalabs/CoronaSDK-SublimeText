@@ -103,11 +103,16 @@ class RunProjectCommand(sublime_plugin.WindowCommand):
       # On OS X, running the command as a string argument to the shell allows
       # the "corona_sdk_simulator_show_console" option to work (otherwise
       # stdout gets screwed up and hangs)
-      cmd = ["'" + simulator_path + "'"]
+      try:  # py3
+          from shlex import quote
+      except ImportError:  # py2
+          from pipes import quote
+
+      cmd = [ simulator_path ]
       cmd += simulator_flags
       cmd.append(mainlua)
-      cmdStr = " ";
-      cmdStr = cmdStr.join(cmd)
+      # quote command arguments
+      cmdStr = ' '.join([ quote(arg) for arg in cmd ])
       self.window.run_command('exec', {'cmd': cmdStr, "file_regex": "^(?:ERROR: |WARNING: )*(/[^:]*):([0-9]+):([0-9]?)(.*)$", "shell": "/bin/sh"})
     else: # windows
       cmd = [ simulator_path ]
