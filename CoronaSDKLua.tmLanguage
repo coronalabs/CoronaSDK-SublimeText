@@ -44,7 +44,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(--)(?!\[\[).*$\n?</string>
+			<string>([\s]*-{2})(?!\[\[).*$\n?</string>
 			<key>name</key>
 			<string>comment.line.double-dash.lua</string>
 		</dict>
