@@ -65,16 +65,16 @@ class CoronaLabs:
   _findWhiteSpace = re.compile("([^,])\s")
   _findRequire = re.compile("require\s?\(?[\"\']")
   _findStringOpen = re.compile(r'\"|\'')
-  
+
   def __init__(self):
     _corona_utils.debug("CoronaLabs: __init__")
     global CoronaCompletions
     CoronaCompletions = self
-   
+
   # Called by the snippets module to make sure completions are loaded
   def initialize(self):
     self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", default="public"))
-  
+
 
   # If we're running ST2, load completions from file
   # else, load completions from member of package
@@ -136,7 +136,7 @@ class CoronaLabs:
     self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", default="public"))
     strip_white_space=_corona_utils.GetSetting("corona_sdk_completions_strip_white_space", default=False)
     use_fuzzy_completion = _corona_utils.GetSetting("corona_sdk_use_fuzzy_completion", default=True)
-  
+
     completion_target = self.current_word(view)
 
     # Because we adjust the prefix to make completions with periods in them work better we may need to
@@ -170,7 +170,7 @@ class CoronaLabs:
         luaPath=namePath[1]
         if self.fuzzyMatchString(name, use_fuzzy_completion) or self.fuzzyMatchString(luaPath, use_fuzzy_completion):
           comps.append((luaPath,luaPath))
-      
+
     # Add textual completions from the document
     for c in view.extract_completions(completion_target):
       comps.append((c, c))
@@ -179,7 +179,7 @@ class CoronaLabs:
     # the regex will correctly match multiline strings, but to detect them we need to search more of the document
     if completingRequireStatement or inString:
       return list(set(comps))
-    
+
     for c in self._completions['completions']:
       trigger = ""
       contents = ""
@@ -261,7 +261,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
         _corona_utils.debug("Corona Editor: auto build triggered")
         view.window().run_command("build")
 
-    if view.file_name().lower().endswith(".lua") and _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", default=True): 
+    if view.file_name().lower().endswith(".lua") and _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", default=True):
       view.set_syntax_file("Packages/CoronaSDK-SublimeText/CoronaSDKLua.tmLanguage")
 
   # When a Lua file is loaded and the "use_periods_in_completion" user preference is set,
@@ -300,7 +300,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
 
   def on_query_completions(self, view, prefix, locations):
     use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", default=True)
-    if use_corona_sdk_completion and "CoronaSDKLua.tmLanguage" in view.settings().get('syntax'):
+    if use_corona_sdk_completion and "Corona SDK Lua.tmLanguage" in view.settings().get('syntax'):
       comps = self.find_completions(view,prefix)
       flags = 0  # sublime.INHIBIT_EXPLICIT_COMPLETIONS | sublime.INHIBIT_WORD_COMPLETIONS
       return (comps, flags)
