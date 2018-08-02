@@ -262,7 +262,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
         view.window().run_command("build")
 
     if view.file_name().lower().endswith(".lua") and _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", default=True):
-      view.set_syntax_file("Packages/CoronaSDK-SublimeText/CoronaSDKLua.tmLanguage")
+      view.set_syntax_file("Packages/CoronaSDK-SublimeText/Corona SDK Lua.tmLanguage")
 
   # When a Lua file is loaded and the "use_periods_in_completion" user preference is set,
   # add period to "auto_complete_triggers" if it's not already there.
