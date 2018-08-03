@@ -15,9 +15,39 @@
 	<key>keyEquivalent</key>
 	<string>^~L</string>
 	<key>name</key>
-	<string>Corona SDK Lua</string>
+	<string>Corona Lua</string>
 	<key>patterns</key>
 	<array>
+		<dict>
+			<key>begin</key>
+			<string>--\[(=*)\[</string>
+			<key>captures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.comment.lua</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>\]\1\]</string>
+			<key>name</key>
+			<string>comment.block.lua</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.comment.lua</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>([\s]*-{2})(?!\[\[).*$\n?</string>
+			<key>name</key>
+			<string>comment.line.double-dash.lua</string>
+		</dict>
 		<dict>
 			<key>captures</key>
 			<dict>
@@ -58,7 +88,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:(?=.*\bfunction\b.*))(local\s+)*(function\s+)*((?:[A-Za-z_]\w*[:.])*[A-Za-z_]\w*)(?:\s*=\s*)*(function)*\s*(\()([^)]*)(\))</string>
+			<string>(?:.*(?=\bfunction\b.*))(local\s+)*(function\s+)*((?:[A-Za-z_]\w*[:.])*[A-Za-z_]\w*)(?:\s*=\s*)*(function)*\s*(\()([^)]*)(\))</string>
 			<key>name</key>
 			<string>meta.function.lua</string>
 			<key>comment</key>
@@ -159,36 +189,6 @@
 			</dict>
 			<key>name</key>
 			<string>string.quoted.other.multiline.lua</string>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>--\[(=*)\[</string>
-			<key>captures</key>
-			<dict>
-				<key>0</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.comment.lua</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>\]\1\]</string>
-			<key>name</key>
-			<string>comment.block.lua</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.comment.lua</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(--)(?!\[\[).*$\n?</string>
-			<key>name</key>
-			<string>comment.line.double-dash.lua</string>
 		</dict>
 		<dict>
 			<key>match</key>
