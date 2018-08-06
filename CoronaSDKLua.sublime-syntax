@@ -75,10 +75,9 @@ contexts:
       scope: keyword.operator.lua
     - match: '\+|-|%|#|\*|\/|\^|==?|~=|<=?|>=?|(?<!\.)\.{2}(?!\.)'
       scope: keyword.operator.lua
-
   string:
     - meta_scope: comment.block.lua
-      - match: '\]\1\]'
-        captures:
-          0: punctuation.definition.comment.lua
-        pop: true
+    - match: '\]\1\]'
+      captures:
+        0: punctuation.definition.comment.lua
+      pop: true
