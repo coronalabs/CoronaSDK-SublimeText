@@ -11,28 +11,21 @@ contexts:
     - match: '--\[(=*)\['
       captures:
         0: punctuation.definition.comment.lua
-      push:
-        - meta_scope: comment.block.lua
-        - match: '\]\1\]'
-          captures:
-            0: punctuation.definition.comment.lua
-          pop: true
+      push: string
     - match: '([\s]*-{2})(?!\[\[).*$\n?'
       scope: comment.line.double-dash.lua
       captures:
         1: punctuation.definition.comment.lua
-    - match: '(?:.*(?=\bfunction\b.*))(local\s+)*(function\s+)*((?:[A-Za-z_]\w*[:.])*[A-Za-z_]\w*)(?:\s*=\s*)*(function)*\s*(\()([^)]*)(\))'
+    - match: '(function\s*)(\w+\s*[:.]+)*(:?\s+)*(\w+)*\s*(\()(.*)(\))'
       comment: 'Find the various kinds of function definition in Lua: for any line containing "function", match optional "local" and/or "function", match identifier with optional classname, discard optional "=", match optional "function", match "(", match everything until closing ")", match ")"'
       scope: meta.function.lua
       captures:
         1: keyword.control.lua
-        2: keyword.control.lua
-        3: keyword.control.lua
-        4: entity.name.function.scope.lua
-        5: keyword.control.lua
-        6: punctuation.definition.parameters.begin.lua
-        7: variable
-        8: punctuation.definition.parameters.end.lua
+        2: entity.name.function.scope.lua
+        3: entity.name.function.scope.lua
+        4: punctuation.definition.parameters.begin.lua
+        5: variable
+        6: punctuation.definition.parameters.end.lua
     - match: '(?<![\d.])\s0x[a-fA-F\d]+|\b\d+(\.\d+)?([eE]-?\d+)?|\.\d+([eE]-?\d+)?'
       scope: constant.numeric.lua
     - match: "'"
@@ -82,3 +75,10 @@ contexts:
       scope: keyword.operator.lua
     - match: '\+|-|%|#|\*|\/|\^|==?|~=|<=?|>=?|(?<!\.)\.{2}(?!\.)'
       scope: keyword.operator.lua
+
+  string:
+    - meta_scope: comment.block.lua
+      - match: '\]\1\]'
+        captures:
+          0: punctuation.definition.comment.lua
+        pop: true
