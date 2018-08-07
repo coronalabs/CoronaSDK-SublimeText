@@ -1,18 +1,16 @@
 Corona Editor
 =============
 
-***Corona Editor*** is the official ***Corona SDK*** plugin for ***Sublime Text***.  Designed to make building apps even easier by adding functionality to ***Sublime Text*** to improve developer productivity.
+***Corona Editor*** is the official ***Corona*** plugin for ***Sublime Text***.  Designed to make building apps even easier by adding functionality to ***Sublime Text*** to improve developer productivity.
 
 ## Sublime Text Version
 
-We recommend [***Sublime Text 3***](http://www.sublimetext.com/3) for use with Corona Editor.
-
-Although ***Sublime Text 3*** has been in active use for over a year, it is still labelled as a "beta" though it seems better in every way than ***Sublime Text 2***.  We will endeavor to support ***Sublime Text 2*** until the official release of ***Sublime Text 3*** but the latter gets most attention during development.
+[***Sublime Text 3***](https://www.sublimetext.com/) is required to use Corona Editor.  The latest stable release is recommended.
  
 ## Installation Instructions
 
-1. Install the ***Sublime Text*** **Package Control** plugin if you don't already have it: [https://sublime.wbond.net/installation](https://sublime.wbond.net/installation)
-1. In ***Sublime Text*** choose: **Tools > Command Palette... > Package Control: Install Package**
+1. Install the ***Sublime Text*** **Package Control** plugin if you don't already have it using **Tools > Command Palette... > Install Package Control**
+1. When that's installed, in ***Sublime Text*** choose: **Tools > Command Palette... > Package Control: Install Package**
 1. Find **Corona Editor** by typing in the search field, click on it to install it
 1. Restart ***Sublime Text*** to see the new features
 
@@ -31,11 +29,11 @@ If you install the tip from Github please report any issues using the Issues pag
 
 ## Using the Plugin
 
-After restarting ***Sublime Text*** you'll have several new features  available in the **Corona Editor** menu and in the context menu when editing Corona SDK .lua files.  Most of the features of the plugin rely on the current **Syntax** setting so when editing files you should use **View > Syntax > Corona SDK Lua** command to set the correct syntax for the file.  You will probably also want to change ***Sublime Text***'s default for .lua files by choosing **View > Syntax > Open all with current extension as... > Corona SDK Lua** when you have a .lua file open in the editor.
+After restarting ***Sublime Text*** you'll have several new features  available in the **Corona Editor** menu and in the context menu when editing Corona .lua files.  Most of the features of the plugin rely on the current **Syntax** setting so when editing files you should use **View > Syntax > Corona Lua** command to set the correct syntax for the file.  You will probably also want to change ***Sublime Text***'s default for .lua files by choosing **View > Syntax > Open all with current extension as... > Corona Lua** when you have a .lua file open in the editor.
 
 If the syntax option is set correctly you'll see it displayed in the bottom righthand corner of the ***Sublime Text*** window:
 
-![Corona SDK Lua](http://coronalabs.com/images/st-coronasdklua.png "Corona SDK Lua")
+![Corona Lua](http://coronalabs.com/images/st-coronasdklua.png "Corona Lua")
 
 There are several ***Sublime Text*** User Preferences that can be set to fine tune the behavior of the plugin.  You can find information on setting User Preferences here [http://www.sublimetext.com/docs/3/settings.html](http://www.sublimetext.com/docs/3/settings.html).
 
@@ -52,7 +50,9 @@ The following keys also control the Debugger:
 | F11       | Step over         |
 | Shift+F11 | Step into         |
 
-A simpler alternative to the **Build** command in ***Sublime Text*** is the **Run Project** command in the **Corona Editor** menu (or Super+F10).  It doesn't have all the bells and whistles of the build system but it is quick and easy.  It is also better at finding your project's `main.lua` if you aren't using ***Sublime Text***'s projects.  On OS X, if you install Daily Builds of CoronaSDK in **/Applications** without changing the default name, it will use the highest numbered (most recent) Daily Build to run the project (to change this behavior, see `corona_sdk_simulator_path` below).
+A simpler alternative to the **Build** command in ***Sublime Text*** is the **Run Project** command in the **Corona Editor** menu (or Super+F10).  It doesn't have all the bells and whistles of the build system but it is quick and easy.  It is also better at finding your project's `main.lua` if you aren't using ***Sublime Text***'s projects.  Super+B (usually bound to the **Build** command) is now bound to the **Run Project** command for Corona Lua files. 
+
+On OS X, if you install Daily Builds of Corona in **/Applications** without changing the default name, it will use the highest numbered (most recent) Daily Build to run the project (to change this behavior, see `corona_sdk_simulator_path` below).
 
 ##### Preferences
  * `corona_sdk_simulator_path` (default: system dependent)
@@ -67,7 +67,7 @@ A simpler alternative to the **Build** command in ***Sublime Text*** is the **Ru
 
  * `corona_sdk_simulator_show_console` (default: false)
  
-    Set this to true to have the Corona Simulator Console be shown when running a project with **Super+F10**.
+    Set this to true to have the Corona Simulator Console be shown when running a project with **Super+F10** (or **Super+B**).
 
 ##### Current Gotchas
  * If you **Run** the project and it doesn't hit a breakpoint, you'll have to stop and restart to regain control (in particular, setting a breakpoint on a line of code you know is being executed wont stop the program).
@@ -76,7 +76,7 @@ A simpler alternative to the **Build** command in ***Sublime Text*** is the **Ru
  * If you create rows and columns in using ***Sublime Text***'s **View > Layout** command in the current tab, the debugger wont create its own panes and its functionality will be reduced.
 
 ### Completion
-Completion works for all API calls and constants (correctly handling periods in the name).  Fuzzy matching is optionally done to increase the chances of finding the item you are looking for.  Completion relies on the current **Syntax** setting so when creating new files you should use **View > Syntax > Corona SDK Lua** command to set the correct syntax for the new file.  You will probably also want to change ***Sublime Text***'s default for .lua files by choosing **View > Syntax > Open all with current extension as... > Corona SDK Lua** when you have a .lua file open in the editor.
+Completion works for all API calls and constants (correctly handling periods in the name).  Fuzzy matching is optionally done to increase the chances of finding the item you are looking for.  Completion relies on the current **Syntax** setting so when creating new files you should use **View > Syntax > Corona Lua** command to set the correct syntax for the new file.  You will probably also want to change ***Sublime Text***'s default for .lua files by choosing **View > Syntax > Open all with current extension as... > Corona Lua** when you have a .lua file open in the editor.
 
 ##### Preferences
  * `corona_sdk_completion` (default: True)
@@ -102,18 +102,13 @@ Completion works for all API calls and constants (correctly handling periods in 
 ##### Current Gotchas
  * The order of items in the completions popup seems a little odd but is due to Sublime's "fuzzy" matching
 
+ * Some of the completions may have minor errors with nested optional parameters due to the way they are automatically generated.
+
 ### Documentation Lookup
-Documentation can be called up by placing the cursor on an API call (or selecting it) and either hitting **F1** or choosing **Corona SDK Docs** from the context menu.  Lua keywords will be looked up in the Lua documentation.  If the context of something isn't recognized, a search of the Corona SDK documentation will be initiated.
-
-
-##### Preferences
- * `corona_sdk_use_docset` (default: `public`)
-
- 	Choose which documentation set you want to use.  Can be one of `public` (the default), `legacy` or `daily`.
+Documentation can be called up by placing the cursor on an API call (or selecting it) and either hitting **F1** or choosing **Corona Docs** from the context menu.  Lua keywords will be looked up in the Lua documentation.  If the context of something isn't recognized, a search of the Corona documentation will be initiated.
 
 ##### Current Gotchas
- * Note that right clicking on an item wont move the cursor there so you can't right click on a term that's not at the insertion point and then pick **Corona SDK Docs** from the context menu as it's the position of the text cursor that determines what's looked up (left click on the item first)
- * Some of the completions have minor errors with nested optional parameters.
+ * Note that right clicking on an item wont move the cursor there so you can't right click on a term that's not at the insertion point and then pick **Corona Docs** from the context menu as it's the position of the text cursor that determines what's looked up (left click on the item first)
 
 ### Snippets
 A selection of commonly used code fragments and templates is available via the **Corona Editor > Snippets** menu.  Selecting an item from a submenu will insert its code at the current insertion point in the file.
@@ -121,10 +116,10 @@ A selection of commonly used code fragments and templates is available via the *
 A default set of snippets is created in the ***Sublime Text*** support folder `Packages/User/Corona Editor/Snippets`.  You can create your own folders and files to add to the default set.  Files should either be ***Sublime Text*** `.sublime-snippet` files or plain text files.  The contents of plain text files are just inserted when chosen unless they exactly match a completion entry in which case the completion is looked up and they work like a normal completion (you can tab between the arguments) which provides a way to make menus of hard to remember API calls.
 
 ### Build System
-The **Run Project** command in the **Corona Editor** menu (or Super+F10) is a simpler alternative to the **Build** command in ***Sublime Text*** (see above for more information).
+The **Run Project** command in the **Corona Editor** menu (or Super+B or Super+F10) is a simpler alternative to the **Build** command in ***Sublime Text*** (see above for more information).
 
 ### Syntax Highlighting
-Syntax highlighting of Lua with Corona SDK calls is done (choose **View > Syntax > Corona SDK Lua** to enable this).  You will probably also want to change ***Sublime Text***'s default for .lua files by choosing **View > Syntax > Open all with current extension as... > Corona SDK Lua** when you have a .lua file open in the editor.
+Syntax highlighting of Lua with Corona calls is done (choose **View > Syntax > Corona Lua** to enable this).  You will probably also want to change ***Sublime Text***'s default for .lua files by choosing **View > Syntax > Open all with current extension as... > Corona Lua** when you have a .lua file open in the editor.
 
 ### Miscellaneous
  * A shortcut to the ***Sublime Text*** **Goto Anything...** function list has been added to the context menu as **Function Navigator...**. This lists the functions defined in the current file and choosing one takes you to that definition.
@@ -138,11 +133,10 @@ If some aspect of the plugin doesn't behave as expected be sure to include any c
 
 ## Known Issues
 
- * Syntax highlighting for function definitions that look like:
+ * Syntax highlighting is incorrect for function definitions that look like:
  `````
  local back=simplebutton.create("Back",function() menumanager.openMenu("main") end)
  `````
-    is incorrect.
 
 ## Platform Specific Advice
 

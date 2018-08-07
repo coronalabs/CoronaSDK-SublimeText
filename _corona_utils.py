@@ -147,7 +147,7 @@ def GetSimulatorCmd(mainlua=None, debug=False):
     if simulator_path is None:
       simulator_path = GetLatestDailyBuildSimulatorPath()
     if simulator_path is None:
-      simulator_path = "/Applications/CoronaSDK/Corona Simulator.app"
+      simulator_path = "/Applications/Corona/Corona Simulator.app"
     if simulator_path.endswith(".app"):
       simulator_path += "/Contents/MacOS/Corona Simulator"
     simulator_flags = ["-singleton", "1"]
@@ -162,9 +162,13 @@ def GetSimulatorCmd(mainlua=None, debug=False):
   elif platform == 'windows':
     if simulator_path is None:
       if arch == "x64":
-        simulator_path = "C:\\Program Files (x86)\\Corona Labs\\Corona SDK\\Corona Simulator.exe"
+        simulator_path = "C:\\Program Files (x86)\\Corona Labs\\Corona\\Corona Simulator.exe"
+        if not os.path.isfile(simulator_path):
+          simulator_path = "C:\\Program Files (x86)\\Corona Labs\\Corona SDK\\Corona Simulator.exe" # old location
       else:
-        simulator_path = "C:\\Program Files\\Corona Labs\\Corona SDK\\Corona Simulator.exe"
+        simulator_path = "C:\\Program Files\\Corona Labs\\Corona\\Corona Simulator.exe"
+        if not os.path.isfile(simulator_path):
+          simulator_path = "C:\\Program Files\\Corona Labs\\Corona SDK\\Corona Simulator.exe" # old location
     simulator_flags = ["/singleton"]
     if not GetSetting("corona_sdk_simulator_show_console", False):
       simulator_flags += ["/no-console"]
@@ -183,12 +187,12 @@ def GetSimulatorCmd(mainlua=None, debug=False):
 def GetLatestDailyBuildSimulatorPath():
   dirs = os.listdir("/Applications")
 
-  # Find the highest numbered Daily Build
+  # Find the highest numbered Daily Build with either the old or new style name
   maxBuildNum = 0
   buildNum = 0
   latestSDK = ""
   for entry in dirs:
-    if entry.startswith("CoronaSDK-"):
+    if entry.startswith("CoronaSDK-") or entry.startswith("Corona-"):
       result = re.findall(r'\d+', entry)
       if len(result) > 0:
         buildNum = int(re.findall(r'\d+', entry)[0])

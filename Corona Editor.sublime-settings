@@ -17,7 +17,7 @@
 	"corona_sdk_complete_periods": true,
 
 	// If this is true then any new file that has not yet been saved will be 
-	// assumed to be a Corona SDK Lua file
+	// assumed to be a Corona Lua file
 	"corona_sdk_default_new_file_to_corona_lua": true,
 
 	// Set this to the path of your Corona Simulator if it's not installed
@@ -30,7 +30,7 @@
 	"corona_sdk_auto_build": false,
 
 	// Choose which documentation set you want to use.  Can be one of
-	// "public" (the default), "legacy" or "daily".
+	// "public" (the default), "legacy" or "daily". [deprecated]
  	"corona_sdk_use_docset": "public",
 
  	// remove white space from the completions, for example by default a
