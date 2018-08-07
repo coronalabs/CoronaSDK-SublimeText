@@ -16,7 +16,7 @@ contexts:
       scope: comment.line.double-dash.lua
       captures:
         1: punctuation.definition.comment.lua
-    - match: '(function\s*)(\w+\s*[:.]+)*(:?\s+)*(\w+)*\s*(\()(.*)(\))'
+    - match: '(function\s*)(\w+\s*[:.]+)*(?:\s+)*(\w+)*\s*(\()(.*)(\))'
       comment: 'Find the various kinds of function definition in Lua: for any line containing "function", match optional "local" and/or "function", match identifier with optional classname, discard optional "=", match optional "function", match "(", match everything until closing ")", match ")"'
       scope: meta.function.lua
       captures:
