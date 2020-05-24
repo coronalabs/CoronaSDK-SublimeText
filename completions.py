@@ -13,8 +13,12 @@ import json
 
 try:
   from . import _corona_utils  # P3
+  from . import _lua_paths  # P3
+  from . import _sublime_utils  # P3
 except:
   import _corona_utils  # P2
+  import _lua_paths  # P2
+  import _sublime_utils  # P2
 
 # We expose the completions to the snippets code
 CoronaCompletions = None
@@ -59,22 +63,17 @@ class CoronaLabs:
   _fuzzyMatcher = None
   _fuzzyPrefix = None
   _findWhiteSpace = re.compile("([^,])\s")
-  _use_fuzzy_completion = True
-  _strip_white_space = False
+  _findRequire = re.compile("require\s?\(?[\"\']")
+  _findStringOpen = re.compile(r'\"|\'')
 
   def __init__(self):
     _corona_utils.debug("CoronaLabs: __init__")
     global CoronaCompletions
     CoronaCompletions = self
-    # Use fuzzy completions (essentially search for the characters in the target even if separated)
-    self._use_fuzzy_completion = _corona_utils.GetSetting("corona_sdk_use_fuzzy_completion", True)
-    # Remove whitespace in completions to match some coding styles
-    self._strip_white_space = _corona_utils.GetSetting("corona_sdk_completions_strip_white_space", False)
-
 
   # Called by the snippets module to make sure completions are loaded
   def initialize(self):
-    self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", "public"))
+    self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", default="public"))
 
 
   # If we're running ST2, load completions from file
@@ -121,6 +120,10 @@ class CoronaLabs:
       else:
         return False
 
+  def inString(self,textToCursor):
+    match=self._findStringOpen.findall(textToCursor)
+    return len(match)>0 and len(match)%2==1
+
   # extract completions which match prefix
   # Completions are problematic because Sublime uses the "word_separators" preference to decide where tokens
   # begin and end which, by default, means that periods are not completed properly.  One options is to remove
@@ -130,7 +133,9 @@ class CoronaLabs:
   #  * if there's a period in the "completion target", return only the part following the period in the completions
 
   def find_completions(self, view, prefix):
-    self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", "public"))
+    self.load_completions(_corona_utils.GetSetting("corona_sdk_use_docset", default="public"))
+    strip_white_space=_corona_utils.GetSetting("corona_sdk_completions_strip_white_space", default=False)
+    use_fuzzy_completion = _corona_utils.GetSetting("corona_sdk_use_fuzzy_completion", default=True)
 
     completion_target = self.current_word(view)
 
@@ -139,7 +144,6 @@ class CoronaLabs:
     completion_adjustment = "" if "." not in completion_target else completion_target.partition('.')[0] + '.'
 
     # _corona_utils.debug('prefix: ', prefix, 'completion_target: ', completion_target, "; completion_adjustment: ", completion_adjustment, "; corona_sdk_complete_periods: ", _corona_utils.GetSetting("corona_sdk_complete_periods", True) )
-
     self.setupFuzzyMatch(completion_target)
 
     # Sample:
@@ -149,21 +153,47 @@ class CoronaLabs:
     # This is horrible on a variety of levels but is brought upon us by the fact that
     # ST completion files contain an array that is a mixture of strings and dicts
     comps = []
+
+    # check if text in current line to cursor contains require statement
+    # if so attempt to fill completions with lua formatted file paths
+    textToCursor=_sublime_utils.getTextToCursor(view)
+    completingRequireStatement=self._findRequire.search(textToCursor)
+    inString=self.inString(textToCursor)
+    if completingRequireStatement or inString:
+      extensions=[".lua"]
+      if not completingRequireStatement:
+        extensions=_corona_utils.GetSetting("corona_sdk_autocomplete_extensions",default=[])
+      followSymlinks=_corona_utils.GetSetting("corona_sdk_follow_symlinks",default=False)
+      pathSuggestions=_lua_paths.getFilesAndPaths(view,extensions=extensions,followlinks=followSymlinks,converttoluapaths=completingRequireStatement)
+      for namePath in pathSuggestions:
+        name=namePath[0]
+        luaPath=namePath[1]
+        if self.fuzzyMatchString(name, use_fuzzy_completion) or self.fuzzyMatchString(luaPath, use_fuzzy_completion):
+          comps.append((luaPath,luaPath))
+
+    # Add textual completions from the document
+    for c in view.extract_completions(completion_target):
+      comps.append((c, c))
+
+    # don't add Corona API completions if editing a require statement or more generally a string
+    # the regex will correctly match multiline strings, but to detect them we need to search more of the document
+    if completingRequireStatement or inString:
+      return list(set(comps))
+
     for c in self._completions['completions']:
       trigger = ""
       contents = ""
       if isinstance(c, dict):
-        if self.fuzzyMatchString(c['trigger'], self._use_fuzzy_completion):
+        if self.fuzzyMatchString(c['trigger'], use_fuzzy_completion):
           trigger = c['trigger']
           contents = c['contents']
       elif is_string_instance(c):
-        if self.fuzzyMatchString(c, self._use_fuzzy_completion):
+        if self.fuzzyMatchString(c, use_fuzzy_completion):
           _corona_utils.debug("String match: ", c)
           trigger = c
           contents = c
-
       if trigger is not "":
-        if self._strip_white_space and contents is not "":
+        if strip_white_space and contents is not "":
            contents = self._findWhiteSpace.sub("\\1", contents)
         # If we do the completion adjustment on completions that aren't functions
         # ST somehow erases the text before the period from the document leaving
@@ -176,13 +206,8 @@ class CoronaLabs:
 
     # _corona_utils.debug("extract_completions: ", view.extract_completions(completion_target))
 
-    # Add textual completions from the document
-    for c in view.extract_completions(completion_target):
-      comps.append((c, c))
-
-    # Reorganize into a list
+    # Remove duplicates
     comps = list(set(comps))
-    comps.sort()
 
     # _corona_utils.debug("comps: ", comps)
 
@@ -196,8 +221,7 @@ class CoronaLabs:
     end = s.b
 
     view_size = view.size()
-    terminator = ['\t', ' ', '\"', '\'', ':', '=', '-', '+', '*', '/', '^', ',']
-
+    terminator = ['\t', ' ', '\"', '\'', ':', '=', '-', '+', '*', '/', '^', ',', '(', ')', '[', ']', '#']
     while (start > 0
             and not view.substr(start - 1) in terminator
             and view.classify(start) & sublime.CLASS_LINE_START == 0):
@@ -223,7 +247,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
   def is_lua_file(self, view):
     # Fairly rigorous test for being a Corona Lua file
     # If the file has not been saved optionally default to being a Corona Lua file
-    return view.match_selector(view.sel()[0].a, "source.lua.corona") if view.file_name() else _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", True)
+    return view.match_selector(view.sel()[0].a, "source.lua.corona") if view.file_name() else _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", default=True)
 
 
   # Optionally trigger a "build" when a .lua file is saved.  This is best
@@ -232,19 +256,21 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
   # doesn't work
   def on_post_save(self, view):
     if self.is_lua_file(view):
-      auto_build = _corona_utils.GetSetting("corona_sdk_auto_build", False)
+      auto_build = _corona_utils.GetSetting("corona_sdk_auto_build", default=False)
       if auto_build:
         _corona_utils.debug("Corona Editor: auto build triggered")
         view.window().run_command("build")
 
+    if view.file_name().lower().endswith(".lua") and _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", default=True):
+      view.set_syntax_file("Packages/CoronaSDK-SublimeText/CoronaSDKLua.tmLanguage")
 
   # When a Lua file is loaded and the "use_periods_in_completion" user preference is set,
   # add period to "auto_complete_triggers" if it's not already there.
   def on_load(self, view):
-    use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", True)
+    use_corona_sdk_completion = _corona_utils.GetSetting("corona_sdk_completion", default=True)
 
     if use_corona_sdk_completion and self.is_lua_file(view):
-      use_periods_in_completion = _corona_utils.GetSetting("corona_sdk_complete_periods", True)
+      use_periods_in_completion = _corona_utils.GetSetting("corona_sdk_complete_periods", default=True)
 
       # Completion behavior is improved if periods are included in the completion process
       if use_periods_in_completion:

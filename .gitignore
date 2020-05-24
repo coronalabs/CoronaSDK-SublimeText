@@ -41,3 +41,7 @@ nosetests.xml
 OUT
 
 misc/*
+
+/.DS_Store
+
+*.orig

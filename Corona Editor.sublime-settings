@@ -31,5 +31,23 @@
 
 	// Choose which documentation set you want to use.  Can be one of
 	// "public" (the default), "legacy" or "daily". [deprecated]
- 	"corona_sdk_use_docset": "public"
+ 	"corona_sdk_use_docset": "public",
+
+ 	// remove white space from the completions, for example by default a
+ 	// completion might look like:
+ 	// display.capture( displayObject [, saveToPhotoLibrary ] )
+ 	// when set to true it will become
+ 	// display.capture(displayObject[, saveToPhotoLibrary])
+ 	"corona_sdk_completions_strip_white_space":false,
+
+ 	// Corona Editor will attempt to suggest lua files for you to import when 
+ 	// typing out 'require' statements. By default Corona Editor will not follow
+ 	// softlinks in your project structure. Set this to true to follow links, but beware
+ 	// it is possible to set up infinite cycles if a link to a root directory in your project
+ 	// appears in a subdirectory.
+ 	"corona_sdk_follow_symlinks":false,
+
+ 	// When typing out a string Corona Editor can autosuggest files and paths. The list below filters the suggestions.
+ 	// Extend it with any other useful formats. The list is case insensitive.
+ 	"corona_sdk_autocomplete_extensions":[".png",".jpeg",".jpg",".wav",".mp3"]
 }
