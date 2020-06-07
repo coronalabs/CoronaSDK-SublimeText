@@ -23,6 +23,16 @@ except:
 # We expose the completions to the snippets code
 CoronaCompletions = None
 
+if not os.path.isfile(os.path.join("User", "CoronaSDKLua.sublime-settings")):
+  with open(os.path.join("User", "CoronaSDKLua.sublime-settings"), "w") as f:
+    f.write("""
+{
+  "extensions":
+  [
+    "lua"
+  ]
+}
+""")
 
 #
 # Utility functions
@@ -261,8 +271,8 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
         _corona_utils.debug("Corona Editor: auto build triggered")
         view.window().run_command("build")
 
-    if view.file_name().lower().endswith(".lua") and _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", default=True):
-      view.set_syntax_file("Packages/CoronaSDK-SublimeText/CoronaSDKLua.sublime-syntax")
+    # if view.file_name().lower().endswith(".lua") and _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", default=True):
+    #   view.set_syntax_file("Packages/CoronaSDK-SublimeText/CoronaSDKLua.sublime-syntax")
 
   # When a Lua file is loaded and the "use_periods_in_completion" user preference is set,
   # add period to "auto_complete_triggers" if it's not already there.
