@@ -23,17 +23,6 @@ except:
 # We expose the completions to the snippets code
 CoronaCompletions = None
 
-if not os.path.isfile(os.path.join("User", "CoronaSDKLua.sublime-settings")):
-  with open(os.path.join("User", "CoronaSDKLua.sublime-settings"), "w") as f:
-    f.write("""
-{
-  "extensions":
-  [
-    "lua"
-  ]
-}
-""")
-
 #
 # Utility functions
 #
