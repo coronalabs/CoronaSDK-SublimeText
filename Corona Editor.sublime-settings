@@ -53,6 +53,6 @@
 
  	// set as default syntax for all Lua files
  	"extensions": [
-	    "lua"
+	    "lua", "settings"
 	]
 }
