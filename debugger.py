@@ -16,17 +16,6 @@ import sys
 import socket
 import traceback
 
-if not os.path.isfile(os.path.join("User", "CoronaSDKLua.sublime-settings")):
-  with open(os.path.join("User", "CoronaSDKLua.sublime-settings"), "w") as f:
-    f.write("""
-{
-  "extensions":
-  [
-    "lua"
-  ]
-}
-""")
-
 try:
   import queue  # P3
   coronaQueue = queue
