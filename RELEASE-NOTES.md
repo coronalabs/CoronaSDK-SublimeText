@@ -1,6 +1,58 @@
-## Corona Editor Release Notes
+## Solar2D Editor Release Notes
 
 Always check the [README](https://github.com/coronalabs/CoronaSDK-SublimeText/blob/master/README.md) for the latest information.
+
+### 1.8.0
+
+ * Changed branding to Solar2D
+ 
+ * Changed syntax name to Lua (Solar2D)
+ 
+ * Updated autocomplete file - event.xDelta/yDelta, sqlite3, lateUpdate, transition.resumeAll(), pauseAll(), cancelAll() and timer.resumeAll(), pauseAll(), cancelAll()
+ 
+ * Changed http:// calls to https://
+
+### 1.7.9
+
+ * Fix syntax file loading
+ 
+ * Correct file name
+ 
+ * Remove code causing crash
+ 
+ * Dynamically generate path for syntax file
+
+### 1.7.8
+
+ * New release to make package control happy :)
+
+### 1.7.7.2
+
+ * Trying to fix the crash
+
+### 1.7.7.1
+
+ * Added settings to extension list
+
+### 1.7.7
+
+ * Fix plugin crash
+
+### 1.7.6
+
+ * Fix plugin to set syntax to new language format
+
+### 1.7.5
+
+ * Quick fix for new language format transition
+
+### 1.7.4
+
+ * Syntax update and autocomplete extras
+
+### 1.7.3
+
+ * Fix issue with spaces and special characters in pathnames on macOS
 
 ### 1.7.2
 

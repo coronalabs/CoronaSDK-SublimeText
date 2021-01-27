@@ -1,8 +1,8 @@
 %YAML 1.2
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
-name: Corona Lua
-comment: "Corona Lua Syntax: version 0.2 (after Lua Syntax: version 0.8)"
+name: Lua (Solar2D)
+comment: "Lua Syntax for Solar2D: version 0.2 (after Lua Syntax: version 0.8)"
 file_extensions:
   - lua
 scope: source.lua.corona

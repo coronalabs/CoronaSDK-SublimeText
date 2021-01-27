@@ -1,6 +1,6 @@
-// Corona Editor default settings
+// Solar2D Editor default settings
 {
-	// If you don't like Corona Editor's completion you can turn it off
+	// If you don't like Solar2D Editor's completion you can turn it off
 	// entirely using this preference.
 	"corona_sdk_completion": true,
 
@@ -8,8 +8,8 @@
 	// on the characters typed so far as a prefix.
 	"corona_sdk_use_fuzzy_completion": true,
 
-	// Corona Editor turns off the special meaning of periods as "word
-	// separators" in Sublime Text to make Corona completions work better.  If
+	// Solar2D Editor turns off the special meaning of periods as "word
+	// separators" in Sublime Text to make Solar2D completions work better.  If
 	// you like to use cursor movement keys like "Alt+Arrow" to move to the
 	// periods in function calls you might want to turn this off.  The most
 	// obvious effect of turning it off is that when you type a period all the
@@ -17,10 +17,10 @@
 	"corona_sdk_complete_periods": true,
 
 	// If this is true then any new file that has not yet been saved will be
-	// assumed to be a Corona Lua file
+	// assumed to be a Solar2D Lua file
 	"corona_sdk_default_new_file_to_corona_lua": true,
 
-	// Set this to the path of your Corona Simulator if it's not installed
+	// Set this to the path of your Solar2D Simulator if it's not installed
 	// in the default location for your operating system (remember to double
 	// backslashes in Windows' paths)
 	// "corona_sdk_simulator_path": "<path-to-simulator>",
@@ -40,14 +40,14 @@
  	// display.capture(displayObject[, saveToPhotoLibrary])
  	"corona_sdk_completions_strip_white_space":false,
 
- 	// Corona Editor will attempt to suggest lua files for you to import when
- 	// typing out 'require' statements. By default Corona Editor will not follow
+ 	// Solar2D Editor will attempt to suggest lua files for you to import when
+ 	// typing out 'require' statements. By default Solar2D Editor will not follow
  	// softlinks in your project structure. Set this to true to follow links, but beware
  	// it is possible to set up infinite cycles if a link to a root directory in your project
  	// appears in a subdirectory.
  	"corona_sdk_follow_symlinks":false,
 
- 	// When typing out a string Corona Editor can autosuggest files and paths. The list below filters the suggestions.
+ 	// When typing out a string Solar2D Editor can autosuggest files and paths. The list below filters the suggestions.
  	// Extend it with any other useful formats. The list is case insensitive.
  	"corona_sdk_autocomplete_extensions":[".png",".jpeg",".jpg",".wav",".mp3"],
 

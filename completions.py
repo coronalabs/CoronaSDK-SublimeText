@@ -1,7 +1,8 @@
 #
-# Sublime Text plugin to support Corona Editor
+# Sublime Text plugin to support Solar2D Editor
 #
 # Copyright (c) 2013 Corona Labs Inc. A mobile development software company. All rights reserved.
+# Copyright (c) 2020 Solar2D.
 #
 # MIT License - see https://raw.github.com/coronalabs/CoronaSDK-SublimeText/master/LICENSE
 
@@ -88,7 +89,7 @@ class CoronaLabs:
         try:
           self._completions = json.load(json_data)
         except Exception as e:
-          print("Corona Editor: failed to load {0} ({1})".format(comp_path, str(e)))
+          print("Solar2D Editor: failed to load {0} ({1})".format(comp_path, str(e)))
         finally:
           json_data.close()
 
@@ -97,7 +98,7 @@ class CoronaLabs:
         self._completions = json.loads(sublime.load_resource(_corona_utils.ST_PACKAGE_PATH + source))
 
       # _corona_utils.debug(self._completions)
-      print("Corona Editor: loaded {0} completions from {1}".format(len(self._completions['completions']), source))
+      print("Solar2D Editor: loaded {0} completions from {1}".format(len(self._completions['completions']), source))
 
   def setupFuzzyMatch(self, prefix):
     self._fuzzyMatcher = FuzzyMatcher()
@@ -174,7 +175,7 @@ class CoronaLabs:
     for c in view.extract_completions(completion_target):
       comps.append((c, c))
 
-    # don't add Corona API completions if editing a require statement or more generally a string
+    # don't add Solar2D API completions if editing a require statement or more generally a string
     # the regex will correctly match multiline strings, but to detect them we need to search more of the document
     if completingRequireStatement or inString:
       return list(set(comps))
@@ -244,8 +245,8 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
     self.periods_set = {}
 
   def is_lua_file(self, view):
-    # Fairly rigorous test for being a Corona Lua file
-    # If the file has not been saved optionally default to being a Corona Lua file
+    # Fairly rigorous test for being a Solar2D Lua file
+    # If the file has not been saved optionally default to being a Solar2D Lua file
     return view.match_selector(view.sel()[0].a, "source.lua.corona") if view.file_name() else _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", default=True)
 
 
@@ -257,7 +258,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
     if self.is_lua_file(view):
       auto_build = _corona_utils.GetSetting("corona_sdk_auto_build", default=False)
       if auto_build:
-        _corona_utils.debug("Corona Editor: auto build triggered")
+        _corona_utils.debug("Solar2D Editor: auto build triggered")
         view.window().run_command("build")
 
     if view.file_name().lower().endswith(".lua") and _corona_utils.GetSetting("corona_sdk_default_new_file_to_corona_lua", default=True):
@@ -302,7 +303,7 @@ class CoronaLabsCollector(CoronaLabs, sublime_plugin.EventListener):
 
     if self._first_time and use_corona_sdk_completion:
       if not self.is_lua_file(view) and view.file_name().lower().endswith(".lua"):
-        msg = "Corona Editor: syntax is not set to 'Corona Lua' so completion is inactive"
+        msg = "Solar2D Editor: syntax is not set to 'Solar2D Lua' so completion is inactive"
         sublime.status_message(msg)
         print(msg)
         self._first_time = False

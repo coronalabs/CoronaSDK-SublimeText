@@ -1,13 +1,13 @@
 [
   {
-    "caption": "Preferences: Corona Editor Settings - Default",
+    "caption": "Preferences: Solar2D Editor Settings - Default",
     "command": "open_file",
     "args": {
       "file": "${packages}/CoronaSDK-SublimeText/Corona Editor.sublime-settings"
     }
   },
   {
-    "caption": "Preferences: Corona Editor Settings - User",
+    "caption": "Preferences: Solar2D Editor Settings - User",
     "command": "open_file",
     "args": {
       "file": "${packages}/User/Corona Editor.sublime-settings"

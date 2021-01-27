@@ -1,0 +1,9 @@
+### 1.8.0
+
+ * Changed branding to Solar2D
+ 
+ * Changed syntax name to Lua (Solar2D)
+ 
+ * Updated autocomplete file
+ 
+ * Changed http:// calls to https://

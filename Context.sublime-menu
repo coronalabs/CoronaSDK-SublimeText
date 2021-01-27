@@ -1,6 +1,6 @@
 [
   { "caption": "-" },
-  { "caption": "Corona Docs", "command": "corona_docs" },
+  { "caption": "Solar2D Docs", "command": "corona_docs" },
   { "caption": "Function Navigator...", "command": "show_overlay", "args": {"overlay": "goto", "text": "@"} },
   { "caption": "Toggle Breakpoint", "command": "corona_debugger", "args": {"cmd": "setb"} },
   { "caption": "Inspect Variable", "command": "corona_debugger", "args": {"cmd": "dump"} },

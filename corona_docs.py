@@ -1,7 +1,7 @@
 #
-# Sublime Text plugin to support Corona
+# Sublime Text plugin to support Solar2D
 #
-# Copyright (c) 2013 Corona Labs Inc. A mobile development software company. All rights reserved.
+# Copyright (c) 2020 Solar2D.
 #
 # MIT License - see https://raw.github.com/coronalabs/CoronaSDK-SublimeText/master/LICENSE
 #
@@ -18,7 +18,7 @@ try:
 except:
   import _corona_utils  # P2
 
-SEARCH_URL = "http://www.google.com/cse?cx=009283852522218786394%3Ag40gqt2m6rq&ie=UTF-8&q={search_term}&sa=Search#gsc.tab=0&gsc.q={search_term}&gsc.page=1"
+SEARCH_URL = "https://www.google.com/cse?cx=009283852522218786394%3Ag40gqt2m6rq&ie=UTF-8&q={search_term}&sa=Search#gsc.tab=0&gsc.q={search_term}&gsc.page=1"
 
 # Note "lfs", "socket", "sqlite3" are omitted because we don't have complete docs for those
 LIBRARY_APIS = (
@@ -74,7 +74,7 @@ class CoronaDocsCommand(sublime_plugin.TextCommand):
     else:
       docset = ""
 
-    # Convert "word" under cursor to Corona Docs link, or a Lua docs link
+    # Convert "word" under cursor to Solar2D Docs link, or a Lua docs link
     page = self.view.substr(sublime.Region(start, end))
     page = page.strip(string.punctuation)
 
@@ -84,17 +84,17 @@ class CoronaDocsCommand(sublime_plugin.TextCommand):
     # case it's a constant and we'll have to just default to searching for it)
     if page is None or page == "":
       # Nothing is selected, take them to API home
-      docUrl = "http://docs.coronalabs.com/" + docset + "api/index.html"
+      docUrl = "https://docs.coronalabs.com/" + docset + "api/index.html"
     elif (re.search("\w+\.[a-z]", page) is not None and
        page.partition(".")[0] in LIBRARY_APIS):
       page = page.replace(".", "/")
-      docUrl = "http://docs.coronalabs.com/" + docset + "api/library/" + page + ".html"
+      docUrl = "https://docs.coronalabs.com/" + docset + "api/library/" + page + ".html"
     elif isLuaKeyword:
       # Unfortunately, there's no search on the Lua docs site so we need to guess at
       # an anchor (if it's not there, you go to the top of the page)
-      docUrl = "http://www.lua.org/manual/5.1/manual.html#pdf-" + page
+      docUrl = "https://www.lua.org/manual/5.1/manual.html#pdf-" + page
     else:
-      # We don't know what we're on, send them to the Corona Docs search page
+      # We don't know what we're on, send them to the Solar2D Documentation search page
       page = UrlEncode(page)
       docUrl = SEARCH_URL.format(search_term=page)
 

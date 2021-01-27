@@ -23,6 +23,7 @@ Listener	type
 MFiProfile	InputDevice
 Number	type
 Object	type
+sqlite3 sql
 ParticleSystem:createGroup( params )	ParticleSystem
 ParticleSystem:createParticle( params )	ParticleSystem
 ParticleSystem:destroyParticles( params )	ParticleSystem
@@ -312,6 +313,7 @@ event.name	completion
 event.name	create
 event.name	destroy
 event.name	enterFrame
+event.name	lateUpdate
 event.name	finalize
 event.name	gameNetwork
 event.name	gyroscope
@@ -423,6 +425,7 @@ event.target	touch
 event.target	userInput
 event.text	userInput
 event.time	enterFrame
+event.time	lateUpdate
 event.time	location
 event.time	mouse
 event.time	relativeTouch
@@ -450,6 +453,7 @@ event.x	relativeTouch
 event.x	tap
 event.x	touch
 event.xGravity	accelerometer
+event.xDelta  touch
 event.xInstant	accelerometer
 event.xRaw	accelerometer
 event.xRotation	gyroscope
@@ -464,6 +468,7 @@ event.y	relativeTouch
 event.y	tap
 event.y	touch
 event.yGravity	accelerometer
+event.yDelta  touch
 event.yInstant	accelerometer
 event.yRaw	accelerometer
 event.yRotation	gyroscope
@@ -989,19 +994,24 @@ texture:setBackground( red, green, blue, alpha )	TextureResourceCanvas
 then	Keyword
 timeScale	SpriteObject
 timer.cancel( timerID )	timer
+timer.cancelAll( )	timer
 timer.pause( timerId )	timer
+timer.pauseAll( )	timer
 timer.performWithDelay( delay, listener [, iterations] )	timer
 timer.resume( timerId )	timer
+timer.resumeAll( )	timer
 toBack()	DisplayObject
 toFront()	DisplayObject
 tonumber( e [, base ] )	global
 tostring( e )	global
 totalTime	Video
+transition.ignoreEmptyReference	transition
 transition.blink( target, params )	transition
 transition.cancel( displayObject )	transition
 transition.cancel( tagName )	transition
 transition.cancel( transitionReference )	transition
-transition.cancel()	transition
+transition.cancel( )	transition
+transition.cancelAll( )	transition
 transition.dissolve( object1, object2, time, delay )	transition
 transition.fadeIn( target, params )	transition
 transition.fadeOut( target, params )	transition
@@ -1011,11 +1021,13 @@ transition.moveTo( target, params )	transition
 transition.pause( displayObject )	transition
 transition.pause( tagName )	transition
 transition.pause( transitionReference )	transition
-transition.pause()	transition
+transition.pause( )	transition
+transition.pauseAll( )	transition
 transition.resume( displayObject )	transition
 transition.resume( tagName )	transition
 transition.resume( transitionReference )	transition
-transition.resume()	transition
+transition.resume( )	transition
+transition.resumeAll( )	transition
 transition.scaleBy( target, params )	transition
 transition.scaleTo( target, params )	transition
 transition.to( target, params )	transition
